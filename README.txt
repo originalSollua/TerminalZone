@@ -1,4 +1,4 @@
 Team Terminal project readme
 
 Team members:
-Edward Pryor - one more test push
+Edward Pryor - one more test push - update, cloned into lab
