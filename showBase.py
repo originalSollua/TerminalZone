@@ -17,10 +17,13 @@ class MyApp(ShowBase):
         self.environ.reparentTo(self.render)
         self.environ.setScale(0.25,0.25,0.25)
         self.environ.setPos(-8,42,0)
-
+        
         # Add camera task
-        cam = camMov()
-        self.taskMgr.add(cam.spinCameraTask, "spinCameraTask")
+        cameraModel = loader.loadModel("models/camera")
+        cameraModel.reparentTo(render)
+        cameraModel.setPos(0,15,0)
+        cam = camMov(cameraModel)
+        self.taskMgr.add(cam.cameraControl, "cameraControl")
 
         # Load Panda Model
         self.pandaActor = Actor("models/panda-model",{"walk": "models/panda-walk4"})
