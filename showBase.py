@@ -1,5 +1,5 @@
 from camMov import camMov
-
+from panda3d.core import WindowProperties
 from direct.showbase.ShowBase import ShowBase
 from direct.actor.Actor import Actor
 from direct.interval.IntervalGlobal import Sequence
@@ -8,7 +8,12 @@ from panda3d.core import Point3
 class MyApp(ShowBase):
     
     def __init__(self):
+	
         ShowBase.__init__(self)
+	
+	properties = WindowProperties()
+	properties.setCursorHidden(True)
+	base.win.requestProperties(properties)
 
         self.disableMouse()
 

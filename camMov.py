@@ -48,11 +48,20 @@ class camMov(DirectObject):
     def setKey(self, key, value):
         self.keyMap[key] = value
 
+
     # Determines the cardinal movement of the camera
     def cameraControl(self,task):
         dt = globalClock.getDt()
         if(dt > .20):
             return task.cont
+	
+	mouse = base.win.getPointer(0)
+	x = mouse.getX()
+	y = mouse.getY()
+	if base.win.movePointer(0, base.win.getXSize()/2, base.win.getYSize()/2):
+	    
+	    self.cameraModel.setH(self.cameraModel.getH() - (x - base.win.getXSize()/2)*0.1)
+	    base.camera.setP(base.camera.getP() - (y - base.win.getYSize()/2)*0.1)
 
         if(self.keyMap["w"] == True):
             self.cameraModel.setY(self.cameraModel, 15 * dt)
