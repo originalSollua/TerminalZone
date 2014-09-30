@@ -1,3 +1,19 @@
+#======================================================================#
+#
+# Team:  
+#    Hunter Quant
+#    Edward Pryor
+#    Nick Marasco
+#    Shane Peterson
+#        Brandon Williams
+#    Jeremy Rose
+#
+# Last modification: 09/30/14
+#
+# Description: Separate camera controls from the main game
+#
+#======================================================================#
+
 from math import pi,sin,cos
 
 from direct.task import Task
