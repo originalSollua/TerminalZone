@@ -1,9 +1,13 @@
+import os, sys
+
 from camMov import camMov
 from panda3d.core import WindowProperties
+from panda3d.core import Point3
+from panda3d.core import Filename
 from direct.showbase.ShowBase import ShowBase
 from direct.actor.Actor import Actor
 from direct.interval.IntervalGlobal import Sequence
-from panda3d.core import Point3
+
 
 class MyApp(ShowBase):
     
@@ -14,14 +18,18 @@ class MyApp(ShowBase):
 	properties = WindowProperties()
 	properties.setCursorHidden(True)
 	base.win.requestProperties(properties)
+	
+	# Get game directory location
+	currentDir = os.path.abspath(sys.path[0])
+	currentDir = Filename.fromOsSpecific(currentDir).getFullpath()
+	
 
         self.disableMouse()
 
         # Load Environment
-        self.environ = self.loader.loadModel("models/environment")
+        self.environ = self.loader.loadModel(currentDir + "/resources/test_level")
         self.environ.reparentTo(self.render)
-        self.environ.setScale(0.25,0.25,0.25)
-        self.environ.setPos(-8,42,0)
+	self.environ.setScale(0.5,0.5,0.5)
         
         # Add camera task
         cameraModel = loader.loadModel("models/camera")
