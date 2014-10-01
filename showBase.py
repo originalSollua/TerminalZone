@@ -12,28 +12,28 @@ from direct.interval.IntervalGlobal import Sequence
 class MyApp(ShowBase):
     
     def __init__(self):
-	
+        
         ShowBase.__init__(self)
-	
-	properties = WindowProperties()
-	properties.setCursorHidden(True)
-	base.win.requestProperties(properties)
-	
-	# Get game directory location
-	currentDir = os.path.abspath(sys.path[0])
-	currentDir = Filename.fromOsSpecific(currentDir).getFullpath()
-	
+        properties = WindowProperties()
+        properties.setCursorHidden(True)
+        base.win.requestProperties(properties)
+        
+        # Get game directory location
+        currentDir = os.path.abspath(sys.path[0])
+        currentDir = Filename.fromOsSpecific(currentDir).getFullpath()
 
+        # Disable default mouse controls
         self.disableMouse()
 
         # Load Environment
         self.environ = self.loader.loadModel(currentDir + "/resources/test_level")
         self.environ.reparentTo(self.render)
-	self.environ.setScale(0.5,0.5,0.5)
+        self.environ.setScale(0.5,0.5,0.5)
         
         # Add camera task
         cameraModel = loader.loadModel("models/camera")
         cameraModel.reparentTo(render)
+        cameraModel.hide()
         cameraModel.setPos(0,15,0)
         cam = camMov(cameraModel)
         self.taskMgr.add(cam.cameraControl, "cameraControl")
