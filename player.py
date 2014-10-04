@@ -10,11 +10,11 @@
 # Last modification: 10/04/14
 #
 # Description: Player class
-# designed to hold all information about the player
-# instanciates controles from here byu calling to the camMov class
-# once we have more interesting data about players, it will go here
+# Designed to hold all information about the player.
+# Instantiates controls from here by calling to the camMov class.
+# Once we have more interesting data about players, it will go here
 # note: collisions dont work yet. .egg file needs to flag 
-# certain objects as collidable i think
+# certain objects as collidable I think
 #
 #======================================================================#
 
@@ -22,20 +22,21 @@
 
 from camMov import camMov
 
-from pandac.PandaModules import*
+from panda3d.core import CollisionNode, NodePath, CollisionSphere, CollisionRay, BitMask32, CollisionHandlerQueue
 
 
 class Player(object):
 	#using this to be our player
 	#define things like health in here
 	#have to tie the camera to this
-	#game manager ->player ->camera as far as instanciating goes
+	#game manager ->player ->camera as far as instantiating goes
 	
 	#player variables
 	#camera stuck in players head
 	global	cam
 	global	cm
-	def __init__(self):
+	
+    def __init__(self):
 		
 		self.node = NodePath('player')
 		self.node.reparentTo(render)
@@ -47,15 +48,16 @@ class Player(object):
       	 	cameraModel.setPos(0,15,0)
 		base.taskMgr.add(camMov(cameraModel).cameraControl, "cameraControl")
 		self.createColision()
+
 	def createColision(self):
 		colNode = CollisionNode("player")
 		colNode.addSolid(CollisionSphere(0, 15, 0, 20))
 		solid = self.node.attachNewNode(colNode)
 		base.cTrav.addCollider(solid, base.pusher)
 		base.pusher.addCollider(solid, self.node, base.drive.node())
-		#player vs floor
+        #player vs floor
 		ray = CollisionRay()
-		#use camera modle position
+        #use camera model position
 		ray.setOrigin(0, 15, 0)
 		ray.setDirection(0, 0, -1)
 		colNode = CollisionNode('playerRay')
