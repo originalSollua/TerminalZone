@@ -1,5 +1,7 @@
 import os, sys
 
+from pandac.PandaModules import *
+from player import Player
 from camMov import camMov
 from panda3d.core import WindowProperties
 from panda3d.core import Point3
@@ -24,19 +26,23 @@ class MyApp(ShowBase):
 
         # Disable default mouse controls
         self.disableMouse()
-
+	# new colision system
+	base.cTrav = CollisionTraverser()
+	base.pusher = CollisionHandlerPusher()
         # Load Environment
         self.environ = self.loader.loadModel(currentDir + "/resources/test_level")
         self.environ.reparentTo(self.render)
         self.environ.setScale(0.5,0.5,0.5)
         
         # Add camera task
-        cameraModel = loader.loadModel("models/camera")
-        cameraModel.reparentTo(render)
-        cameraModel.hide()
-        cameraModel.setPos(0,15,0)
-        cam = camMov(cameraModel)
-        self.taskMgr.add(cam.cameraControl, "cameraControl")
+#        cameraModel = loader.loadModel("models/camera")
+#        cameraModel.reparentTo(render)
+#        cameraModel.hide()
+#        cameraModel.setPos(0,15,0)
+	# init player here
+	# make camera a part of player
+        player = Player()
+       # self.taskMgr.add(cam.cameraControl, "cameraControl")
 
         # Load Panda Model
         self.pandaActor = Actor("models/panda-model",{"walk": "models/panda-walk4"})
