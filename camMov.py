@@ -8,19 +8,19 @@
 #    Brandon Williams
 #    Jeremy Rose
 #
-# Last modification: 10/01/14
+# Last modification: 10/06/14
 #
 # Description: Separate camera controls from the main game
 #
 #======================================================================#
 
-import sys,os
+import sys
 
 from math import pi,sin,cos
 from direct.task import Task
 from direct.showbase.DirectObject import DirectObject
 
-class camMov(DirectObject):
+class CameraMovement(DirectObject):
     
     # Takes in a cameraModel and sets up key listeners
     def __init__(self, cameraModel):

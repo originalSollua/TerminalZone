@@ -14,11 +14,12 @@ Team Header Comment - place at the top of each class.
 
 #======================================================================#
 #
-# Team:  Hunter Quant
-#	 Edward Pryor
+# Team:  
+#    Hunter Quant
+#    Edward Pryor
 #	 Nick marasco
 #	 Shane Peterson
-#        Brandon Williams
+#    Brandon Williams
 #	 Jeremy Rose
 #
 # Last modification: xx/xx/xx
