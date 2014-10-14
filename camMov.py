@@ -20,6 +20,7 @@ from math import pi,sin,cos
 from direct.task import Task
 from direct.showbase.DirectObject import DirectObject
 
+from projectile import Projectile
 class CameraMovement(DirectObject):
     
     # Takes in a cameraModel and sets up key listeners
@@ -43,10 +44,13 @@ class CameraMovement(DirectObject):
         self.accept("a-up", self.setKey, ["a", False])
         self.accept("d-up", self.setKey, ["d", False])
 
+	self.accept("mouse1", self.fireWeapon)
     # Changes the states of the keys pressed
     def setKey(self, key, value):
         self.keyMap[key] = value
 
+    def fireWeapon(self):
+        proj = Projectile(self.cameraModel.getX(), self.cameraModel.getY(), self.cameraModel.getH())
 
     # Determines the movement and pitch of the camera
     def cameraControl(self,task):

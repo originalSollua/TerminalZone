@@ -7,7 +7,7 @@
 #        Brandon Williams
 #        Jeremy Rose
 #
-# Last modification: 10/08/14
+# Last modification: 10/14/14
 #
 # Description: Player class
 # Designed to hold all information about the player.
@@ -22,9 +22,8 @@
 
 from camMov import CameraMovement
 
-from panda3d.core import CollisionNode, CollisionSphere, CollisionRay, CollisionHandlerQueue
+from panda3d.core import CollisionNode, CollisionSphere, CollisionRay, CollisionHandlerGravity
 from panda3d.core import NodePath, BitMask32
-from panda3d.physics import ActorNode, ForceNode, LinearVectorForce
 
 class Player(object):
     #using this to be our player
@@ -33,52 +32,49 @@ class Player(object):
     #game manager ->player ->camera as far as instantiating goes
 
     def __init__(self):
-        base.enableParticles()
         self.playerNode = NodePath('player')
         self.playerNode.reparentTo(render)
-        self.playerNode.setPos(0,15,0)
+        self.playerNode.setPos(0,-30,30)
         self.playerNode.setScale(1.0)
         cameraModel = loader.loadModel("models/camera")
         cameraModel.reparentTo(self.playerNode)
-       	cameraModel.hide()
-        cameraModel.setPos(0,0,0)
+        #cameraModel.hide()
+        cameraModel.setPos(0,0,2)
         base.taskMgr.add(CameraMovement(cameraModel).cameraControl, "cameraControl")
         self.createColision()
-#        self.createGravity()
+
 
     def createColision(self):
-        colNode = CollisionNode("player")
-        colNode.addSolid(CollisionSphere(0, 15, 0, 20))
-        solid = self.playerNode.attachNewNode(colNode)
-        base.cTrav.addCollider(solid, base.pusher)
-        base.pusher.addCollider(solid, self.playerNode, base.drive.node())
-        #player vs floor
-        ray = CollisionRay()
-        #use camera model position
-        ray.setOrigin(0, 15, 0)
-        ray.setDirection(0, 0, -1)
-        colNode = CollisionNode('playerRay')
-        colNode.addSolid(ray)
-        colNode.setFromCollideMask(BitMask32.bit(0))
-        colNode.setIntoCollideMask(BitMask32.allOff())
-        solid = self.playerNode.attachNewNode(colNode)
-        self.nodeGroundHandler = CollisionHandlerQueue()
-        base.cTrav.addCollider(solid, self.nodeGroundHandler)
+        # Set up floor collision handler
+        base.floor = CollisionHandlerGravity()
+        base.floor.setGravity(9.8)
 
-    def createGravity(self):
-        # Create the Nodes to monitor physics
-        physicsNode = NodePath("physics")
-        physicsNode.reparentTo(render)
-        actNode = ActorNode("player-physics")
-        actNodeParent = physicsNode.attachNewNode(actNode)
-        # Add physics node to the manager
-        base.physicsMgr.attachPhysicalNode(actNode)
-        self.playerNode.reparentTo(actNodeParent)
-        actNode.getPhysicsObject().setMass(90)
-        # Create gravity nodes and forces
-        gravityFN = ForceNode("dat-grav")
-        gravityFNP = render.attachNewNode(gravityFN)
-        gravityForce = LinearVectorForce(0,0,-9.81)
-        gravityFN.addForce(gravityForce)
-        # Add gravity to the manager
-        base.physicsMgr.addLinearForce(gravityForce)
+        # Create player collision node and add to traverser
+        playerCollNodePath = self.initCollisionSphere(self.playerNode.getChild(0))
+        base.cTrav.addCollider(playerCollNodePath, base.pusher)
+        base.pusher.addCollider(playerCollNodePath, self.playerNode)
+        
+        # Create Floor Ray
+        floorCollRayPath = self.initCollisionRay(1,-1) 
+        base.floor.addCollider(floorCollRayPath, self.playerNode)
+        base.cTrav.addCollider(floorCollRayPath, base.floor)
+
+    def initCollisionSphere(self, obj):
+        # Create sphere and attach to player
+        cNode = CollisionNode('player')
+
+        ## Sphere is moved in front of player for testing ##
+        cNode.addSolid(CollisionSphere(0,10,4,2))
+        cNodePath = obj.attachNewNode(cNode)
+        cNodePath.show()
+        return cNodePath
+
+    def initCollisionRay(self, originZ, dirZ):
+        ray = CollisionRay(0,0,originZ,0,0,dirZ)
+        collNode = CollisionNode('playerRay')
+        collNode.addSolid(ray)
+        collNode.setFromCollideMask(BitMask32.bit(1))
+        collNode.setIntoCollideMask(BitMask32.allOff())
+        collRayNP = self.playerNode.attachNewNode(collNode)
+        collRayNP.show()
+        return collRayNP
