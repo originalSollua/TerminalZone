@@ -44,7 +44,7 @@ class Player(object):
         cameraModel.setPos(0,0,0)
         base.taskMgr.add(CameraMovement(cameraModel).cameraControl, "cameraControl")
         self.createColision()
-        self.createGravity()
+#        self.createGravity()
 
     def createColision(self):
         colNode = CollisionNode("player")
