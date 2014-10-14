@@ -126,6 +126,7 @@
 }
 
   <Group> Plane {
+    <Collide>{Polyset keep descend}
     <Transform> {
       <Matrix4> {
         -321.996979 0.000000 0.000000 0.000000 
@@ -197,6 +198,7 @@
     
   }
   <Group> Cube.002 {
+    <Collide>{Polyset descend keep}
     <Transform> {
       <Matrix4> {
         4.214852 0.000000 0.000000 0.000000 
@@ -440,6 +442,7 @@
     }
   }
   <Group> Cube.000 {
+    <Collide>{Polyset descend keep}
     <Transform> {
       <Matrix4> {
         -0.000002 3.348778 0.000000 0.000000 
@@ -683,6 +686,7 @@
     }
   }
   <Group> Cube.001 {
+    <Collide>{Polyset descend keep}
     <Transform> {
       <Matrix4> {
         4.214852 0.000000 0.000000 0.000000 
@@ -926,6 +930,7 @@
     }
   }
   <Group> Cube.004 {
+    <Collide>{Polyset descend keep}
     <Transform> {
       <Matrix4> {
         4.214852 0.000000 0.000000 0.000000 
@@ -1169,6 +1174,7 @@
     }
   }
   <Group> Cube.003 {
+    <Collide>{Polyset descend keep}
     <Transform> {
       <Matrix4> {
         -0.000002 3.348778 0.000000 0.000000 
