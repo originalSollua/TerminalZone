@@ -54,18 +54,17 @@ class GameStart(ShowBase):
         player = Player()
 
         # Load Panda Model
-        self.pandaActor = Actor("models/panda-model",{"walk": "models/panda-walk4"})
-        self.pandaActor.setScale(0.005,0.005,0.005)
+        self.pandaActor = Actor(currentDir + "/resources/humanoid")
+        self.pandaActor.setScale(0.2,0.2,0.2)
         self.pandaActor.reparentTo(self.render)
-        self.pandaActor.loop("walk")
 
         # Create intervals for panda walk
         pandaPosInterval1 = self.pandaActor.posInterval(13,
-                                                        Point3(0,-10,0),
-                                                        startPos=Point3(0,10,0))
+                                                        Point3(0,-10,8),
+                                                        startPos=Point3(0,10,8))
         pandaPosInterval2 = self.pandaActor.posInterval(13,
-                                                        Point3(0,10,0),
-                                                        startPos=Point3(0,-10,0))
+                                                        Point3(0,10,8),
+                                                        startPos=Point3(0,-10,8))
         pandaHprInterval1 = self.pandaActor.hprInterval(3,
                                                         Point3(180,0,0),
                                                         startHpr=Point3(0,0,0))
