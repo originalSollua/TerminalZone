@@ -50,7 +50,7 @@ class CameraMovement(DirectObject):
         self.keyMap[key] = value
 
     def fireWeapon(self):
-        proj = Projectile(self.cameraModel.getX(), self.cameraModel.getY(), self.cameraModel.getH())
+        proj = Projectile(self.cameraModel, base.camera)
 
     # Determines the movement and pitch of the camera
     def cameraControl(self,task):
