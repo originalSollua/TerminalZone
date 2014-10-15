@@ -8,7 +8,7 @@
 #    Brandon Williams
 #    Jeremy Rose
 #
-# Last modification: 10/06/14
+# Last modification: 10/14/14
 #
 # Description: Separate camera controls from the main game
 #
@@ -44,7 +44,8 @@ class CameraMovement(DirectObject):
         self.accept("a-up", self.setKey, ["a", False])
         self.accept("d-up", self.setKey, ["d", False])
 
-	self.accept("mouse1", self.fireWeapon)
+        self.accept("mouse1", self.fireWeapon)
+
     # Changes the states of the keys pressed
     def setKey(self, key, value):
         self.keyMap[key] = value
