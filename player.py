@@ -64,7 +64,7 @@ class Player(object):
         cNode = CollisionNode('player')
 
         ## Sphere is moved in front of player for testing ##
-        cNode.addSolid(CollisionSphere(0,10,4,2))
+        cNode.addSolid(CollisionSphere(0,1,5,7))
         cNodePath = obj.attachNewNode(cNode)
         cNodePath.show()
         return cNodePath
