@@ -14,9 +14,11 @@
 #
 #======================================================================#
 
-from panda3d.core import NodePath
+from panda3d.core import NodePath, Vec3
 from math import sin, cos
 
+#possible depricated library
+from direct.interval.IntervalGlobal import *
 
 class Projectile(object):
     #defining the thing fired by whatever gun we have
@@ -32,3 +34,19 @@ class Projectile(object):
         self.projectileNode.setScale(.1)
         projectileModel = loader.loadModel("models/panda")
         projectileModel.reparentTo(self.projectileNode)
+	# must calculate unit vector based on direction
+	dir = render.getRelativeVector(look, Vec3(0, 1, 0))
+	#speed up or slow down projectiles here
+	dir = dir*100
+	print dir
+	self.trajectory = ProjectileInterval(self.projectileNode,startPos = self.projectileNode.getPos(),startVel = dir, duration = 2, gravityMult = .0001)
+	self.trajectory.start()
+
+	#deal with colliding or special effects here.
+	#wanted projectiles to be short lived
+	# so i will make them delete themselves after impact or time expired
+	
+	
+	#colide or time up
+    def destroy(self):
+	self.projectileNode.removeNode()
