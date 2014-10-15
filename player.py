@@ -7,7 +7,7 @@
 #        Brandon Williams
 #        Jeremy Rose
 #
-# Last modification: 10/14/14
+# Last modification: 10/15/14
 #
 # Description: Player class
 # Designed to hold all information about the player.
@@ -40,7 +40,17 @@ class Player(object):
         cameraModel.reparentTo(self.playerNode)
         #cameraModel.hide()
         cameraModel.setPos(0,0,2)
-        base.taskMgr.add(CameraMovement(cameraModel).cameraControl, "cameraControl")
+
+        gunPath = NodePath("gun")
+        gunPath.reparentTo(base.camera)
+        gunPath.setPos(1,3,-4)
+        gunModel = loader.loadModel("resources/gunmodel")
+        #gunModel.reparentTo(base.camera)
+        gunModel.setPos(-0.4,-1,3.2)
+        gunModel.setHpr(0,180,180)
+        gunModel.reparentTo(gunPath)
+        
+        base.taskMgr.add(CameraMovement(cameraModel, gunPath).cameraControl, "cameraControl")
         self.createColision()
 
 
@@ -64,7 +74,7 @@ class Player(object):
         cNode = CollisionNode('player')
 
         ## Sphere is moved in front of player for testing ##
-        cNode.addSolid(CollisionSphere(0,1,5,7))
+        cNode.addSolid(CollisionSphere(0,1,4,2))
         cNodePath = obj.attachNewNode(cNode)
         cNodePath.show()
         return cNodePath

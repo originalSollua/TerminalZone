@@ -24,8 +24,9 @@ from projectile import Projectile
 class CameraMovement(DirectObject):
     
     # Takes in a cameraModel and sets up key listeners
-    def __init__(self, cameraModel):
-
+    def __init__(self, cameraModel, gunPath):
+       
+        self.gunPath = gunPath
         self.cameraModel = cameraModel
         camera.reparentTo(cameraModel)
         camera.setZ(base.camera, 4)
@@ -51,7 +52,7 @@ class CameraMovement(DirectObject):
         self.keyMap[key] = value
 
     def fireWeapon(self):
-        proj = Projectile(self.cameraModel, base.camera)
+        proj = Projectile(self.gunPath, base.camera)
 
     # Determines the movement and pitch of the camera
     def cameraControl(self,task):
