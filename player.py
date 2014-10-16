@@ -24,7 +24,7 @@ from camMov import CameraMovement
 from direct.gui.OnscreenImage import OnscreenImage
 from panda3d.core import CollisionNode, CollisionSphere, CollisionRay, CollisionHandlerGravity
 from panda3d.core import NodePath, BitMask32, TransparencyAttrib, Filename
-from pandac.PandaModules import PNMImage
+from pandac.PandaModules import CardMaker, Point2
 class Player(object):
     #using this to be our player
     #define things like health in here
@@ -52,11 +52,8 @@ class Player(object):
         
         #HUD
         hud = OnscreenImage("./resources/hud.png")
-        hud.setTransparency(TransparencyAttrib.MAlpha)
+        hud.setTransparency(True)
         hud.reparentTo(render2d)
-        #Reticle
-        reticle = PNMImage()
-        reticle.read(Filename("./resources/retAni.gif"))
         
         base.taskMgr.add(CameraMovement(cameraModel, gunPath).cameraControl, "cameraControl")
         self.createColision()
