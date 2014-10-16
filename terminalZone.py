@@ -8,21 +8,23 @@
 #    Brandon Williams
 #    Jeremy Rose
 #
-# Last modification: 10/06/14
+# Last modification: 10/16/14
 #
 # Description: Main class to set up environment and run game
 #
 #======================================================================#
 
+# System imports
 import os, sys
 
+# Our class imports
 from player import Player
+from enemy import Enemy
+
+# Panda imports
 from panda3d.core import CollisionTraverser, CollisionHandlerPusher
-from panda3d.core import WindowProperties
-from panda3d.core import Point3
-from panda3d.core import Filename
+from panda3d.core import WindowProperties, Filename, Point3
 from direct.showbase.ShowBase import ShowBase
-from direct.actor.Actor import Actor
 from direct.interval.IntervalGlobal import Sequence
 
 
@@ -30,7 +32,9 @@ class GameStart(ShowBase):
     
     def __init__(self):
         
+        # Start ShowBase
         ShowBase.__init__(self)
+        # Get window properties, hide the cursor, set properties
         properties = WindowProperties()
         properties.setCursorHidden(True)
         base.win.requestProperties(properties)
@@ -49,37 +53,14 @@ class GameStart(ShowBase):
         self.environ.reparentTo(self.render)
         self.environ.setScale(0.5,0.5,0.5)
         
-        # init player here
-        # make camera a part of player
-        player = Player()
+        # Init player here
+        # Make camera a part of player
+        self.player = Player()
 
-        # Load Panda Model
-        self.pandaActor = Actor(currentDir + "/resources/humanoid")
-        self.pandaActor.setScale(0.2,0.2,0.2)
-        self.pandaActor.reparentTo(self.render)
+        # Init enemy model
+        # Class will be setup to take parameters for texture and AIin the future.
+        self.enemy = Enemy()
 
-        # Create intervals for panda walk
-        pandaPosInterval1 = self.pandaActor.posInterval(13,
-                                                        Point3(0,-10,8),
-                                                        startPos=Point3(0,10,8))
-        pandaPosInterval2 = self.pandaActor.posInterval(13,
-                                                        Point3(0,10,8),
-                                                        startPos=Point3(0,-10,8))
-        pandaHprInterval1 = self.pandaActor.hprInterval(3,
-                                                        Point3(180,0,0),
-                                                        startHpr=Point3(0,0,0))
-        pandaHprInterval2 = self.pandaActor.hprInterval(3,
-                                                        Point3(0,0,0),
-                                                        startHpr=Point3(180,0,0))
-
-        # Play animation
-        self.pandaPace = Sequence(pandaPosInterval1,
-                                  pandaHprInterval1,
-                                  pandaPosInterval2,
-                                  pandaHprInterval2,
-                                  name="pandaPace")
-        self.pandaPace.loop()
-    
 
 TerminalZone = GameStart()
 TerminalZone.run()

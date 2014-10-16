@@ -13,8 +13,6 @@
 # Designed to hold all information about the player.
 # Instantiates controls from here by calling to the camMov class.
 # Once we have more interesting data about players, it will go here
-# note: collisions dont work yet. .egg file needs to flag 
-# certain objects as collidable I think
 #
 #======================================================================#
 
@@ -24,7 +22,7 @@ from camMov import CameraMovement
 from direct.gui.OnscreenImage import OnscreenImage
 from panda3d.core import CollisionNode, CollisionSphere, CollisionRay, CollisionHandlerGravity
 from panda3d.core import NodePath, BitMask32, TransparencyAttrib, Filename
-from pandac.PandaModules import CardMaker, Point2
+#from pandac.PandaModules import CardMaker, Point2
 class Player(object):
     #using this to be our player
     #define things like health in here
@@ -38,7 +36,7 @@ class Player(object):
         self.playerNode.setScale(1.0)
         cameraModel = loader.loadModel("models/camera")
         cameraModel.reparentTo(self.playerNode)
-        #cameraModel.hide()
+        cameraModel.hide()
         cameraModel.setPos(0,0,2)
 
         gunPath = NodePath("gun")
