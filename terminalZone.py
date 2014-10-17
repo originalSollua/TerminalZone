@@ -20,6 +20,7 @@ import os, sys
 # Our class imports
 from player import Player
 from enemy import Enemy
+from spawner import Spawner
 
 # Panda imports
 from panda3d.core import CollisionTraverser, CollisionHandlerPusher
@@ -57,6 +58,7 @@ class GameStart(ShowBase):
         # Class will be setup to take parameters for texture and AIin the future.
         self.enemy = Enemy()
 
+	base.taskMgr.add(Spawner(self.environ).spawn, "Spawn Enemies")
 
 TerminalZone = GameStart()
 TerminalZone.run()

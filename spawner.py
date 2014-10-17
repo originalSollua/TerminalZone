@@ -15,6 +15,9 @@
 #======================================================================#
 
 from random import randint
+
+from enemy import Enemy
+
 from direct.showbase.DirectObject import DirectObject
 
 class Spawner(DirectObject):
@@ -25,17 +28,17 @@ class Spawner(DirectObject):
 	self.mini = [int(mini[0]), int(mini[1])]
 	self.maxi = [int(maxi[0]), int(maxi[1])]
 
-	self.enemyCount = 0
+	self.spawnableCount = 0
 
 
-    def spawnEnemies(self, task):
+    def spawn(self, task):
 
-	if self.enemyCount < 20:
-	    enemy = loader.loadModel("resources/humanoid")
-	    enemy.setScale(0.2, 0.2, 0.2)
-	    enemy.reparentTo(render)
+	if self.spawnableCount < 20:
+
+	    enemy = Enemy()
+
 	    enemy.setPos(randint(self.mini[0], self.maxi[0]), randint(self.mini[1], self.maxi[1]), 8)
-	    self.enemyCount+= 1
+	    self.spawnableCount+= 1
 
 	return task.cont
 	

@@ -49,7 +49,7 @@ class Player(object):
         gunModel.reparentTo(gunPath)
         
         #HUD
-        hud = OnscreenImage("./resources/hud.png")
+        hud = OnscreenImage("resources/hud.png")
         hud.setTransparency(True)
         hud.reparentTo(render2d)
         

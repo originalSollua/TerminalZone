@@ -8,7 +8,7 @@
 #    Brandon Williams
 #    Jeremy Rose
 #
-# Last modification: 10/16/14
+# Last modification: 10/17/14 by: Brandon
 #
 # Description: Represents all the data about an enemy that we could
 # ever want.
@@ -27,4 +27,7 @@ class Enemy(object):
         self.enemy.setScale(0.2,0.2,0.2)
         self.enemy.reparentTo(base.render)
         self.enemy.setPos(0,0,8)
+
+    def setPos(self, x, y, z):
+		self.enemy.setPos(x, y, z)
         
