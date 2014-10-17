@@ -38,10 +38,6 @@ class GameStart(ShowBase):
         properties = WindowProperties()
         properties.setCursorHidden(True)
         base.win.requestProperties(properties)
-        
-        # Get game directory location
-        currentDir = os.path.abspath(sys.path[0])
-        currentDir = Filename.fromOsSpecific(currentDir).getFullpath()
 
         # Disable default mouse controls
         self.disableMouse()
@@ -49,7 +45,7 @@ class GameStart(ShowBase):
         base.cTrav = CollisionTraverser()
         base.pusher = CollisionHandlerPusher()
         # Load Environment
-        self.environ = self.loader.loadModel(currentDir + "/resources/test")
+        self.environ = self.loader.loadModel("resources/test")
         self.environ.reparentTo(self.render)
         self.environ.setScale(0.5,0.5,0.5)
         
