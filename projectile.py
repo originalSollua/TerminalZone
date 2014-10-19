@@ -43,7 +43,7 @@ class Projectile(object):
         dir = dir*100
         #print dir
         #trying to get cordinats of center
-        self.trajectory = ProjectileInterval(self.projectileNode,startPos = self.projectileNode.getPos(),startVel = dir, duration = dur, gravityMult = .0001)
+        self.trajectory = ProjectileInterval(self.projectileNode,startPos = self.projectileNode.getPos(),startVel = dir, duration = self.dur, gravityMult = .0001)
         self.trajectory.start()
 
 	#deal with colliding or special effects here.
