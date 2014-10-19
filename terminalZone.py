@@ -8,13 +8,13 @@
 #    Brandon Williams
 #    Jeremy Rose
 #
-# Last modification: 10/16/14
+# Last modification: 10/19/14 By: Nick
 #
 # Description: Main class to set up environment and run game
 #
 #======================================================================#
 
-# System imports
+# Python imports
 import os, sys
 
 # Our class imports
@@ -39,10 +39,10 @@ class GameStart(ShowBase):
         properties = WindowProperties()
         properties.setCursorHidden(True)
         base.win.requestProperties(properties)
-
         # Disable default mouse controls
         self.disableMouse()
-        # new colision system
+        
+        # Create new collision system
         base.cTrav = CollisionTraverser()
         base.pusher = CollisionHandlerPusher()
         # Load Environment
@@ -54,11 +54,8 @@ class GameStart(ShowBase):
         # Make camera a part of player
         self.player = Player()
 
-        # Init enemy model
-        # Class will be setup to take parameters for texture and AIin the future.
-        self.enemy = Enemy()
-
-	base.taskMgr.add(Spawner(self.environ).spawn, "Spawn Enemies")
+        # Add the random enemy spawning task
+        base.taskMgr.add(Spawner(self.environ).spawn, "Spawn Enemies")
 
 TerminalZone = GameStart()
 TerminalZone.run()

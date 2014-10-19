@@ -22,7 +22,7 @@ from camMov import CameraMovement
 from direct.gui.OnscreenImage import OnscreenImage
 from panda3d.core import CollisionNode, CollisionSphere, CollisionRay, CollisionHandlerGravity
 from panda3d.core import NodePath, BitMask32, TransparencyAttrib, Filename
-#from pandac.PandaModules import CardMaker, Point2
+
 class Player(object):
     #using this to be our player
     #define things like health in here
@@ -36,17 +36,17 @@ class Player(object):
         self.playerNode.setScale(1.0)
         cameraModel = loader.loadModel("models/camera")
         cameraModel.reparentTo(self.playerNode)
-        cameraModel.hide()
+        #cameraModel.hide()
         cameraModel.setPos(0,0,2)
 
         gunPath = NodePath("gun")
         gunPath.reparentTo(base.camera)
-        gunPath.setPos(1,3,-4)
         gunModel = loader.loadModel("resources/gunmodel")
-        #gunModel.reparentTo(base.camera)
-        gunModel.setPos(-0.4,-1,3.2)
-        gunModel.setHpr(0,180,180)
         gunModel.reparentTo(gunPath)
+        gunPath.setPos(1,5,-4.5)
+        #gunModel.reparentTo(render)
+        gunModel.setPos(-.5,-2,3.5)
+        gunModel.setHpr(0,180,180)
         
         #HUD
         hud = OnscreenImage("resources/hud.png")

@@ -39,7 +39,8 @@ class Projectile(object):
 	#speed up or slow down projectiles here
 	dir = dir*100
 	print dir
-	self.trajectory = ProjectileInterval(self.projectileNode,startPos = self.projectileNode.getPos(),startVel = dir, duration = 2, gravityMult = .0001)
+	self.trajectory = ProjectileInterval(self.projectileNode,startPos = self.projectileNode.getPos(),
+                                         startVel = dir, duration = 2, gravityMult = .0001)
 	self.trajectory.start()
 
 	#deal with colliding or special effects here.
