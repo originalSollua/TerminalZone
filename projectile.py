@@ -13,7 +13,7 @@
 # Description: Creates a projectile in the world
 #
 #======================================================================#
-
+from direct.showbase.DirectObject import DirectObject
 from panda3d.core import NodePath, Vec3
 from math import sin, cos
 # going to use the system time to calculate when to destroy projectiles
@@ -36,13 +36,14 @@ class Projectile(object):
         self.projectileNode.setScale(.1)
         projectileModel = loader.loadModel("models/panda")
         projectileModel.reparentTo(self.projectileNode)
-	# must calculate unit vector based on direction
-	dir = render.getRelativeVector(look, Vec3(0, 1, 0))
-	#speed up or slow down projectiles here
-	dir = dir*100
-    #print dir
-	self.trajectory = ProjectileInterval(self.projectileNode,startPos = self.projectileNode.getPos(),startVel = dir, duration = 1, gravityMult = .0001)
-	self.trajectory.start()
+    	# must calculate unit vector based on direction
+        dir = render.getRelativeVector(look, Vec3(0, 1, 0))
+    	#speed up or slow down projectiles here
+        dir = dir*100
+        #print dir
+        #trying to get cordinats of center
+        self.trajectory = ProjectileInterval(self.projectileNode,startPos = self.projectileNode.getPos(),startVel = dir, duration = 1, gravityMult = .0001)
+        self.trajectory.start()
 
 	#deal with colliding or special effects here.
 	#wanted projectiles to be short lived
