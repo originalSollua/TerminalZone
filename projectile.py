@@ -17,13 +17,17 @@ from direct.showbase.DirectObject import DirectObject
 from panda3d.core import NodePath, Vec3
 from math import sin, cos
 # going to use the system time to calculate when to destroy projectiles
-from datetime import datetime
+import time
 #possible depricated library
 from direct.interval.IntervalGlobal import *
 
 class Projectile(object):
-    creaTime = datetime.now().time()
+    creaTime = time.clock()
     dur = 2
+    vec = 0
+    delta = .15
+    prevtime = 0
+    flag = False
     #defining the thing fired by whatever gun we have
 
     def __init__(self, camera, look):
@@ -40,18 +44,32 @@ class Projectile(object):
     	# must calculate unit vector based on direction
         dir = render.getRelativeVector(look, Vec3(0, 1, 0))
     	#speed up or slow down projectiles here
-        dir = dir*100
-        #print dir
-        #trying to get cordinats of center
-        self.trajectory = ProjectileInterval(self.projectileNode,startPos = self.projectileNode.getPos(),startVel = dir, duration = self.dur, gravityMult = .0001)
-        self.trajectory.start()
+        dir = dir
+        self.vec = dir
+        #self.delta = time.clock()
+        #self.prevtime = time.clock()
+        
+        #changing to a move task
 
+      
 	#deal with colliding or special effects here.
 	#wanted projectiles to be short lived
 	# so i will make them delete themselves after impact or time expired
-	
     # writing a task that will rek the projectiles at the end of time
-
-	#colide or time up
-    def destroy(self):
-	self.projectileNode.removeNode()
+    def moveTask(self, task):
+        #curtime = time.clock()
+        #self.delta = curtime-self.prevtime
+        velx = self.vec.x*self.delta
+        vely = self.vec.y*self.delta
+        velz = self.vec.z*self.delta
+        x = self.projectileNode.getX()
+        y = self.projectileNode.getY()
+        z = self.projectileNode.getZ()
+        self.projectileNode.setPos(x+velx, y+vely, z+velz)
+        #prevtime = time.clock()
+        if task.time < self.dur:
+            return task.cont
+        else:
+            self.flag = True
+            return task.done
+        

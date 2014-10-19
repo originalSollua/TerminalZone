@@ -60,6 +60,17 @@ class GameStart(ShowBase):
         self.spawner = Spawner(self.environ)
 
         base.taskMgr.add(self.spawner.checkSpawn, "Spawn Enemies")
+        base.taskMgr.add(self.projCleanTask, "Projectile Clean Up")
+
+    def projCleanTask(self, task):
+        #using this task to find all the projectiles in the projList
+        #that have reached the end of their lifespan
+        #use the built in destroy to remove them
+        for i in self.projectileList:
+            if i.flag:
+                i.projectileNode.removeNode()
+                self.projectileList.remove(i)
+        return task.cont
 
 TerminalZone = GameStart()
 TerminalZone.run()
