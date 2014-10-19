@@ -46,7 +46,7 @@ class GameStart(ShowBase):
         base.cTrav = CollisionTraverser()
         base.pusher = CollisionHandlerPusher()
         # Load Environment
-        self.environ = self.loader.loadModel("resources/test")
+        self.environ = self.loader.loadModel("resources/test_level")
         self.environ.reparentTo(self.render)
         self.environ.setScale(0.5,0.5,0.5)
         

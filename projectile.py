@@ -23,6 +23,7 @@ from direct.interval.IntervalGlobal import *
 
 class Projectile(object):
     creaTime = datetime.now().time()
+    dur = 2
     #defining the thing fired by whatever gun we have
 
     def __init__(self, camera, look):
@@ -42,7 +43,7 @@ class Projectile(object):
         dir = dir*100
         #print dir
         #trying to get cordinats of center
-        self.trajectory = ProjectileInterval(self.projectileNode,startPos = self.projectileNode.getPos(),startVel = dir, duration = 1, gravityMult = .0001)
+        self.trajectory = ProjectileInterval(self.projectileNode,startPos = self.projectileNode.getPos(),startVel = dir, duration = dur, gravityMult = .0001)
         self.trajectory.start()
 
 	#deal with colliding or special effects here.
