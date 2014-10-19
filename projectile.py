@@ -55,6 +55,7 @@ class Projectile(DirectObject):
         self.collHand = CollisionHandlerEvent()
         self.collHand.addInPattern('into')
         self.collHand.addOutPattern('outof')
+#cTrav has the distinction of global colider handler
         base.cTrav.addCollider(cnodepath, self.collHand)
         self.accept('into', self.hit)
         
@@ -89,6 +90,6 @@ class Projectile(DirectObject):
         
 
     def hit(self, collEntry):
-        print collEntry
+        #print collEntry.getFromNodePath().getParent().getName()
         collEntry.getFromNodePath().getParent().getParent().removeNode()
         self.flag =  True

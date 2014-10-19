@@ -17,8 +17,9 @@
 
 from direct.actor.Actor import Actor
 from panda3d.core import CollisionNode, CollisionSphere, CollisionTube, NodePath
-
-class Enemy(object):
+from panda3d.core import CollisionTraverser, CollisionHandlerEvent
+from direct.showbase.DirectObject import DirectObject
+class Enemy(DirectObject):
 
     def __init__(self, model):
         self.enemyNode = NodePath('enemy')
@@ -38,8 +39,19 @@ class Enemy(object):
         cs = CollisionTube(xTop, yTop, zTop, xBot, yBot, zBot, 20)
         cnodepath = self.enemy.attachNewNode(CollisionNode('cnode'))
         cnodepath.node().addSolid(cs)
-        cnodepath.show()  
+        cnodepath.show() 
+
+        self.chand = CollisionHandlerEvent()
+        self.chand.addInPattern('into')
+        # must be same cTrav that was set in player, global collider thing
+        base.cTrav.addCollider(cnodepath, self.chand)
+        self.accept('into', self.hit)
 
     def setPos(self, x, y, z):
 		self.enemy.setPos(x, y, z)
         
+
+    def hit(self, collEntry):
+        #access the thing hit like below, the parrent of the collision node
+        collEntry.getFromNodePath().getParent().removeNode()
+        self.enemy.removeNode()
