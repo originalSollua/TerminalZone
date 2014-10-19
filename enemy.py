@@ -15,19 +15,26 @@
 #
 #======================================================================#
 
+# Panda imports
 from direct.actor.Actor import Actor
 from panda3d.core import CollisionNode, CollisionSphere, CollisionTube, NodePath
 from panda3d.core import CollisionTraverser, CollisionHandlerEvent
 from direct.showbase.DirectObject import DirectObject
+from panda3d.ai import AIWorld, AICharacter
+
 class Enemy(DirectObject):
     delFlag = False
-    def __init__(self, model, id):
+    def __init__(self, model, id, ai):
         self.enemyNode = NodePath('enemy'+str(id))
+        self.AIWorld = AIWorld(base.render)
+
         self.enemyNode.reparentTo(base.render)
         # Load the enemy model, set the scale, and add to render
         self.enemy = Actor(model)
         self.enemy.setScale(0.2,0.2,0.2)
         self.enemy.reparentTo(self.enemyNode)
+        
+        self.setAI(ai)
         
         #configure hit tube
         xTop = self.enemy.getX()
@@ -54,3 +61,20 @@ class Enemy(DirectObject):
         #access the thing hit like below, the parrent of the collision node
         # damage helth ect below
         self.delFlag = True
+        self.enemy.cleanup()
+
+    def setAI(self, ai):
+        if ai == 1:
+            # Flag this as an AI character
+            self.AIchar = AICharacter("chase", self.enemy, 100,0.05,5)
+            self.AIWorld.addAiChar(self.AIchar)
+            self.AIbehaviors = self.AIchar.getAiBehaviors()
+
+            self.AIbehaviors.pursue(base.camera)
+        
+        base.taskMgr.add(self.AIUpdate, "Update AI")
+
+    def AIUpdate(self,task):
+        self.AIWorld.update()
+        return task.cont
+
