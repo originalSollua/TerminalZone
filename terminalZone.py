@@ -30,7 +30,7 @@ from direct.interval.IntervalGlobal import Sequence
 
 
 class GameStart(ShowBase):
-    
+    projectileList =[]
     def __init__(self):
         
         # Start ShowBase
@@ -57,7 +57,7 @@ class GameStart(ShowBase):
         # Init enemy model
         # Class will be setup to take parameters for texture and AIin the future.
         self.enemy = Enemy()
-
+    
 	base.taskMgr.add(Spawner(self.environ).spawn, "Spawn Enemies")
 
 TerminalZone = GameStart()
