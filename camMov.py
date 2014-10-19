@@ -46,6 +46,17 @@ class CameraMovement(DirectObject):
         self.accept("d-up", self.setKey, ["d", False])
 
         self.accept("mouse1", self.fireWeapon)
+        
+        self.accept("arrow_up", self.setKey, ["w", True])
+        self.accept("arrow_down", self.setKey, ["s", True])
+        self.accept("arrow_left", self.setKey, ["a", True])
+        self.accept("arrow_right", self.setKey, ["d", True])
+        
+        self.accept("arrow_up-up", self.setKey, ["w", False])
+        self.accept("arrow_down-up", self.setKey, ["s", False])
+        self.accept("arrow_left-up", self.setKey, ["a", False])
+        self.accept("arrow_right-up", self.setKey, ["d", False])
+        
 
     # Changes the states of the keys pressed
     def setKey(self, key, value):
