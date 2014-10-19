@@ -30,9 +30,9 @@ class Projectile(DirectObject):
     flag = False
     #defining the thing fired by whatever gun we have
 
-    def __init__(self, camera, look):
+    def __init__(self, camera, look, id):
         #nodepath of the projectile, give it a trajectory
-        self.projectileNode = NodePath('projectile')
+        self.projectileNode = NodePath('projectile'+str(id))
         self.projectileNode.reparentTo(render)
         # by passing the camera node form the camMov object, all projectiles are spawned 5 units in front of the camera
         self.projectileNode.setHpr(look, 0, 0, 0)
@@ -53,11 +53,11 @@ class Projectile(DirectObject):
         cnodepath.node().addSolid(cs)
         cnodepath.show()
         self.collHand = CollisionHandlerEvent()
-        self.collHand.addInPattern('into')
+        self.collHand.addInPattern('into'+str(id))
         self.collHand.addOutPattern('outof')
 #cTrav has the distinction of global colider handler
         base.cTrav.addCollider(cnodepath, self.collHand)
-        self.accept('into', self.hit)
+        self.accept('into'+str(id), self.hit)
         
         
         #changing to a move task
@@ -90,6 +90,9 @@ class Projectile(DirectObject):
         
 
     def hit(self, collEntry):
-        #print collEntry.getFromNodePath().getParent().getName()
+        # throw out a custom message for what hit
+        temp = collEntry.getIntoNodePath().getName()
+        messenger.send(temp) 
+        #remove the impacting projectile
         collEntry.getFromNodePath().getParent().getParent().removeNode()
         self.flag =  True

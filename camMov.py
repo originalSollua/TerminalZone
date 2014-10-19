@@ -63,7 +63,7 @@ class CameraMovement(DirectObject):
         self.keyMap[key] = value
 
     def fireWeapon(self):
-        proj = Projectile(self.gunPath, base.camera)
+        proj = Projectile(self.gunPath, base.camera, len(base.projectileList))
         base.taskMgr.add(proj.moveTask, "move projectile")
         base.projectileList.append(proj)
         print "Shots fired: ", len(base.projectileList)

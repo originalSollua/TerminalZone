@@ -20,16 +20,16 @@ from panda3d.core import CollisionNode, CollisionSphere, CollisionTube, NodePath
 from panda3d.core import CollisionTraverser, CollisionHandlerEvent
 from direct.showbase.DirectObject import DirectObject
 class Enemy(DirectObject):
-
-    def __init__(self, model):
-        self.enemyNode = NodePath('enemy')
+    delFlag = False
+    def __init__(self, model, id):
+        self.enemyNode = NodePath('enemy'+str(id))
         self.enemyNode.reparentTo(base.render)
         # Load the enemy model, set the scale, and add to render
         self.enemy = Actor(model)
         self.enemy.setScale(0.2,0.2,0.2)
         self.enemy.reparentTo(self.enemyNode)
         
-        
+        #configure hit tube
         xTop = self.enemy.getX()
         yTop = self.enemy.getY()
         zTop = self.enemy.getZ()-15
@@ -37,21 +37,20 @@ class Enemy(DirectObject):
         yBot = yTop
         zBot = zTop-10
         cs = CollisionTube(xTop, yTop, zTop, xBot, yBot, zBot, 20)
-        cnodepath = self.enemy.attachNewNode(CollisionNode('cnode'))
+        cnodepath = self.enemy.attachNewNode(CollisionNode('cnode'+str(id)))
         cnodepath.node().addSolid(cs)
         cnodepath.show() 
-
+        # so we can walk into the enimies
         self.chand = CollisionHandlerEvent()
-        self.chand.addInPattern('into')
+        
         # must be same cTrav that was set in player, global collider thing
         base.cTrav.addCollider(cnodepath, self.chand)
-        self.accept('into', self.hit)
-
+        self.accept('cnode'+str(id), self.hite)
     def setPos(self, x, y, z):
 		self.enemy.setPos(x, y, z)
         
 
-    def hit(self, collEntry):
+    def hite(self):
         #access the thing hit like below, the parrent of the collision node
-        collEntry.getFromNodePath().getParent().removeNode()
-        self.enemy.removeNode()
+        # damage helth ect below
+        self.delFlag = True
