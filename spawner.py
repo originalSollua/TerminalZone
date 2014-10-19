@@ -55,3 +55,4 @@ class Spawner(DirectObject):
         enemy = Enemy(enemyModel)
         enemy.setPos(randint(self.mini[0], self.maxi[0]), randint(self.mini[1], self.maxi[1]), 8)
         base.enemyList.append(enemy)
+        print "Enemies: ", len(base.enemyList)
