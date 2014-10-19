@@ -8,13 +8,13 @@
 #    Brandon Williams
 #    Jeremy Rose
 #
-# Last modification: 10/16/14
+# Last modification: 10/19/14 By: Nick
 #
 # Description: Main class to set up environment and run game
 #
 #======================================================================#
 
-# System imports
+# Python imports
 import os, sys
 
 # Our class imports
@@ -30,7 +30,9 @@ from direct.interval.IntervalGlobal import Sequence
 
 
 class GameStart(ShowBase):
-    
+    projectileList =[]
+    enemyList =[]
+
     def __init__(self):
         
         # Start ShowBase
@@ -39,14 +41,14 @@ class GameStart(ShowBase):
         properties = WindowProperties()
         properties.setCursorHidden(True)
         base.win.requestProperties(properties)
-
         # Disable default mouse controls
         self.disableMouse()
-        # new colision system
+        
+        # Create new collision system
         base.cTrav = CollisionTraverser()
         base.pusher = CollisionHandlerPusher()
         # Load Environment
-        self.environ = self.loader.loadModel("resources/test")
+        self.environ = self.loader.loadModel("resources/debug")
         self.environ.reparentTo(self.render)
         self.environ.setScale(0.5,0.5,0.5)
         
@@ -54,11 +56,21 @@ class GameStart(ShowBase):
         # Make camera a part of player
         self.player = Player()
 
-        # Init enemy model
-        # Class will be setup to take parameters for texture and AIin the future.
-        self.enemy = Enemy()
+        # Create spawner open on current level
+        self.spawner = Spawner(self.environ)
 
-	base.taskMgr.add(Spawner(self.environ).spawn, "Spawn Enemies")
+        base.taskMgr.add(self.spawner.checkSpawn, "Spawn Enemies")
+        base.taskMgr.add(self.projCleanTask, "Projectile Clean Up")
+
+    def projCleanTask(self, task):
+        #using this task to find all the projectiles in the projList
+        #that have reached the end of their lifespan
+        #use the built in destroy to remove them
+        for i in self.projectileList:
+            if i.flag:
+                i.projectileNode.removeNode()
+                self.projectileList.remove(i)
+        return task.cont
 
 TerminalZone = GameStart()
 TerminalZone.run()
