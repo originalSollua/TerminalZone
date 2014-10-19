@@ -54,7 +54,7 @@ class CameraMovement(DirectObject):
     def fireWeapon(self):
         proj = Projectile(self.gunPath, base.camera)
         base.projectileList.append(proj)
-        print len(base.projectileList)
+        print "Shots fired: ", len(base.projectileList)
     # Determines the movement and pitch of the camera
     def cameraControl(self,task):
         dt = globalClock.getDt()
