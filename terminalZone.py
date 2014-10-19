@@ -31,6 +31,8 @@ from direct.interval.IntervalGlobal import Sequence
 
 class GameStart(ShowBase):
     projectileList =[]
+    enemyList =[]
+
     def __init__(self):
         
         # Start ShowBase
@@ -53,7 +55,11 @@ class GameStart(ShowBase):
         # Init player here
         # Make camera a part of player
         self.player = Player()
-        # Add the random enemy spawning task
-        base.taskMgr.add(Spawner(self.environ).spawn, "Spawn Enemies")
+
+        # Create spawner open on current level
+        self.spawner = Spawner(self.environ)
+
+        base.taskMgr.add(self.spawner.checkSpawn, "Spawn Enemies")
+
 TerminalZone = GameStart()
 TerminalZone.run()
