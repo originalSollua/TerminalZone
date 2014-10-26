@@ -43,7 +43,11 @@ class GameStart(ShowBase):
         base.win.requestProperties(properties)
         # Disable default mouse controls
         self.disableMouse()
-        
+
+        mySound = base.loader.loadSfx("./resources/test.ogg")
+        mySound.setVolume(1)
+        mySound.play()
+
         # Create new collision system
         base.cTrav = CollisionTraverser()
         base.pusher = CollisionHandlerPusher()
