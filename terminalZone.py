@@ -44,7 +44,7 @@ class GameStart(ShowBase):
         # Disable default mouse controls
         self.disableMouse()
 
-        mySound = base.loader.loadSfx("./resources/test.ogg")
+        mySound = base.loader.loadSfx("./resources/sounds/test.wav")
         mySound.setVolume(1)
         mySound.play()
 
