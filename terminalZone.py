@@ -55,7 +55,12 @@ class GameStart(ShowBase):
         self.environ = self.loader.loadModel("resources/debug")
         self.environ.reparentTo(self.render)
         self.environ.setScale(0.5,0.5,0.5)
-        
+
+        #!! Test load for monkey, will remove later !!#
+        self.monkey = self.loader.loadModel("resources/lordMonkey")
+        self.monkey.reparentTo(render)
+        self.monkey.setScale(3.5,3.5,3.5)
+
         # Init player here
         # Make camera a part of player
         self.player = Player()
