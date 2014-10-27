@@ -16,6 +16,7 @@
 
 import sys
 
+from direct.gui.OnscreenImage import OnscreenImage
 from math import pi,sin,cos
 from direct.task import Task
 from direct.showbase.DirectObject import DirectObject
@@ -30,8 +31,10 @@ class CameraMovement(DirectObject):
         self.cameraModel = cameraModel
         camera.reparentTo(cameraModel)
         camera.setZ(base.camera, 4)
-
-        self.keyMap = {"w":False, "s":False, "a":False, "d":False,}
+		
+	
+	
+        self.keyMap = {"w":False, "s":False, "a":False, "d":False, "m":False}
 
         self.accept("escape", sys.exit, [0])
 
@@ -57,6 +60,10 @@ class CameraMovement(DirectObject):
         self.accept("arrow_left-up", self.setKey, ["a", False])
         self.accept("arrow_right-up", self.setKey, ["d", False])
         
+        self.accept("m", self.map, [True])
+        self.accept("m-up", self.map, [False])
+		
+        
 
     # Changes the states of the keys pressed
     def setKey(self, key, value):
@@ -67,6 +74,8 @@ class CameraMovement(DirectObject):
         base.taskMgr.add(proj.moveTask, "move projectile")
         base.projectileList.append(proj)
         print "Shots fired: ", len(base.projectileList)
+	
+		
     # Determines the movement and pitch of the camera
     def cameraControl(self,task):
         dt = globalClock.getDt()
@@ -114,3 +123,10 @@ class CameraMovement(DirectObject):
             return task.cont
         else:
             return task.cont
+    def map(self, value):
+        self.m = OnscreenImage("resources/map.png")
+        self.m.reparentTo(render2d)
+        if(value == True):
+            self.m.setTransparency(True)
+        else:
+            self.m.setTransparency(False)
