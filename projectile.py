@@ -39,7 +39,7 @@ class Projectile(DirectObject):
         self.projectileNode.setPos(camera,0,3, 3)
         # fix z position to line up with gun
         self.projectileNode.setScale(.1)
-        projectileModel = loader.loadModel("models/panda")
+        projectileModel = loader.loadModel("./resources/beam")
         projectileModel.reparentTo(self.projectileNode)
     	# must calculate unit vector based on direction
         dir = render.getRelativeVector(look, Vec3(0, 1, 0))
@@ -55,7 +55,7 @@ class Projectile(DirectObject):
         self.collHand = CollisionHandlerEvent()
         self.collHand.addInPattern('into'+str(id))
         self.collHand.addOutPattern('outof')
-#cTrav has the distinction of global colider handler
+        #cTrav has the distinction of global colider handler
         base.cTrav.addCollider(cnodepath, self.collHand)
         self.accept('into'+str(id), self.hit)
         
