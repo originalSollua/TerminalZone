@@ -27,9 +27,8 @@ class RecursionRifle(object):
         self.gunPath.reparentTo(base.camera)
         self.gunModel = loader.loadModel("resources/gunmodel")
         self.gunModel.reparentTo(self.gunPath)
-        self.gunPath.setPos(1,5,-4.5)
-        self.gunModel.reparentTo(render)
-        self.gunModel.setPos(-.5,-2,3.5)
+        self.gunPath.setPos(1,15,-4)
+        self.gunModel.setPos(-.5,-12,3.1)
         self.gunModel.setHpr(0,180,180)
 
     def fire(self):
