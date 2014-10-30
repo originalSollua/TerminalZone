@@ -44,9 +44,8 @@ class GameStart(ShowBase):
         # Disable default mouse controls
         self.disableMouse()
 
-        mySound = base.loader.loadSfx("./resources/sounds/test.wav")
-        mySound.setVolume(1)
-        mySound.play()
+        self.music = base.loader.loadMusic("./resources/sounds/test.wav")
+        self.music.play()
 
         # Create new collision system
         base.cTrav = CollisionTraverser()

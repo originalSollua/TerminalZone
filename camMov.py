@@ -31,9 +31,8 @@ class CameraMovement(DirectObject):
         self.cameraModel = cameraModel
         camera.reparentTo(cameraModel)
         camera.setZ(base.camera, 4)
-
+        
         self.weapon = RecursionRifle(base.camera, len(base.projectileList))		
-	
         self.keyMap = {"w":False, "s":False, "a":False, "d":False, "m":False}
 
         self.accept("escape", sys.exit, [0])

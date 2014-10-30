@@ -28,7 +28,7 @@ class RecursionRifle(object):
         self.gunModel = loader.loadModel("resources/gunmodel")
         self.gunModel.reparentTo(self.gunPath)
         self.gunPath.setPos(1,5,-4.5)
-        gunModel.reparentTo(render)
+        self.gunModel.reparentTo(render)
         self.gunModel.setPos(-.5,-2,3.5)
         self.gunModel.setHpr(0,180,180)
 
@@ -37,4 +37,7 @@ class RecursionRifle(object):
         proj = Projectile(self.gunPath, base.camera, len(base.projectileList))
         base.taskMgr.add(proj.moveTask, "move projectile")
         base.projectileList.append(proj)
+        shotSfx = base.loader.loadSfx("resources/sounds/recursion_rifle.ogg")
+        shotSfx.setVolume(.4)
+        shotSfx.play()
         print "Shots fired: ", len(base.projectileList)
