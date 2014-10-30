@@ -21,18 +21,18 @@ from math import pi,sin,cos
 from direct.task import Task
 from direct.showbase.DirectObject import DirectObject
 
-from projectile import Projectile
+from recursionRifle import RecursionRifle
 class CameraMovement(DirectObject):
-    
+   
+
     # Takes in a cameraModel and sets up key listeners
-    def __init__(self, cameraModel, gunPath):
+    def __init__(self, cameraModel):
        
-        self.gunPath = gunPath
         self.cameraModel = cameraModel
         camera.reparentTo(cameraModel)
         camera.setZ(base.camera, 4)
-		
-	
+
+        self.weapon = RecursionRifle(base.camera, len(base.projectileList))		
 	
         self.keyMap = {"w":False, "s":False, "a":False, "d":False, "m":False}
 
@@ -70,11 +70,7 @@ class CameraMovement(DirectObject):
         self.keyMap[key] = value
 
     def fireWeapon(self):
-        proj = Projectile(self.gunPath, base.camera, len(base.projectileList))
-        base.taskMgr.add(proj.moveTask, "move projectile")
-        base.projectileList.append(proj)
-        print "Shots fired: ", len(base.projectileList)
-	
+	    self.weapon.fire()
 		
     # Determines the movement and pitch of the camera
     def cameraControl(self,task):

@@ -33,27 +33,20 @@ class Player(object):
         self.playerNode = NodePath('player')
         self.playerNode.reparentTo(render)
         self.playerNode.setPos(0,-30,30)
+        
         self.playerNode.setScale(1.0)
         cameraModel = loader.loadModel("models/camera")
         cameraModel.reparentTo(self.playerNode)
-        #cameraModel.hide()
+        cameraModel.hide()
         cameraModel.setPos(0,0,2)
 
-        gunPath = NodePath("gun")
-        gunPath.reparentTo(base.camera)
-        gunModel = loader.loadModel("resources/gunmodel")
-        gunModel.reparentTo(gunPath)
-        gunPath.setPos(1,5,-4.5)
-        #gunModel.reparentTo(render)
-        gunModel.setPos(-.5,-2,3.5)
-        gunModel.setHpr(0,180,180)
         
         #HUD
         hud = OnscreenImage("resources/hud.png")
         hud.setTransparency(True)
         hud.reparentTo(render2d)
         
-        base.taskMgr.add(CameraMovement(cameraModel, gunPath).cameraControl, "cameraControl")
+        base.taskMgr.add(CameraMovement(cameraModel).cameraControl, "cameraControl")
         self.createColision()
 
 
