@@ -18,7 +18,7 @@ from direct.gui.OnscreenImage import OnscreenImage
 from panda3d.core import CollisionNode, CollisionSphere, CollisionRay, CollisionHandlerGravity
 from panda3d.core import NodePath, BitMask32, TransparencyAttrib, Filename
 
-from projectile import Projectile
+from projectile import Projectile, MHBProjectile
 
 #Recursion Rifle
 class RecursionRifle(object):
@@ -35,7 +35,7 @@ class RecursionRifle(object):
 
     def fire(self):
 
-        proj = Projectile(self.gunPath, base.camera, len(base.projectileList))
+        proj = Projectile(self.gunPath, base.camera, len(base.projectileList), i)
         base.taskMgr.add(proj.moveTask, "move projectile")
         base.projectileList.append(proj)
         shotSfx = base.loader.loadSfx("resources/sounds/recursion_rifle.ogg")
@@ -58,9 +58,10 @@ class MHB(object):
 
     def fire(self):
 
-        proj = Projectile(self.gunPath, base.camera, len(base.projectileList))
-        base.taskMgr.add(proj.moveTask, "move projectile")
-        base.projectileList.append(proj)
+        for i in range(1,20):
+            proj = MHBProjectile(self.gunPath, base.camera, len(base.projectileList), i)
+            base.taskMgr.add(proj.moveTask, "move projectile")
+            base.projectileList.append(proj)
         shotSfx = base.loader.loadSfx("resources/sounds/recursion_rifle.ogg")
         shotSfx.setVolume(.4)
         shotSfx.play()
