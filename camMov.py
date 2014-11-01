@@ -33,8 +33,10 @@ class CameraMovement(DirectObject):
         self.cameraModel = cameraModel
         camera.reparentTo(cameraModel)
         camera.setZ(base.camera, 4)
-        
-        self.weapon = MHB(base.camera, len(base.projectileList))		
+
+        self.weaponMap = {1:RecursionRifle(base.camera, len(base.projectileList)), 2:MHB(base.camera, len(base.projectileList))}
+        self.curWeapon = 1
+
         self.keyMap = {"w":False, "s":False, "a":False, "d":False, "m":False}
 
         self.accept("escape", sys.exit, [0])
@@ -52,7 +54,8 @@ class CameraMovement(DirectObject):
         self.accept("m-up", self.setKey, ["m", False])
 
         self.accept("mouse1", self.fireWeapon)
-        
+        self.accept("mouse3", self.swapWeapon)
+
         self.accept("arrow_up", self.setKey, ["w", True])
         self.accept("arrow_down", self.setKey, ["s", True])
         self.accept("arrow_left", self.setKey, ["a", True])
@@ -69,8 +72,16 @@ class CameraMovement(DirectObject):
     def setKey(self, key, value):
         self.keyMap[key] = value
 
+    def swapWeapon(self): 
+        if  self.curWeapon == 1:
+            
+            self.curWeapon = 2
+        else:
+
+            self.curWeapon = 1
+
     def fireWeapon(self):
-	    self.weapon.fire()
+	    self.weaponMap[self.curWeapon].fire()
 		
     # Determines the movement and pitch of the camera
     def cameraControl(self,task):

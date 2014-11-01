@@ -35,7 +35,7 @@ class RecursionRifle(object):
 
     def fire(self):
 
-        proj = Projectile(self.gunPath, base.camera, len(base.projectileList), i)
+        proj = Projectile(self.gunPath, base.camera, len(base.projectileList))
         base.taskMgr.add(proj.moveTask, "move projectile")
         base.projectileList.append(proj)
         shotSfx = base.loader.loadSfx("resources/sounds/recursion_rifle.ogg")
