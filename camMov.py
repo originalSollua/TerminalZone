@@ -21,7 +21,7 @@ from math import pi,sin,cos
 from direct.task import Task
 from direct.showbase.DirectObject import DirectObject
 
-from recursionRifle import RecursionRifle
+from weapons import *
 class CameraMovement(DirectObject):
    
 
@@ -32,7 +32,7 @@ class CameraMovement(DirectObject):
         camera.reparentTo(cameraModel)
         camera.setZ(base.camera, 4)
         
-        self.weapon = RecursionRifle(base.camera, len(base.projectileList))		
+        self.weapon = MHB(base.camera, len(base.projectileList))		
         self.keyMap = {"w":False, "s":False, "a":False, "d":False, "m":False}
 
         self.accept("escape", sys.exit, [0])
@@ -58,7 +58,7 @@ class CameraMovement(DirectObject):
         self.accept("arrow_down-up", self.setKey, ["s", False])
         self.accept("arrow_left-up", self.setKey, ["a", False])
         self.accept("arrow_right-up", self.setKey, ["d", False])
-        
+       
         self.accept("m", self.map, [True])
         self.accept("m-up", self.map, [False])
 		

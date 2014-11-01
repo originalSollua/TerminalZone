@@ -37,7 +37,7 @@ class Player(object):
         self.playerNode.setScale(1.0)
         cameraModel = loader.loadModel("models/camera")
         cameraModel.reparentTo(self.playerNode)
-        cameraModel.hide()
+        #cameraModel.hide()
         cameraModel.setPos(0,0,2)
 
         
