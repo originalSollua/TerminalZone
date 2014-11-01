@@ -14,6 +14,8 @@
 #
 #======================================================================#
 
+from pausemenu import PauseMenu
+
 import sys
 
 from direct.gui.OnscreenImage import OnscreenImage
@@ -41,11 +43,13 @@ class CameraMovement(DirectObject):
         self.accept("s", self.setKey, ["s", True])
         self.accept("a", self.setKey, ["a", True])
         self.accept("d", self.setKey, ["d", True])
+        self.accept("m", self.setKey, ["m", True])
 
         self.accept("w-up", self.setKey, ["w", False])
         self.accept("s-up", self.setKey, ["s", False])
         self.accept("a-up", self.setKey, ["a", False])
         self.accept("d-up", self.setKey, ["d", False])
+        self.accept("m-up", self.setKey, ["m", False])
 
         self.accept("mouse1", self.fireWeapon)
         
@@ -77,6 +81,10 @@ class CameraMovement(DirectObject):
         if(dt > .20):
             return task.cont
     
+        #Calls the pause menu
+        if(self.keyMap["m"] == True):
+            base.taskMgr.add(PauseMenu(), "pauseMenu")
+            
         # Calculate pitch of camera based on mouse position
         mouse = base.win.getPointer(0)
         x = mouse.getX()
