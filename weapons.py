@@ -52,7 +52,7 @@ class MHB(object):
         self.gunPath.reparentTo(base.camera)
         self.gunModel = loader.loadModel("resources/gunmodel")
         self.gunModel.reparentTo(self.gunPath)
-        self.gunPath.setPos(1,15,-4)
+        self.gunPath.setPos(1,8,-4)
         self.gunModel.setPos(-.5,-12,3.1)
         self.gunModel.setHpr(0,180,180)
 
