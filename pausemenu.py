@@ -34,3 +34,6 @@ class PauseMenu(object):
         myRender.setDepthWrite(False)
         cam.reparentTo(myRender)
         pregion.setCamera(cam)
+        
+        filter = CommonFilters(base.win, cam)
+        filter.setBlurSharpen()
