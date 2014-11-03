@@ -14,15 +14,15 @@
 #
 #======================================================================#
 
-# Python imports
+#Python imports
 import os, sys
 
-# Our class imports
+#Our class imports
 from player import Player
 from enemy import Enemy
 from spawner import Spawner
 
-# Panda imports
+#Panda imports
 from panda3d.core import CollisionTraverser, CollisionHandlerPusher
 from panda3d.core import WindowProperties, Filename, Point3
 from direct.showbase.ShowBase import ShowBase
@@ -30,34 +30,41 @@ from direct.interval.IntervalGlobal import Sequence
 
 
 class GameStart(ShowBase):
-    projectileList =[]
-    enemyList =[]
+    
+    #Lists for storing entities
+    projectileList = []
+    enemyList = []
 
     def __init__(self):
         
-        # Start ShowBase
+        #Start ShowBase
         ShowBase.__init__(self)
-        # Get window properties, hide the cursor, set properties
+       
+        #Get window properties, hide the cursor, set properties
         properties = WindowProperties()
         properties.setCursorHidden(True)
         base.win.requestProperties(properties)
-        # Disable default mouse controls
+        
+        #Disable default mouse controls
         self.disableMouse()
 
+        #Loop music
         self.music = base.loader.loadMusic("./resources/sounds/test.wav")
         self.music.setLoop(True)
         self.music.play()
 
-        # Create new collision system
+        #Create new collision system
         base.cTrav = CollisionTraverser()
         base.pusher = CollisionHandlerPusher()
-        # Load Environment
+        
+        #Load Environment
         self.environ = self.loader.loadModel("resources/chasm")
         self.environ.reparentTo(self.render)
-        # debug scalling (0.5, 0.5, 0.5)
+        
+        #Debug scalling (0.5, 0.5, 0.5)
         self.environ.setScale(7,7,3)
 
-        #!! Test load for monkey, will remove later !!#
+        #Test load for monkey, will remove later
         self.monkey = self.loader.loadModel("resources/lordMonkey")
         self.monkey.reparentTo(render)
         self.monkey.setScale(3.5,3.5,3.5)
@@ -65,20 +72,16 @@ class GameStart(ShowBase):
         #Inistialize keys
         self.keyMap = {"w":False, "s":False, "a":False, "d":False, "m":False}
 
-        # Init player here
-        # Make camera a part of player
+        #Init player here
         self.player = Player()
 
-        # Create spawner open on crrent level
+        #Create spawner open on current level
         self.spawner = Spawner(self.environ)
 
+        #Add tasks
         base.taskMgr.add(self.spawner.checkSpawn, "Spawn Enemies")
-        
         base.taskMgr.add(self.projCleanTask, "Projectile Clean Up")
         base.taskMgr.add(self.enemyCleanUp, "enemyCleanup")
-    
-        
-
 
         #Controls
         self.accept("escape", sys.exit, [0])
@@ -108,23 +111,33 @@ class GameStart(ShowBase):
     
     # Changes the states of the keys pressed
     def setKey(self, key, value):
+        
         self.keyMap[key] = value
 
     def projCleanTask(self, task):
+        
         #using this task to find all the projectiles in the projList
         #that have reached the end of their lifespan
         #use the built in destroy to remove them
         for i in self.projectileList:
+            
             if i.flag:
+               
                 i.projectileNode.removeNode()
                 self.projectileList.remove(i)
         return task.cont
+
     def enemyCleanUp(self, task):
+        
+        #Remove flagged enemies
         for i in self.enemyList:
-            if i.delFlag:
+           
+           if i.delFlag:
+               
                 i.enemyNode.removeNode()
                 self.enemyList.remove(i)
                 self.spawner.spawnableCount-=1
         return task.cont
+
 TerminalZone = GameStart()
 TerminalZone.run()

@@ -27,22 +27,25 @@ class RecursionRifle(object):
    
     def __init__(self, camera, id):
         
+        #Set model and projectile paths
         self.gunPath = NodePath("gun")
         self.gunPath.reparentTo(base.camera)
+        self.gunPath.setPos(1,15,-4)
         self.gunModel = loader.loadModel("resources/gunmodel")
         self.gunModel.reparentTo(self.gunPath)
-        self.gunPath.setPos(1,15,-4)
         self.gunModel.setPos(-.5,-12,3.1)
         self.gunModel.setHpr(0,180,180)
 
     def fire(self):
-
+        
+        #Spawn projectile, add it to taskMgr and play sfx
         proj = Projectile(self.gunPath, base.camera, len(base.projectileList))
         base.taskMgr.add(proj.moveTask, "move projectile")
         base.projectileList.append(proj)
         shotSfx = base.loader.loadSfx("./resources/sounds/recursion_rifle.wav")
         shotSfx.setVolume(.4)
         shotSfx.play()
+        
         print "Shots fired: ", len(base.projectileList)
 
 #Max Heao Blunderbuss
@@ -50,21 +53,26 @@ class MHB(object):
    
     def __init__(self, camera, id):
         
+        #Set model and projectile paths
         self.gunPath = NodePath("gun")
         self.gunPath.reparentTo(base.camera)
+        self.gunPath.setPos(1,8,-4)
         self.gunModel = loader.loadModel("resources/gunmodel")
         self.gunModel.reparentTo(self.gunPath)
-        self.gunPath.setPos(1,8,-4)
         self.gunModel.setPos(-.5,-12,3.1)
         self.gunModel.setHpr(0,180,180)
 
     def fire(self):
-
+        
+        #Spawn 20 projectiles, add them to taskMgr and play sfx
         for i in range(1,20):
+
             proj = MHBProjectile(self.gunPath, base.camera, len(base.projectileList), i)
             base.taskMgr.add(proj.moveTask, "move projectile")
             base.projectileList.append(proj)
+        
         shotSfx = base.loader.loadSfx("resources/sounds/blunderbuss.wav")
         shotSfx.setVolume(.4)
         shotSfx.play()
+        
         print "Shots fired: ", len(base.projectileList)

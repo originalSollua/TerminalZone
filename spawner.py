@@ -26,7 +26,8 @@ from direct.showbase.DirectObject import DirectObject
 class Spawner(DirectObject):
    
     def __init__(self, level):
-        # Get the maximum and minimum coordinates of the level
+        
+        #Get the maximum and minimum coordinates of the level
         mini, maxi = level.getTightBounds()
         self.mini = [int(mini[0]), int(mini[1])]
         self.maxi = [int(maxi[0]), int(maxi[1])]
@@ -37,7 +38,8 @@ class Spawner(DirectObject):
         
         # If there is room, spawn and move an enemy to a random location
         if self.spawnableCount < 5:
-            # Create new enemy with 'num' model
+           
+            #Create new enemy with 'num' model
             self.spawnEnemy(1, self.spawnableCount)
 
             # Increase enemy count and return task
@@ -48,8 +50,10 @@ class Spawner(DirectObject):
     def spawnEnemy(self, modelNum, id):
 
         if modelNum == 1:
+            
             enemyModel = "resources/humanoid"
         else:
+            
             print "Invalid Model Number Given"
 
         enemy = Enemy(enemyModel, id,1)

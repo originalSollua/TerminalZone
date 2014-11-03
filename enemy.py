@@ -23,17 +23,23 @@ from direct.showbase.DirectObject import DirectObject
 from panda3d.ai import AIWorld, AICharacter
 
 class Enemy(DirectObject):
+    
+    #Flag for detecting hit enemy
     delFlag = False
+
     def __init__(self, model, id, ai):
+        
+        #init and render
         self.enemyNode = NodePath('enemy'+str(id))
         self.AIWorld = AIWorld(base.render)
-
         self.enemyNode.reparentTo(base.render)
+
         # Load the enemy model, set the scale, and add to render
         self.enemy = Actor(model)
         self.enemy.setScale(0.2,0.2,0.2)
         self.enemy.reparentTo(self.enemyNode)
         
+        #Set behavior
         self.setAI(ai)
         
         #configure hit tube
@@ -44,27 +50,36 @@ class Enemy(DirectObject):
         yBot = yTop
         zBot = zTop-10
         cs = CollisionTube(xTop, yTop, zTop, xBot, yBot, zBot, 20)
+        
+        #init cnode
         cnodepath = self.enemy.attachNewNode(CollisionNode('cnode'+str(id)))
         cnodepath.node().addSolid(cs)
-        #cnodepath.show() 
-        # so we can walk into the enimies
+        #cnodepath.show()
+
+        #so we can walk into the enimies
         self.chand = CollisionHandlerEvent()
         
         # must be same cTrav that was set in player, global collider thing
         base.cTrav.addCollider(cnodepath, self.chand)
-        self.accept('cnode'+str(id), self.hite)
+        self.accept('cnode'+str(id), self.hit)
+    
     def setPos(self, x, y, z):
-		self.enemy.setPos(x, y, z)
+		
+        #Set enemy position
+        self.enemy.setPos(x, y, z)
         
 
-    def hite(self):
+    def hit(self):
+
         #access the thing hit like below, the parrent of the collision node
-        # damage helth ect below
+        #damage health etc below
         self.delFlag = True
         self.enemy.cleanup()
 
     def setAI(self, ai):
+       
         if ai == 1:
+
             # Flag this as an AI character
             self.AIchar = AICharacter("chase", self.enemy, 100,0.05,5)
             self.AIWorld.addAiChar(self.AIchar)
@@ -75,6 +90,7 @@ class Enemy(DirectObject):
         base.taskMgr.add(self.AIUpdate, "Update AI")
 
     def AIUpdate(self,task):
+        
         self.AIWorld.update()
         return task.cont
 

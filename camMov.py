@@ -23,26 +23,32 @@ from math import pi,sin,cos
 from direct.task import Task
 from direct.showbase.DirectObject import DirectObject
 
-from weapons import *
 class CameraMovement(DirectObject):
    
 
     # Takes in a cameraModel and sets up key listeners
     def __init__(self, cameraModel):
         
+        #Make keyMap globa
         self.keyMap = base.keyMap
+
+        #Reparent camera to cameraModel
         self.cameraModel = cameraModel
         camera.reparentTo(cameraModel)
         camera.setZ(base.camera, 4)
 
     # Determines the movement and pitch of the camera
     def cameraControl(self,task):
+        
         dt = globalClock.getDt()
+        
         if(dt > .20):
+            
             return task.cont
     
         #Calls the pause menu
         if(self.keyMap["m"] == True):
+            
             #self.pm = PauseMenu()
             base.taskMgr.add(PauseMenu().controlPause, "pauseMenu")
             
@@ -50,39 +56,51 @@ class CameraMovement(DirectObject):
         mouse = base.win.getPointer(0)
         x = mouse.getX()
         y = mouse.getY()
+        
         if base.win.movePointer(0, base.win.getXSize()/2, base.win.getYSize()/2):
+            
             self.cameraModel.setH(self.cameraModel.getH() - (x - base.win.getXSize()/2)*0.1)
             base.camera.setP(base.camera.getP() - (y - base.win.getYSize()/2)*0.1)
 
         # Changes the position of the cameraModel based on which keys are currently pressed
         if(self.keyMap["w"] == True):
+            
             if(self.keyMap["a"] == True):
+                
                 self.cameraModel.setX(self.cameraModel, -10 * dt)
                 self.cameraModel.setY(self.cameraModel, 15 * dt)
                 return task.cont
             elif(self.keyMap["d"] == True):
+                
                 self.cameraModel.setX(self.cameraModel, 10 * dt)
                 self.cameraModel.setY(self.cameraModel, 15 * dt)
                 return task.cont
             else:
+                
                 self.cameraModel.setY(self.cameraModel, 15 * dt)
                 return task.cont
         elif(self.keyMap["s"] == True):
+            
             if(self.keyMap["a"] == True):
+                
                 self.cameraModel.setX(self.cameraModel, -10 * dt)
                 self.cameraModel.setY(self.cameraModel, -15 * dt)
                 return task.cont
             elif(self.keyMap["d"] == True):
+                
                 self.cameraModel.setX(self.cameraModel, 10 * dt)
                 self.cameraModel.setY(self.cameraModel, -15 * dt)
                 return task.cont
             else:
+                
                 self.cameraModel.setY(self.cameraModel, -15 * dt)
                 return task.cont
         elif(self.keyMap["a"] == True):
+            
             self.cameraModel.setX(self.cameraModel, -10 * dt)
             return task.cont
         elif(self.keyMap["d"] == True):
+            
             self.cameraModel.setX(self.cameraModel, 10 * dt)
             return task.cont
         else:
