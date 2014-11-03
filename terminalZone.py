@@ -45,6 +45,7 @@ class GameStart(ShowBase):
         self.disableMouse()
 
         self.music = base.loader.loadMusic("./resources/sounds/test.wav")
+        self.music.setLoop(True)
         self.music.play()
 
         # Create new collision system
