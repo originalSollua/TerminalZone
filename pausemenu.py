@@ -14,9 +14,12 @@
 # of the level you are on.
 #======================================================================#
 
+import sys
+
 from panda3d.core import *
 from panda3d.core import OrthographicLens
 from direct.filter.CommonFilters import CommonFilters
+from direct.gui.DirectGui import *
 
 class PauseMenu(object):
 
@@ -35,5 +38,10 @@ class PauseMenu(object):
         cam.reparentTo(myRender)
         pregion.setCamera(cam)
         
-        filter = CommonFilters(base.win, cam)
-        filter.setBlurSharpen()
+        aspectRatio = base.getAspectRatio()
+        myAspect = myRender.attachNewNode(PGTop('myAspect'))
+        myAspect.setScale(1.0 / aspectRatio, 1.0, 1.0)
+        myAspect.node().setMouseWatcher(base.mouseWatcherNode)
+        
+        exitButton = DirectButton(myAspect, text=("Exit","Exit","Exit","Exit"), scale = .1, command = sys.exit)
+        
