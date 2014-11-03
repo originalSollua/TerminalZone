@@ -52,7 +52,7 @@ class GameStart(ShowBase):
         base.cTrav = CollisionTraverser()
         base.pusher = CollisionHandlerPusher()
         # Load Environment
-        self.environ = self.loader.loadModel("resources/debug")
+        self.environ = self.loader.loadModel("resources/chasm")
         self.environ.reparentTo(self.render)
         self.environ.setScale(0.5,0.5,0.5)
 
