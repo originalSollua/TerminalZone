@@ -46,7 +46,7 @@ class Enemy(DirectObject):
         cs = CollisionTube(xTop, yTop, zTop, xBot, yBot, zBot, 20)
         cnodepath = self.enemy.attachNewNode(CollisionNode('cnode'+str(id)))
         cnodepath.node().addSolid(cs)
-        cnodepath.show() 
+        #cnodepath.show() 
         # so we can walk into the enimies
         self.chand = CollisionHandlerEvent()
         

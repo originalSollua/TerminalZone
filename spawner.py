@@ -36,7 +36,7 @@ class Spawner(DirectObject):
     def checkSpawn(self,task):
         
         # If there is room, spawn and move an enemy to a random location
-        if self.spawnableCount < 20:
+        if self.spawnableCount < 5:
             # Create new enemy with 'num' model
             self.spawnEnemy(1, self.spawnableCount)
 

@@ -55,7 +55,7 @@ class GameStart(ShowBase):
         self.environ = self.loader.loadModel("resources/chasm")
         self.environ.reparentTo(self.render)
         # debug scalling (0.5, 0.5, 0.5)
-        self.environ.setScale(0.5,0.5,0.5)
+        self.environ.setScale(7,7,3)
 
         #!! Test load for monkey, will remove later !!#
         self.monkey = self.loader.loadModel("resources/lordMonkey")
