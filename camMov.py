@@ -29,59 +29,12 @@ class CameraMovement(DirectObject):
 
     # Takes in a cameraModel and sets up key listeners
     def __init__(self, cameraModel):
-       
+        
+        self.keyMap = base.keyMap
         self.cameraModel = cameraModel
         camera.reparentTo(cameraModel)
         camera.setZ(base.camera, 4)
 
-        self.weaponMap = {1:RecursionRifle(base.camera, len(base.projectileList)), 2:MHB(base.camera, len(base.projectileList))}
-        self.curWeapon = 1
-
-        self.keyMap = {"w":False, "s":False, "a":False, "d":False, "m":False}
-
-        self.accept("escape", sys.exit, [0])
-
-        self.accept("w", self.setKey, ["w", True])
-        self.accept("s", self.setKey, ["s", True])
-        self.accept("a", self.setKey, ["a", True])
-        self.accept("d", self.setKey, ["d", True])
-        self.accept("m", self.setKey, ["m", True])
-
-        self.accept("w-up", self.setKey, ["w", False])
-        self.accept("s-up", self.setKey, ["s", False])
-        self.accept("a-up", self.setKey, ["a", False])
-        self.accept("d-up", self.setKey, ["d", False])
-
-        self.accept("mouse1", self.fireWeapon)
-        self.accept("mouse3", self.swapWeapon)
-
-        self.accept("arrow_up", self.setKey, ["w", True])
-        self.accept("arrow_down", self.setKey, ["s", True])
-        self.accept("arrow_left", self.setKey, ["a", True])
-        self.accept("arrow_right", self.setKey, ["d", True])
-        
-        self.accept("arrow_up-up", self.setKey, ["w", False])
-        self.accept("arrow_down-up", self.setKey, ["s", False])
-        self.accept("arrow_left-up", self.setKey, ["a", False])
-        self.accept("arrow_right-up", self.setKey, ["d", False])
-		
-        
-
-    # Changes the states of the keys pressed
-    def setKey(self, key, value):
-        self.keyMap[key] = value
-
-    def swapWeapon(self): 
-        if  self.curWeapon == 1:
-            
-            self.curWeapon = 2
-        else:
-
-            self.curWeapon = 1
-
-    def fireWeapon(self):
-	    self.weaponMap[self.curWeapon].fire()
-		
     # Determines the movement and pitch of the camera
     def cameraControl(self,task):
         dt = globalClock.getDt()

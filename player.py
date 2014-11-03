@@ -16,20 +16,21 @@
 #
 #======================================================================#
 
-
 from camMov import CameraMovement
+from weapons import *
 
 from direct.gui.OnscreenImage import OnscreenImage
 from panda3d.core import CollisionNode, CollisionSphere, CollisionRay, CollisionHandlerGravity
 from panda3d.core import NodePath, BitMask32, TransparencyAttrib, Filename
-
-class Player(object):
+from direct.showbase.DirectObject import DirectObject
+class Player(DirectObject):
     #using this to be our player
     #define things like health in here
     #have to tie the camera to this
     #game manager ->player ->camera as far as instantiating goes
 
     def __init__(self):
+        
         self.playerNode = NodePath('player')
         self.playerNode.reparentTo(render)
         self.playerNode.setPos(0,-30,30)
@@ -37,9 +38,16 @@ class Player(object):
         self.playerNode.setScale(1.0)
         cameraModel = loader.loadModel("models/camera")
         cameraModel.reparentTo(self.playerNode)
-        #cameraModel.hide()
+        cameraModel.hide()
         cameraModel.setPos(0,0,2)
-
+        
+        #Weapons
+        self.weaponMap = {1:RecursionRifle(base.camera, len(base.projectileList)), 2:MHB(base.camera, len(base.projectileList))}
+        self.curWeapon = 1
+        
+        self.accept("mouse1", self.fireWeapon)
+        self.accept("mouse3", self.swapWeapon)
+        
         
         #HUD
         hud = OnscreenImage("resources/hud.png")
@@ -49,8 +57,24 @@ class Player(object):
         base.taskMgr.add(CameraMovement(cameraModel).cameraControl, "cameraControl")
         self.createColision()
 
+		
+    
+
+    def swapWeapon(self): 
+
+        if  self.curWeapon == 1:
+            
+            self.curWeapon = 2
+        else:
+
+            self.curWeapon = 1
+
+    def fireWeapon(self):
+
+	    self.weaponMap[self.curWeapon].fire()
 
     def createColision(self):
+        
         # Set up floor collision handler
         base.floor = CollisionHandlerGravity()
         base.floor.setGravity(9.8)
@@ -66,6 +90,7 @@ class Player(object):
         base.cTrav.addCollider(floorCollRayPath, base.floor)
 
     def initCollisionSphere(self, obj):
+        
         # Create sphere and attach to player
         cNode = CollisionNode('player')
 

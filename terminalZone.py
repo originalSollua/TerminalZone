@@ -62,17 +62,54 @@ class GameStart(ShowBase):
         self.monkey.reparentTo(render)
         self.monkey.setScale(3.5,3.5,3.5)
 
+        #Inistialize keys
+        self.keyMap = {"w":False, "s":False, "a":False, "d":False, "m":False}
+
         # Init player here
         # Make camera a part of player
         self.player = Player()
 
-        # Create spawner open on current level
+        # Create spawner open on crrent level
         self.spawner = Spawner(self.environ)
 
         base.taskMgr.add(self.spawner.checkSpawn, "Spawn Enemies")
         
         base.taskMgr.add(self.projCleanTask, "Projectile Clean Up")
         base.taskMgr.add(self.enemyCleanUp, "enemyCleanup")
+    
+        
+
+
+        #Controls
+        self.accept("escape", sys.exit, [0])
+        
+        #WASD controls
+        self.accept("w", self.setKey, ["w", True])
+        self.accept("s", self.setKey, ["s", True])
+        self.accept("a", self.setKey, ["a", True])
+        self.accept("d", self.setKey, ["d", True])
+        self.accept("m", self.setKey, ["m", True])
+        
+        self.accept("w-up", self.setKey, ["w", False])
+        self.accept("s-up", self.setKey, ["s", False])
+        self.accept("a-up", self.setKey, ["a", False])
+        self.accept("d-up", self.setKey, ["d", False])
+        
+        #Arrow controls
+        self.accept("arrow_up", self.setKey, ["w", True])
+        self.accept("arrow_down", self.setKey, ["s", True])
+        self.accept("arrow_left", self.setKey, ["a", True])
+        self.accept("arrow_right", self.setKey, ["d", True])
+        
+        self.accept("arrow_up-up", self.setKey, ["w", False])
+        self.accept("arrow_down-up", self.setKey, ["s", False])
+        self.accept("arrow_left-up", self.setKey, ["a", False])
+        self.accept("arrow_right-up", self.setKey, ["d", False])
+    
+    # Changes the states of the keys pressed
+    def setKey(self, key, value):
+        self.keyMap[key] = value
+
     def projCleanTask(self, task):
         #using this task to find all the projectiles in the projList
         #that have reached the end of their lifespan
