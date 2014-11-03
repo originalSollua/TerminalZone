@@ -38,7 +38,7 @@
   <Scalar> emitb { 0.000000 }
 }
 
-<Texture> Texture.001 {
+<Texture> Texture {
   "./tex/badStuff.jpg"
   <Scalar> envtype { MODULATE }
   <Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
@@ -46,7 +46,7 @@
   <Scalar> wrap { REPEAT }
 }
 
-<Texture> Texture.002 {
+<Texture> Texture.001 {
   "./tex/motherboard.jpg"
   <Scalar> envtype { MODULATE }
   <Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
@@ -54,7 +54,7 @@
   <Scalar> wrap { REPEAT }
 }
 
-<Texture> Texture {
+<Texture> Texture.002 {
   "./tex/walls.jpg"
   <Scalar> envtype { MODULATE }
   <Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
@@ -2443,302 +2443,362 @@
     
     
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.000000 0.000000 1.000000}
       <VertexRef> { 0 1 2 3 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.000000 0.000000 1.000000}
       <VertexRef> { 4 5 6 7 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.916442 -0.366501 -0.160657}
       <VertexRef> { 8 9 10 11 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.000000 -0.959879 0.280414}
       <VertexRef> { 12 13 14 15 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.000000 0.000000 1.000000}
       <VertexRef> { 16 17 18 19 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.000000 -0.959879 0.280414}
       <VertexRef> { 20 21 22 23 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {-0.916442 -0.366501 -0.160657}
       <VertexRef> { 24 25 26 27 28 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.000000 0.000000 1.000000}
       <VertexRef> { 29 30 31 32 33 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.000000 0.000000 1.000000}
       <VertexRef> { 34 35 36 37 38 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.000000 0.000000 1.000000}
       <VertexRef> { 39 40 41 42 43 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.000000 0.000000 1.000000}
       <VertexRef> { 44 45 46 47 48 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.000000 0.000000 1.000000}
       <VertexRef> { 49 50 51 52 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.000000 0.000000 1.000000}
       <VertexRef> { 53 54 55 56 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.000000 0.000000 1.000000}
       <VertexRef> { 57 58 59 60 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.000000 0.000000 1.000000}
       <VertexRef> { 61 62 63 64 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.000000 0.000000 1.000000}
       <VertexRef> { 65 66 67 68 69 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {-0.887157 0.442837 -0.129801}
       <VertexRef> { 70 71 72 73 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.000000 0.751324 -0.659933}
       <VertexRef> { 74 75 76 77 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.000000 0.959879 0.280414}
       <VertexRef> { 78 79 80 81 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.000000 0.959879 0.280414}
       <VertexRef> { 82 83 84 85 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.000000 0.000000 1.000000}
       <VertexRef> { 86 87 88 89 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.000000 0.000000 1.000000}
       <VertexRef> { 90 91 92 93 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.000000 0.000000 1.000000}
       <VertexRef> { 94 95 96 97 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.000000 -0.650093 -0.759855}
       <VertexRef> { 98 99 100 101 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.000000 -0.959879 0.280414}
       <VertexRef> { 102 103 104 105 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.000000 0.000000 1.000000}
       <VertexRef> { 106 107 108 109 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.000000 0.000000 1.000000}
       <VertexRef> { 110 111 112 113 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.000000 0.000000 1.000000}
       <VertexRef> { 114 115 116 117 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.000000 -0.959879 0.280414}
       <VertexRef> { 118 119 120 121 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.000000 -0.959879 0.280414}
       <VertexRef> { 122 123 124 125 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.000000 0.959879 0.280414}
       <VertexRef> { 126 127 128 129 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.000000 0.959879 0.280414}
       <VertexRef> { 130 131 132 133 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.000000 0.000000 1.000000}
       <VertexRef> { 134 135 136 137 138 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.000000 0.000000 1.000000}
       <VertexRef> { 139 140 141 142 143 144 145 146 147 148 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.000000 0.000000 1.000000}
       <VertexRef> { 149 150 151 152 153 154 155 156 157 158 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.000000 0.000000 1.000000}
       <VertexRef> { 159 160 161 162 163 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.000000 0.000000 1.000000}
       <VertexRef> { 164 165 166 167 168 169 170 171 172 173 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.000000 0.000000 1.000000}
       <VertexRef> { 174 175 176 177 178 179 180 181 182 183 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.887157 0.442837 -0.129801}
       <VertexRef> { 184 185 186 187 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.000000 0.959879 0.280414}
       <VertexRef> { 188 189 190 191 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.000000 0.000000 1.000000}
       <VertexRef> { 192 193 194 195 196 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.000000 0.000000 1.000000}
       <VertexRef> { 197 198 199 200 201 202 203 204 205 206 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.000000 0.000000 1.000000}
 
       <VertexRef> { 207 208 209 210 211 212 213 214 215 216 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.000000 0.000000 1.000000}
       <VertexRef> { 217 218 219 220 221 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.000000 0.000000 1.000000}
       <VertexRef> { 222 223 224 225 226 227 228 229 230 231 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.000000 0.000000 1.000000}
       <VertexRef> { 232 233 234 235 236 237 238 239 240 241 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.000000 0.000000 1.000000}
       <VertexRef> { 242 243 244 245 246 247 248 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.000000 0.000000 1.000000}
       <VertexRef> { 249 250 251 252 253 254 255 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.000000 0.000000 1.000000}
       <VertexRef> { 256 257 258 259 260 261 262 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.000000 0.000000 1.000000}
       <VertexRef> { 263 264 265 266 267 268 269 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.000000 0.000000 1.000000}
       <VertexRef> { 270 271 272 273 274 275 276 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.000000 0.000000 1.000000}
       <VertexRef> { 277 278 279 280 281 282 283 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.000000 0.000000 1.000000}
       <VertexRef> { 284 285 286 287 288 289 290 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.000000 0.000000 1.000000}
       <VertexRef> { 291 292 293 294 295 296 297 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.002 }
       <MRef> { Material.002 }
       <Normal> {-0.999945 -0.005866 -0.008670}
       <VertexRef> { 298 299 300 301 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.001 }
       <MRef> { Material.001 }
       <Normal> {0.000000 0.000000 1.000000}
       <VertexRef> { 302 303 304 305 <Ref> { Plane }}
     }
-    <Polygon> {
+    <Polygon> { 
+      <TRef> { Texture }
       <MRef> { Material }
       <Normal> {0.000000 0.000000 1.000000}
       <VertexRef> { 306 307 308 309 310 311 312 313 314 315 316 317 318 319 320 321 322 323 324 325 <Ref> { Plane }}
     }
-    <Polygon> {
+    <Polygon> { 
+      <TRef> { Texture.002 }
       <MRef> { Material.002 }
       <Normal> {0.999263 0.000000 -0.038379}
       <VertexRef> { 326 327 328 329 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.002 }
       <MRef> { Material.002 }
       <Normal> {0.010923 -0.999940 0.000415}
       <VertexRef> { 330 331 332 333 <Ref> { Plane }}
     }
     <Polygon> {
+      <TRef> { Texture.002 }
       <MRef> { Material.002 }
       <Normal> {-0.000907 -0.999975 -0.006991}
       <VertexRef> { 334 335 336 337 <Ref> { Plane }}
