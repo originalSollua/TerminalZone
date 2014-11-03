@@ -14,9 +14,11 @@
 #
 #======================================================================#
 
+import os, sys
 from direct.gui.OnscreenImage import OnscreenImage
 from panda3d.core import CollisionNode, CollisionSphere, CollisionRay, CollisionHandlerGravity
 from panda3d.core import NodePath, BitMask32, TransparencyAttrib, Filename
+from direct.showbase.ShowBase import ShowBase
 
 from projectile import Projectile, MHBProjectile
 
@@ -38,7 +40,7 @@ class RecursionRifle(object):
         proj = Projectile(self.gunPath, base.camera, len(base.projectileList))
         base.taskMgr.add(proj.moveTask, "move projectile")
         base.projectileList.append(proj)
-        shotSfx = base.loader.loadSfx("resources/sounds/recursion_rifle.wav")
+        shotSfx = base.loader.loadSfx("./resources/sounds/recursion_rifle.wav")
         shotSfx.setVolume(.4)
         shotSfx.play()
         print "Shots fired: ", len(base.projectileList)
