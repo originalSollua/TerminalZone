@@ -51,7 +51,6 @@ class CameraMovement(DirectObject):
         self.accept("s-up", self.setKey, ["s", False])
         self.accept("a-up", self.setKey, ["a", False])
         self.accept("d-up", self.setKey, ["d", False])
-        self.accept("m-up", self.setKey, ["m", False])
 
         self.accept("mouse1", self.fireWeapon)
         self.accept("mouse3", self.swapWeapon)
@@ -91,7 +90,7 @@ class CameraMovement(DirectObject):
     
         #Calls the pause menu
         if(self.keyMap["m"] == True):
-            base.taskMgr.add(PauseMenu(), "pauseMenu")
+            self.pm = PauseMenu()
             
         # Calculate pitch of camera based on mouse position
         mouse = base.win.getPointer(0)
