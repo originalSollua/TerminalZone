@@ -22,7 +22,9 @@ from direct.filter.CommonFilters import CommonFilters
 from direct.gui.DirectGui import *
 
 class PauseMenu(object):
-
+    
+    myAspect = 0
+    
     def __init__(self):
         
         pregion = base.win.makeDisplayRegion()
@@ -39,9 +41,10 @@ class PauseMenu(object):
         pregion.setCamera(cam)
         
         aspectRatio = base.getAspectRatio()
-        myAspect = myRender.attachNewNode(PGTop('myAspect'))
-        myAspect.setScale(1.0 / aspectRatio, 1.0, 1.0)
-        myAspect.node().setMouseWatcher(base.mouseWatcherNode)
-        
-        exitButton = DirectButton(myAspect, text=("Exit","Exit","Exit","Exit"), scale = .1, command = sys.exit)
-        
+        self.myAspect = myRender.attachNewNode(PGTop('myAspect'))
+        self.myAspect.setScale(1.0 / aspectRatio, 1.0, 1.0)
+        self.myAspect.node().setMouseWatcher(base.mouseWatcherNode)
+    
+    #control the pause menu   
+    def controlPause(self, task):    
+        exitButton = DirectButton(self.myAspect, text=("Exit","Exit","Exit","Exit"), scale = .1, command = sys.exit)

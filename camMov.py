@@ -90,7 +90,8 @@ class CameraMovement(DirectObject):
     
         #Calls the pause menu
         if(self.keyMap["m"] == True):
-            self.pm = PauseMenu()
+            #self.pm = PauseMenu()
+            base.taskMgr.add(PauseMenu().controlPause, "pauseMenu")
             
         # Calculate pitch of camera based on mouse position
         mouse = base.win.getPointer(0)
