@@ -29,6 +29,7 @@ class Player(DirectObject):
     #define things like health in here
     #have to tie the camera to this
     #game manager ->player ->camera as far as instantiating goes
+    
     def __init__(self):
         
         self.playerNode = NodePath('player')
@@ -40,11 +41,12 @@ class Player(DirectObject):
         cameraModel.reparentTo(self.playerNode)
         #cameraModel.hide()
         cameraModel.setPos(0,0,2)
-        rRifle = RecursionRifle(base.camera, len(base.projectileList))
+        self.rRifle = RecursionRifle(base.camera, len(base.projectileList))
+        self.hBlunder = MHB(base.camera, len(base.projectileList))
         #Weapons
-        self.weaponMap = {1:rRifle, 2:MHB(base.camera, len(base.projectileList))}
+        self.weaponMap = {1:self.rRifle, 2:self.hBlunder}
         self.curWeapon = 1
-        
+        self.hBlunder.hide()
         self.accept("mouse1", self.fireWeapon)
         self.accept("mouse3", self.swapWeapon)
         
@@ -64,10 +66,12 @@ class Player(DirectObject):
         # ignore this print. using it to gather data about the size of the debug room
         print self.playerNode.getPos()
         if  self.curWeapon == 1:
-            
+            self.rRifle.hide()
+            self.hBlunder.show()
             self.curWeapon = 2
         else:
-
+            self.hBlunder.hide()
+            self.rRifle.show()
             self.curWeapon = 1
 
     def fireWeapon(self):
