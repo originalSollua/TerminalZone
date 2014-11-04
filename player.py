@@ -38,11 +38,11 @@ class Player(DirectObject):
         self.playerNode.setScale(1.0)
         cameraModel = loader.loadModel("models/camera")
         cameraModel.reparentTo(self.playerNode)
-        cameraModel.hide()
+        #cameraModel.hide()
         cameraModel.setPos(0,0,2)
-        
+        rRifle = RecursionRifle(base.camera, len(base.projectileList))
         #Weapons
-        self.weaponMap = {1:RecursionRifle(base.camera, len(base.projectileList)), 2:MHB(base.camera, len(base.projectileList))}
+        self.weaponMap = {1:rRifle, 2:MHB(base.camera, len(base.projectileList))}
         self.curWeapon = 1
         
         self.accept("mouse1", self.fireWeapon)
