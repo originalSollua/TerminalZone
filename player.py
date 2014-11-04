@@ -61,7 +61,8 @@ class Player(DirectObject):
     
 
     def swapWeapon(self): 
-
+        # ignore this print. using it to gather data about the size of the debug room
+        print self.playerNode.getPos()
         if  self.curWeapon == 1:
             
             self.curWeapon = 2
@@ -109,3 +110,4 @@ class Player(DirectObject):
         collRayNP = self.playerNode.attachNewNode(collNode)
         collRayNP.show()
         return collRayNP
+
