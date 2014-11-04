@@ -29,6 +29,7 @@ class Player(DirectObject):
     #define things like health in here
     #have to tie the camera to this
     #game manager ->player ->camera as far as instantiating goes
+    
     def __init__(self):
         
         self.playerNode = NodePath('player')
@@ -40,11 +41,12 @@ class Player(DirectObject):
         cameraModel.reparentTo(self.playerNode)
         #cameraModel.hide()
         cameraModel.setPos(0,0,2)
-        
+        self.rRifle = RecursionRifle(base.camera, len(base.projectileList))
+        self.hBlunder = MHB(base.camera, len(base.projectileList))
         #Weapons
-        self.weaponMap = {1:RecursionRifle(base.camera, len(base.projectileList)), 2:MHB(base.camera, len(base.projectileList))}
+        self.weaponMap = {1:self.rRifle, 2:self.hBlunder}
         self.curWeapon = 1
-        
+        self.hBlunder.hide()
         self.accept("mouse1", self.fireWeapon)
         self.accept("mouse3", self.swapWeapon)
         
@@ -68,6 +70,10 @@ class Player(DirectObject):
             self.weaponMap[1].reticle.setScale(0)    
             self.weaponMap[1].curScale = 0
             self.weaponMap[1].step = False
+           
+            self.rRifle.hide()
+            self.hBlunder.show()
+            
             self.curWeapon = 2
             self.weaponMap[2].reticle.setScale(.075)
             self.weaponMap[2].curScale = .075
@@ -76,6 +82,10 @@ class Player(DirectObject):
             self.weaponMap[2].reticle.setScale(0)
             self.weaponMap[2].curScale = 0
             self.weaponMap[2].step = False
+            
+            self.hBlunder.hide()
+            self.rRifle.show()
+            
             self.curWeapon = 1
             self.weaponMap[1].reticle.setScale(.025)
             self.weaponMap[1].curScale = .025
