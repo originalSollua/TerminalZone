@@ -38,7 +38,7 @@ class Player(DirectObject):
         self.playerNode.setScale(1.0)
         cameraModel = loader.loadModel("models/camera")
         cameraModel.reparentTo(self.playerNode)
-        cameraModel.hide()
+        #cameraModel.hide()
         cameraModel.setPos(0,0,2)
         
         #Weapons
@@ -65,10 +65,20 @@ class Player(DirectObject):
         print self.playerNode.getPos()
         if  self.curWeapon == 1:
             
+            self.weaponMap[1].reticle.setScale(0)    
+            self.weaponMap[1].curScale = 0
+            self.weaponMap[1].step = False
             self.curWeapon = 2
+            self.weaponMap[2].reticle.setScale(.075)
+            self.weaponMap[2].curScale = .075
         else:
-
+            
+            self.weaponMap[2].reticle.setScale(0)
+            self.weaponMap[2].curScale = 0
+            self.weaponMap[2].step = False
             self.curWeapon = 1
+            self.weaponMap[1].reticle.setScale(.025)
+            self.weaponMap[1].curScale = .025
 
     def fireWeapon(self):
 

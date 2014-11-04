@@ -27,7 +27,7 @@ class RecursionRifle(object):
     
     time = 0
     step = False
-    curScale = .02
+    curScale = .025
 
 
     def __init__(self, camera, id):
@@ -42,7 +42,6 @@ class RecursionRifle(object):
         self.gunModel.setHpr(0,180,180)
         self.reticle = OnscreenImage("./resources/reticle.png")
         self.reticle.setTransparency(True)
-        self.reticle.reparentTo(render2d)
         self.reticle.setScale(self.curScale)
         base.taskMgr.add(self.animate, "rrReticle")
 
@@ -61,12 +60,14 @@ class RecursionRifle(object):
     def animate(self, task):
     
         if task.time - self.time  > .05:
-            if self.curScale < .025 and self.step:
+            
+            self.reticle.setScale(self.curScale)
+            if self.curScale < .03 and self.step:
 
                 self.curScale += .001
                 self.reticle.setScale(self.curScale)
                 self.time = task.time
-                if self.curScale == .02:
+                if self.curScale >= .03:
 
                     self.step = False
             elif self.curScale > .01:
@@ -87,7 +88,7 @@ class MHB(object):
    
     time = 0
     step = False
-    curScale = .02
+    curScale = 0
     
     def __init__(self, camera, id):
         
@@ -101,8 +102,7 @@ class MHB(object):
         self.gunModel.setHpr(0,180,180)
         self.reticle = OnscreenImage("./resources/mhbReticle.png")
         self.reticle.setTransparency(True)
-        self.reticle.reparentTo(render2d)
-        self.reticle.setScale(self.curScale)
+        self.reticle.setScale(0)
         base.taskMgr.add(self.animate, "mhbReticle")
 
     def fire(self):
@@ -119,24 +119,26 @@ class MHB(object):
         shotSfx.play()
         
         print "Shots fired: ", len(base.projectileList)
-    
+
+
     def animate(self, task):
-    
-        if task.time - self.time  > .05:
-            if self.curScale < .025 and self.step:
+        
+        if task.time - self.time  > .025:
+            
+            if self.curScale < .08 and self.step:
 
                 self.curScale += .001
                 self.reticle.setScale(self.curScale)
                 self.time = task.time
-                if self.curScale == .02:
+                if self.curScale == .08:
 
                     self.step = False
-            elif self.curScale > .01:
+            elif self.curScale > .04:
 
                 self.curScale -= .001
                 self.reticle.setScale(self.curScale)
                 self.time = task.time
-                if self.curScale <= .01:
+                if self.curScale <= .04:
                     
                     self.step = True
 
