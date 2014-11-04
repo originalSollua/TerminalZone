@@ -27,7 +27,7 @@ class RecursionRifle(object):
     
     time = 0
     step = False
-    curScale = .025
+    curScale = .02
 
 
     def __init__(self, camera, id):
@@ -60,15 +60,23 @@ class RecursionRifle(object):
 
     def animate(self, task):
     
-        if task.time - self.time  > .1:
-            if self.curScale < .025:
-                self.curScale += .015
+        if task.time - self.time  > .05:
+            if self.curScale < .025 and self.step:
+
+                self.curScale += .001
                 self.reticle.setScale(self.curScale)
                 self.time = task.time
-            elif self.curScale > .001:
+                if self.curScale == .02:
+
+                    self.step = False
+            elif self.curScale > .01:
+
                 self.curScale -= .001
                 self.reticle.setScale(self.curScale)
                 self.time = task.time
+                if self.curScale <= .01:
+                    
+                    self.step = True
 
         return task.cont
         
