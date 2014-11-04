@@ -24,11 +24,11 @@ from panda3d.core import CollisionNode, CollisionSphere, CollisionRay, Collision
 from panda3d.core import NodePath, BitMask32, TransparencyAttrib, Filename
 from direct.showbase.DirectObject import DirectObject
 class Player(DirectObject):
+    
     #using this to be our player
     #define things like health in here
     #have to tie the camera to this
     #game manager ->player ->camera as far as instantiating goes
-
     def __init__(self):
         
         self.playerNode = NodePath('player')
