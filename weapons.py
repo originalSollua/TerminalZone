@@ -44,7 +44,7 @@ class RecursionRifle(object):
         self.reticle.setTransparency(True)
         self.reticle.reparentTo(render2d)
         self.reticle.setScale(self.curScale)
-        base.taskMgr.add(self.animate, "reticle")
+        base.taskMgr.add(self.animate, "rrReticle")
 
     def fire(self):
 
@@ -85,6 +85,10 @@ class RecursionRifle(object):
 #Max Heao Blunderbuss
 class MHB(object):
    
+    time = 0
+    step = False
+    curScale = .02
+    
     def __init__(self, camera, id):
         
         #Set model and projectile paths
@@ -95,6 +99,11 @@ class MHB(object):
         self.gunModel.reparentTo(self.gunPath)
         self.gunModel.setPos(-.5,-12,3.1)
         self.gunModel.setHpr(0,180,180)
+        self.reticle = OnscreenImage("./resources/mhbReticle.png")
+        self.reticle.setTransparency(True)
+        self.reticle.reparentTo(render2d)
+        self.reticle.setScale(self.curScale)
+        base.taskMgr.add(self.animate, "mhbReticle")
 
     def fire(self):
         
@@ -110,3 +119,25 @@ class MHB(object):
         shotSfx.play()
         
         print "Shots fired: ", len(base.projectileList)
+    
+    def animate(self, task):
+    
+        if task.time - self.time  > .05:
+            if self.curScale < .025 and self.step:
+
+                self.curScale += .001
+                self.reticle.setScale(self.curScale)
+                self.time = task.time
+                if self.curScale == .02:
+
+                    self.step = False
+            elif self.curScale > .01:
+
+                self.curScale -= .001
+                self.reticle.setScale(self.curScale)
+                self.time = task.time
+                if self.curScale <= .01:
+                    
+                    self.step = True
+
+        return task.cont
