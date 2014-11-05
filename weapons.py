@@ -20,7 +20,7 @@ from panda3d.core import CollisionNode, CollisionSphere, CollisionRay, Collision
 from panda3d.core import NodePath, BitMask32, TransparencyAttrib, Filename
 from direct.showbase.ShowBase import ShowBase
 
-from projectile import Projectile, MHBProjectile
+from projectile import *
 
 #Recursion Rifle
 class RecursionRifle(object):
@@ -49,7 +49,7 @@ class RecursionRifle(object):
     def fire(self):
 
         #Spawn projectile, add it to taskMgr and play sfx
-        proj = Projectile(self.gunPath, base.camera, len(base.projectileList))
+        proj = RRProjectile(self.gunPath, base.camera, len(base.projectileList))
         base.taskMgr.add(proj.moveTask, "move projectile")
         base.projectileList.append(proj)
         shotSfx = base.loader.loadSfx("./resources/sounds/recursion_rifle.wav")
@@ -112,6 +112,7 @@ class MHB(object):
         self.reticle.setScale(0)
         base.taskMgr.add(self.animate, "mhbReticle")
         self.gunModel.setColor(0, 0, 0)
+    
     def fire(self):
         
         #Spawn 20 projectiles, add them to taskMgr and play sfx
@@ -197,7 +198,8 @@ class KeyValue(object):
 
         if self.fireRight:
             #Spawn projectile, add it to taskMgr and play sfx
-            proj = Projectile(self.gunPath1, base.camera, len(base.projectileList))
+            proj = KVProjectile(self.gunPath1, base.camera, len(base.projectileList))
+            proj.projectileModel.setColor(0, 0, 255)
             base.taskMgr.add(proj.moveTask, "move projectile")
             base.projectileList.append(proj)
             shotSfx = base.loader.loadSfx("./resources/sounds/recursion_rifle.wav")
@@ -207,7 +209,8 @@ class KeyValue(object):
             self.fireLeft = True
         else:
             #Spawn projectile, add it to taskMgr and play sfx
-            proj = Projectile(self.gunPath2, base.camera, len(base.projectileList))
+            proj = KVProjectile(self.gunPath2, base.camera, len(base.projectileList))
+            proj.projectileModel.setColor(255, 0, 0)
             base.taskMgr.add(proj.moveTask, "move projectile")
             base.projectileList.append(proj)
             shotSfx = base.loader.loadSfx("./resources/sounds/recursion_rifle.wav")
