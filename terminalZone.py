@@ -49,7 +49,7 @@ class GameStart(ShowBase):
         self.disableMouse()
 
         #Loop music
-        self.music = base.loader.loadMusic("./resources/sounds/test.wav")
+        self.music = base.loader.loadMusic("./resources/sounds/music.wav")
         self.music.setLoop(True)
         self.music.play()
 
