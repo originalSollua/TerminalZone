@@ -40,7 +40,7 @@ class RecursionRifle(object):
         self.gunModel.reparentTo(self.gunPath)
         self.gunModel.setPos(camera,.7,3,-.9)
         self.gunModel.setHpr(0,180,180)
-        self.gunModel.setColor(255, 0, 0)
+        self.gunModel.setColor(0, 255, 0)
         self.reticle = OnscreenImage("./resources/reticle.png")
         self.reticle.setTransparency(True)
         self.reticle.setScale(self.curScale)
@@ -81,6 +81,7 @@ class RecursionRifle(object):
                     self.step = True
 
         return task.cont
+    
     def hide(self):
 
         self.gunModel.hide()
@@ -110,7 +111,7 @@ class MHB(object):
         self.reticle.setTransparency(True)
         self.reticle.setScale(0)
         base.taskMgr.add(self.animate, "mhbReticle")
-        self.gunModel.setColor(0, 0, 255)
+        self.gunModel.setColor(0, 0, 0)
     def fire(self):
         
         #Spawn 20 projectiles, add them to taskMgr and play sfx
@@ -149,6 +150,7 @@ class MHB(object):
                     self.step = True
 
         return task.cont
+    
     def hide(self):
         
         self.gunModel.hide()
@@ -156,3 +158,96 @@ class MHB(object):
     def show(self):
         
         self.gunModel.show()
+
+class KeyValue(object):
+    
+    time = 0
+    step = False
+    curScale = 0
+    fireRight = True
+    fireLeft = False
+
+    def __init__(self, camera, id):
+        print "guns init"
+        #Set model and projectile paths
+        self.gunPath1 = NodePath("gun")
+        self.gunPath1.reparentTo(base.camera)
+        self.gunPath1.setPos(.9 ,10,-3.5)
+        self.gunModel1 = loader.loadModel("./resources/gunmodel")
+        self.gunModel1.reparentTo(self.gunPath1)
+        self.gunModel1.setPos(camera,.7,3,-.9)
+        self.gunModel1.setHpr(0,180,180)
+        self.gunModel1.setColor(255, 0, 0)
+
+        self.gunPath2 = NodePath("gun")
+        self.gunPath2.reparentTo(base.camera)
+        self.gunPath2.setPos(-.85 ,10,-3.5)
+        self.gunModel2 = loader.loadModel("./resources/gunmodel")
+        self.gunModel2.reparentTo(self.gunPath2)
+        self.gunModel2.setPos(camera,-.65,3,-.9)
+        self.gunModel2.setHpr(0,180,180)
+        self.gunModel2.setColor(0, 0, 255)
+
+        self.reticle = OnscreenImage("./resources/kvReticle.png")
+        self.reticle.setTransparency(True)
+        self.reticle.setScale(0)
+        base.taskMgr.add(self.animate, "kvReticle")
+
+    def fire(self):
+
+        if self.fireRight:
+            #Spawn projectile, add it to taskMgr and play sfx
+            proj = Projectile(self.gunPath1, base.camera, len(base.projectileList))
+            base.taskMgr.add(proj.moveTask, "move projectile")
+            base.projectileList.append(proj)
+            shotSfx = base.loader.loadSfx("./resources/sounds/recursion_rifle.wav")
+            shotSfx.setVolume(.4)
+            shotSfx.play()
+            self.fireRight = False
+            self.fireLeft = True
+        else:
+            #Spawn projectile, add it to taskMgr and play sfx
+            proj = Projectile(self.gunPath2, base.camera, len(base.projectileList))
+            base.taskMgr.add(proj.moveTask, "move projectile")
+            base.projectileList.append(proj)
+            shotSfx = base.loader.loadSfx("./resources/sounds/recursion_rifle.wav")
+            shotSfx.setVolume(.4)
+            shotSfx.play()
+            self.fireRight = True
+            self.fireLeft = False
+        
+        print "Shots fired: ", len(base.projectileList)
+
+    def animate(self, task):
+    
+        if task.time - self.time  > .05:
+            
+            self.reticle.setScale(self.curScale)
+            if self.curScale < .03 and self.step:
+
+                self.curScale += .001
+                self.reticle.setScale(self.curScale)
+                self.time = task.time
+                if self.curScale >= .03:
+
+                    self.step = False
+            elif self.curScale > .01:
+
+                self.curScale -= .001
+                self.reticle.setScale(self.curScale)
+                self.time = task.time
+                if self.curScale <= .01:
+                    
+                    self.step = True
+
+        return task.cont
+   
+    def hide(self):
+
+        self.gunModel1.hide()
+        self.gunModel2.hide()
+
+    def show(self):
+
+        self.gunModel1.show()
+        self.gunModel2.show()

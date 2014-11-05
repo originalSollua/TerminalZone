@@ -26,7 +26,7 @@ from direct.showbase.DirectObject import DirectObject
 class Player(DirectObject):
     
     #using this to be our player
-    #define things like health in here
+    #define tehings like health in here
     #have to tie the camera to this
     #game manager ->player ->camera as far as instantiating goes
     
@@ -42,11 +42,13 @@ class Player(DirectObject):
         #cameraModel.hide()
         cameraModel.setPos(0,0,2)
         self.rRifle = RecursionRifle(base.camera, len(base.projectileList))
-        self.hBlunder = MHB(base.camera, len(base.projectileList))
+        self.mhBlunder = MHB(base.camera, len(base.projectileList))
+        self.kvDuals = KeyValue(base.camera, len(base.projectileList))
         #Weapons
-        self.weaponMap = {1:self.rRifle, 2:self.hBlunder}
+        self.weaponMap = {1:self.rRifle, 2:self.mhBlunder, 3:self.kvDuals}
         self.curWeapon = 1
-        self.hBlunder.hide()
+        self.mhBlunder.hide()
+        self.kvDuals.hide()
         self.accept("mouse1", self.fireWeapon)
         self.accept("mouse3", self.swapWeapon)
         
@@ -72,23 +74,36 @@ class Player(DirectObject):
             self.weaponMap[1].step = False
            
             self.rRifle.hide()
-            self.hBlunder.show()
+            self.mhBlunder.show()
             
             self.curWeapon = 2
             self.weaponMap[2].reticle.setScale(.075)
             self.weaponMap[2].curScale = .075
-        else:
+        elif self.curWeapon == 2:
             
             self.weaponMap[2].reticle.setScale(0)
             self.weaponMap[2].curScale = 0
             self.weaponMap[2].step = False
             
-            self.hBlunder.hide()
+            self.mhBlunder.hide()
+            self.kvDuals.show()
+            
+            self.curWeapon = 3
+            self.weaponMap[3].reticle.setScale(.025)
+            self.weaponMap[3].curScale = .025
+        else:
+            print "Hello"
+            self.weaponMap[3].reticle.setScale(0)
+            self.weaponMap[3].curScale = 0
+            self.weaponMap[3].step = False
+            
+            self.kvDuals.hide()
             self.rRifle.show()
             
             self.curWeapon = 1
             self.weaponMap[1].reticle.setScale(.025)
             self.weaponMap[1].curScale = .025
+
 
     def fireWeapon(self):
 
