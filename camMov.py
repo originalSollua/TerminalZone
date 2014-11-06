@@ -63,14 +63,14 @@ class CameraMovement(DirectObject):
             base.camera.setP(base.camera.getP() - (y - base.win.getYSize()/2)*0.1)
 
         # Changes the position of the cameraModel based on which keys are currently pressed
-        if(self.keyMap["w"] == True):
+        if(self.keyMap["forward"] == True):
             
-            if(self.keyMap["a"] == True):
+            if(self.keyMap["left"] == True):
                 
                 self.cameraModel.setX(self.cameraModel, -10 * dt)
                 self.cameraModel.setY(self.cameraModel, 15 * dt)
                 return task.cont
-            elif(self.keyMap["d"] == True):
+            elif(self.keyMap["right"] == True):
                 
                 self.cameraModel.setX(self.cameraModel, 10 * dt)
                 self.cameraModel.setY(self.cameraModel, 15 * dt)
@@ -79,14 +79,14 @@ class CameraMovement(DirectObject):
                 
                 self.cameraModel.setY(self.cameraModel, 15 * dt)
                 return task.cont
-        elif(self.keyMap["s"] == True):
+        elif(self.keyMap["backward"] == True):
             
-            if(self.keyMap["a"] == True):
+            if(self.keyMap["left"] == True):
                 
                 self.cameraModel.setX(self.cameraModel, -10 * dt)
                 self.cameraModel.setY(self.cameraModel, -15 * dt)
                 return task.cont
-            elif(self.keyMap["d"] == True):
+            elif(self.keyMap["right"] == True):
                 
                 self.cameraModel.setX(self.cameraModel, 10 * dt)
                 self.cameraModel.setY(self.cameraModel, -15 * dt)
@@ -95,11 +95,11 @@ class CameraMovement(DirectObject):
                 
                 self.cameraModel.setY(self.cameraModel, -15 * dt)
                 return task.cont
-        elif(self.keyMap["a"] == True):
+        elif(self.keyMap["left"] == True):
             
             self.cameraModel.setX(self.cameraModel, -10 * dt)
             return task.cont
-        elif(self.keyMap["d"] == True):
+        elif(self.keyMap["right"] == True):
             
             self.cameraModel.setX(self.cameraModel, 10 * dt)
             return task.cont

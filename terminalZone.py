@@ -34,7 +34,10 @@ class GameStart(ShowBase):
     #Lists for storing entities
     projectileList = []
     enemyList = []
-
+        
+    #Initialize keys
+    keyMap = {"forward":False, "backward":False, "left":False, "right":False, "m":False}
+    
     def __init__(self):
         
         #Start ShowBase
@@ -70,9 +73,6 @@ class GameStart(ShowBase):
         self.monkey.reparentTo(render)
         self.monkey.setScale(3.5,3.5,3.5)
 
-        #Inistialize keys
-        self.keyMap = {"w":False, "s":False, "a":False, "d":False, "m":False}
-
         #Init player here
         self.player = Player()
 
@@ -84,31 +84,30 @@ class GameStart(ShowBase):
         base.taskMgr.add(self.projCleanTask, "Projectile Clean Up")
         base.taskMgr.add(self.enemyCleanUp, "enemyCleanup")
 
+        #Open file to get configs
+        self.configFile = open("config.txt")
+        self.configList = self.configFile.readlines()
+
+        #Get movement controls
+        self.forward = self.configList[0].split("=")[1].translate(None,"\n")
+        self.backward = self.configList[1].split("=")[1].translate(None,"\n")
+        self.left = self.configList[2].split("=")[1].translate(None,"\n")
+        self.right = self.configList[3].split("=")[1].translate(None,"\n")
+       
         #Controls
         self.accept("escape", sys.exit, [0])
         
-        #WASD controls
-        self.accept("w", self.setKey, ["w", True])
-        self.accept("s", self.setKey, ["s", True])
-        self.accept("a", self.setKey, ["a", True])
-        self.accept("d", self.setKey, ["d", True])
+        #Set Controls
+        self.accept(self.forward, self.setKey, ["forward", True])
+        self.accept(self.backward, self.setKey, ["backward", True])
+        self.accept(self.left, self.setKey, ["left", True])
+        self.accept(self.right, self.setKey, ["right", True])
         self.accept("m", self.setKey, ["m", True])
         
-        self.accept("w-up", self.setKey, ["w", False])
-        self.accept("s-up", self.setKey, ["s", False])
-        self.accept("a-up", self.setKey, ["a", False])
-        self.accept("d-up", self.setKey, ["d", False])
-        
-        #Arrow controls
-        self.accept("arrow_up", self.setKey, ["w", True])
-        self.accept("arrow_down", self.setKey, ["s", True])
-        self.accept("arrow_left", self.setKey, ["a", True])
-        self.accept("arrow_right", self.setKey, ["d", True])
-        
-        self.accept("arrow_up-up", self.setKey, ["w", False])
-        self.accept("arrow_down-up", self.setKey, ["s", False])
-        self.accept("arrow_left-up", self.setKey, ["a", False])
-        self.accept("arrow_right-up", self.setKey, ["d", False])
+        self.accept(self.forward+"-up", self.setKey, ["forward", False])
+        self.accept(self.backward+"-up", self.setKey, ["backward", False])
+        self.accept(self.left+"-up", self.setKey, ["left", False])
+        self.accept(self.right+"-up", self.setKey, ["right", False])
     
     # Changes the states of the keys pressed
     def setKey(self, key, value):
