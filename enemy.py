@@ -55,26 +55,30 @@ class Enemy(DirectObject):
         cnodepath = self.enemy.attachNewNode(CollisionNode('cnode'+str(id)))
         cnodepath.node().addSolid(cs)
         #cnodepath.show()
-
+        
         #so we can walk into the enimies
         self.chand = CollisionHandlerEvent()
         
         # must be same cTrav that was set in player, global collider thing
         base.cTrav.addCollider(cnodepath, self.chand)
         self.accept('cnode'+str(id), self.hit)
-    
+        # base settings like damage and health. modify spawner later to change these onec we have a more diverse population
+        self.health = 20
     def setPos(self, x, y, z):
 		
         #Set enemy position
         self.enemy.setPos(x, y, z)
         
 
-    def hit(self):
-
+    def hit(self, damage):
         #access the thing hit like below, the parrent of the collision node
         #damage health etc below
-        self.delFlag = True
-        self.enemy.cleanup()
+        self.health = self.health-damage
+        print self.health
+        if self.health <= 0:
+            self.delFlag = True
+            self.enemy.cleanup()
+            self.destroy()
 
     def setAI(self, ai):
        
@@ -93,4 +97,5 @@ class Enemy(DirectObject):
         
         self.AIWorld.update()
         return task.cont
-
+    def destroy(self):
+        del self

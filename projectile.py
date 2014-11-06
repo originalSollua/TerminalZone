@@ -69,12 +69,13 @@ class RRProjectile(DirectObject):
         
         #cTrav has the distinction of global colider handler
         base.cTrav.addCollider(cnodepath, self.collHand)
-        self.accept('into'+str(id), self.hit)
+        self.acceptOnce('into'+str(id), self.hit)
       
-	#deal with colliding or special effects here.
-	#wanted projectiles to be short lived
-	#so i will make them delete themselves after impact or time expired
-    #writing a task that will rek the projectiles at the end of time
+	    #deal with colliding or special effects here.
+	    #wanted projectiles to be short lived
+	    #so i will make them delete themselves after impact or time expired
+        #writing a task that will rek the projectiles at the end of time
+        self.damage = 10
     def moveTask(self, task):
         
         #curtime = time.clock()
@@ -108,11 +109,12 @@ class RRProjectile(DirectObject):
         if collEntry.getIntoNodePath().getName() != 'projNode':
            
             temp = collEntry.getIntoNodePath().getName()
-            messenger.send(temp) 
+            messenger.send(temp, [self.damage]) 
             
             #remove the impacting projectile
             collEntry.getFromNodePath().getParent().getParent().removeNode()
             self.flag =  True
+            del self
 
 class MHBProjectile(DirectObject):
     
@@ -172,12 +174,12 @@ class MHBProjectile(DirectObject):
         
         #cTrav has the distinction of global colider handler
         base.cTrav.addCollider(cnodepath, self.collHand)
-        self.accept('into'+str(id), self.hit)
-      
-	#deal with colliding or special effects here.
-	#wanted projectiles to be short lived
-	# so i will make them delete themselves after impact or time expired
-    # writing a task that will rek the projectiles at the end of time
+        self.acceptOnce('into'+str(id), self.hit)
+	    #deal with colliding or special effects here.
+	    #wanted projectiles to be short lived
+	    # so i will make them delete themselves after impact or time expired
+        # writing a task that will rek the projectiles at the end of time
+        self.damage = 2
     def moveTask(self, task):
         
         #curtime = time.clock()
@@ -205,19 +207,16 @@ class MHBProjectile(DirectObject):
             self.flag = True
             return task.done
         
-
     def hit(self, collEntry):
         
         # throw out a custom message for what hit
         if collEntry.getIntoNodePath().getName() != 'projNode':
             
             temp = collEntry.getIntoNodePath().getName()
-            messenger.send(temp) 
-            
+            messenger.send(temp, [self.damage]) 
             #remove the impacting projectile
             collEntry.getFromNodePath().getParent().getParent().removeNode()
             self.flag =  True
-
 class KVProjectile(DirectObject):
     
     #Property stuff
@@ -261,12 +260,13 @@ class KVProjectile(DirectObject):
         
         #cTrav has the distinction of global colider handler
         base.cTrav.addCollider(cnodepath, self.collHand)
-        self.accept('into'+str(id), self.hit)
+        self.acceptOnce('into'+str(id), self.hit)
       
-	#deal with colliding or special effects here.
-	#wanted projectiles to be short lived
-	#so i will make them delete themselves after impact or time expired
-    #writing a task that will rek the projectiles at the end of time
+	    #deal with colliding or special effects here.
+	    #wanted projectiles to be short lived
+	    #so i will make them delete themselves after impact or time expired
+        #writing a task that will rek the projectiles at the end of time
+        self.damage = 5
     def moveTask(self, task):
         
         #curtime = time.clock()
@@ -300,8 +300,9 @@ class KVProjectile(DirectObject):
         if collEntry.getIntoNodePath().getName() != 'projNode':
            
             temp = collEntry.getIntoNodePath().getName()
-            messenger.send(temp) 
-            
+            messenger.send(temp, [self.damage]) 
+            print temp
             #remove the impacting projectile
             collEntry.getFromNodePath().getParent().getParent().removeNode()
             self.flag =  True
+            del self
