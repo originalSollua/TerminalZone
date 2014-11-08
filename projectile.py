@@ -42,6 +42,7 @@ class RRProjectile(DirectObject):
         self.projectileNode = NodePath('projectile'+str(id))
         self.projectileNode.reparentTo(render)
         
+
         #by passing the camera node form the camMov object, all projectiles are spawned 5 units in front of the camera
         self.projectileNode.setHpr(look, 0, 0, 0)
         self.projectileNode.setPos(camera,0,3, 3)
@@ -128,7 +129,7 @@ class MHBProjectile(DirectObject):
 
     #defining the thing fired by whatever gun we have
     def __init__(self, camera, look, id, model):
-        
+        self.id = id
         #nodepath of the projectile, give it a trajectory
         self.projectileNode = NodePath('projectile'+str(id))
         self.projectileNode.reparentTo(render)
@@ -166,27 +167,28 @@ class MHBProjectile(DirectObject):
         
         #base.cTrav = CollisionTraverser()
         cs = CollisionSphere(0, 0, 0, 2.5)
-        cnodepath = self.projectileNode.attachNewNode(CollisionNode('projNode'))
-        cnodepath.node().addSolid(cs)
+        self.cnodepath = self.projectileNode.attachNewNode(CollisionNode('projNode'))
+        self.cnodepath.node().addSolid(cs)
         self.collHand = CollisionHandlerEvent()
-        self.collHand.addInPattern('into'+str(id))
+
+        self.cnodepath.setTag('tag', str(self.cnodepath))
+        self.collHand.addInPattern('%(tag)ix-into'+str(id))
         self.collHand.addOutPattern('outof')
-        
         #cTrav has the distinction of global colider handler
-        base.cTrav.addCollider(cnodepath, self.collHand)
-        self.acceptOnce('into'+str(id), self.hit)
+        base.cTrav.addCollider(self.cnodepath, self.collHand) 
+        self.acceptOnce(self.cnodepath.getTag('self')+'-into'+str(id), self.hit)
 	    #deal with colliding or special effects here.
 	    #wanted projectiles to be short lived
 	    # so i will make them delete themselves after impact or time expired
         # writing a task that will rek the projectiles at the end of time
-        self.damage = 2
+        self.damage = 1
     def moveTask(self, task):
         
         #curtime = time.clock()
         #self.delta = curtime-self.prevtime
         
         if self.flag:
-        
+            self.ignore(self.cnodepath.getTag('self')+'-into'+str(self.id))
             return task.done
         
         velx = self.vec.x*self.delta
@@ -199,6 +201,7 @@ class MHBProjectile(DirectObject):
         #prevtime = time.clock()
             
         
+        self.cnodepath.setTag('tag', str(self))
         if task.time < self.dur:
         
             return task.cont
@@ -206,9 +209,8 @@ class MHBProjectile(DirectObject):
             
             self.flag = True
             return task.done
-        
+      
     def hit(self, collEntry):
-        
         # throw out a custom message for what hit
         if collEntry.getIntoNodePath().getName() != 'projNode':
             

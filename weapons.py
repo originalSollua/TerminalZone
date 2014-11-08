@@ -162,7 +162,7 @@ class MHB(object):
     time = 0
     step = False
     curScale = 0
-    
+    hbcount = 0 
     def __init__(self, camera, id):
         
         #Set model and projectile paths
@@ -184,10 +184,10 @@ class MHB(object):
         #Spawn 20 projectiles, add them to taskMgr and play sfx
         for i in range(1,20):
 
-            proj = MHBProjectile(self.gunPath, base.camera, len(base.projectileList), i)
+            proj = MHBProjectile(self.gunPath, base.camera, len(base.projectileList)+self.hbcount, i)
             base.taskMgr.add(proj.moveTask, "move projectile")
             base.projectileList.append(proj)
-        
+            self.hbcount+=1
         shotSfx = base.loader.loadSfx("resources/sounds/blunderbuss.wav")
         shotSfx.setVolume(.4)
         shotSfx.play()
