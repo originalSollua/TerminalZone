@@ -83,7 +83,6 @@ class RecursionRifle(object):
         return task.cont
     
     def hide(self):
-        print "hello"
         self.gunModel.hide()
 
     def show(self):

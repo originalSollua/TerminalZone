@@ -50,7 +50,6 @@ class RRProjectile(DirectObject):
         self.projectileNode.setScale(.1)
         projectileModel = loader.loadModel("./resources/beam.egg")
         projectileModel.setColorScale(200, 0, 255, 100)
-        projectileModel.setSy(100)
         projectileModel.reparentTo(self.projectileNode)
     	
         #must calculate unit vector based on direction
@@ -313,7 +312,7 @@ class CBShield(DirectObject):
     
     #Property stuff
     creaTime = time.clock()
-    dur = 10
+    dur = 5
     vec = 0
     delta = .15
     prevtime = 0
@@ -363,7 +362,7 @@ class CBShield(DirectObject):
 	    #wanted projectiles to be short lived
 	    #so i will make them delete themselves after impact or time expired
         #writing a task that will rek the projectiles at the end of time
-        self.damage = 10
+        self.damage = 20
     
     def placeTask(self, task):
         

@@ -93,7 +93,13 @@ class GameStart(ShowBase):
         self.backward = self.configList[1].split("=")[1].translate(None,"\n")
         self.left = self.configList[2].split("=")[1].translate(None,"\n")
         self.right = self.configList[3].split("=")[1].translate(None,"\n")
-       
+        
+        #Get and set resolution
+        self.xRes = self.configList[4].split("=")[1].translate(None,"\n")
+        self.yRes = self.configList[5].split("=")[1].translate(None,"\n")
+        properties.setSize(int(self.xRes), int(self.yRes))
+        base.win.requestProperties(properties) 
+
         #Controls
         self.accept("escape", sys.exit, [0])
         
