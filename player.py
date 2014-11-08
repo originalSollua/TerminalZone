@@ -44,11 +44,13 @@ class Player(DirectObject):
         self.rRifle = RecursionRifle(base.camera, len(base.projectileList))
         self.mhBlunder = MHB(base.camera, len(base.projectileList))
         self.kvDuals = KeyValue(base.camera, len(base.projectileList))
+        self.cBlock = CatchBlock(base.camera, len(base.projectileList))
         #Weapons
-        self.weaponMap = {1:self.rRifle, 2:self.mhBlunder, 3:self.kvDuals}
+        self.weaponMap = {1:self.rRifle, 2:self.mhBlunder, 3:self.kvDuals, 4:self.cBlock}
         self.curWeapon = 1
         self.mhBlunder.hide()
         self.kvDuals.hide()
+        self.cBlock.hide()
         self.accept("mouse1", self.fireWeapon)
         self.accept("mouse3", self.swapWeapon)
         
@@ -91,13 +93,25 @@ class Player(DirectObject):
             self.curWeapon = 3
             self.weaponMap[3].reticle.setScale(.025)
             self.weaponMap[3].curScale = .025
-        else:
-            print "Hello"
+        elif self.curWeapon == 3:
+
             self.weaponMap[3].reticle.setScale(0)
             self.weaponMap[3].curScale = 0
             self.weaponMap[3].step = False
             
             self.kvDuals.hide()
+            self.cBlock.show()
+            
+            self.curWeapon = 4
+            self.weaponMap[4].reticle.setScale(.06)
+            self.weaponMap[4].curScale = .06
+        else:
+
+            self.weaponMap[4].reticle.setScale(0)
+            self.weaponMap[4].curScale = 0
+            self.weaponMap[4].step = False
+            
+            self.cBlock.hide()
             self.rRifle.show()
             
             self.curWeapon = 1
