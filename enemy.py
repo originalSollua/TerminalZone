@@ -53,6 +53,7 @@ class Enemy(DirectObject):
         
         #init cnode
         cnodepath = self.enemy.attachNewNode(CollisionNode('cnode'+str(id)))
+        cnodepath.setTag('objectTag', str(id))
         cnodepath.node().addSolid(cs)
         #cnodepath.show()
         

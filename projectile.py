@@ -49,7 +49,7 @@ class RRProjectile(DirectObject):
         #fix z position to line up with gun
         self.projectileNode.setScale(.1)
         projectileModel = loader.loadModel("./resources/beam.egg")
-        projectileModel.setColor(255, 0, 255)
+        projectileModel.setColorScale(200, 0, 255, 100)
         projectileModel.reparentTo(self.projectileNode)
     	
         #must calculate unit vector based on direction
