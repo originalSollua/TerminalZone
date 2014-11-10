@@ -33,7 +33,7 @@ class Spawner(DirectObject):
         self.maxi = [int(maxi[0]), int(maxi[1])]
 
         self.spawnableCount = 0
-
+        self.offset = 0
     def checkSpawn(self,task):
         
         # If there is room, spawn and move an enemy to a random location
@@ -56,8 +56,8 @@ class Spawner(DirectObject):
             
             print "Invalid Model Number Given"
 
-        enemy = Enemy(enemyModel, id,1)
+        enemy = Enemy(enemyModel, id+self.offset,1)
         enemy.setPos(randint(self.mini[0], self.maxi[0]), randint(self.mini[1], self.maxi[1]), 8)
         base.enemyList.append(enemy)
-        
+        self.offset+=1
         print "Enemies: ", len(base.enemyList)

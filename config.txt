@@ -1,0 +1,7 @@
+forward=w
+backward=s
+left=a
+right=d
+xRes=1024
+yRes=720
+MorseNode=false
