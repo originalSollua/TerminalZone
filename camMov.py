@@ -14,7 +14,7 @@
 #
 #======================================================================#
 
-from pausemenu import PauseMenu
+#from pausemenu import PauseMenu
 
 import sys
 
@@ -25,7 +25,8 @@ from direct.showbase.DirectObject import DirectObject
 
 class CameraMovement(DirectObject):
    
-
+    playerNode = 0
+    
     # Takes in a cameraModel and sets up key listeners
     def __init__(self, cameraModel):
         
@@ -47,10 +48,10 @@ class CameraMovement(DirectObject):
             return task.cont
     
         #Calls the pause menu
-        if(self.keyMap["m"] == True):
+        #if(self.keyMap["m"] == True):
             
             #self.pm = PauseMenu()
-            base.taskMgr.add(PauseMenu().controlPause, "pauseMenu")
+            #base.taskMgr.add(PauseMenu(self.playerNode).controlPause, "pauseMenu")
             
         # Calculate pitch of camera based on mouse position
         mouse = base.win.getPointer(0)

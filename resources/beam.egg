@@ -1,16 +1,4 @@
 <CoordinateSystem> { Z-up } 
-<Material> Material.006 {
-  <Scalar> diffr { 0.640000 }
-  <Scalar> diffg { 0.640000 }
-  <Scalar> diffb { 0.640000 }
-  <Scalar> specr { 0.500000 }
-  <Scalar> specg { 0.500000 }
-  <Scalar> specb { 0.500000 }
-  <Scalar> shininess { 12.5 }
-  <Scalar> emitr { 0.000000 }
-  <Scalar> emitg { 0.000000 }
-  <Scalar> emitb { 0.000000 }
-}
 
   <Group> Cylinder.001 {
     <Transform> {
@@ -603,172 +591,138 @@
     
     
     <Polygon> {
-      <MRef> { Material.006 }
       <Normal> {0.098017 -0.000001 0.995185}
       <VertexRef> { 0 1 2 3 <Ref> { Cylinder.001 }}
     }
     <Polygon> {
-      <MRef> { Material.006 }
       <Normal> {0.290285 -0.000001 0.956940}
       <VertexRef> { 4 5 6 7 <Ref> { Cylinder.001 }}
     }
     <Polygon> {
-      <MRef> { Material.006 }
       <Normal> {0.471397 -0.000001 0.881921}
       <VertexRef> { 8 9 10 11 <Ref> { Cylinder.001 }}
     }
     <Polygon> {
-      <MRef> { Material.006 }
       <Normal> {0.634393 -0.000000 0.773010}
       <VertexRef> { 12 13 14 15 <Ref> { Cylinder.001 }}
     }
     <Polygon> {
-      <MRef> { Material.006 }
       <Normal> {0.773010 -0.000000 0.634393}
       <VertexRef> { 16 17 18 19 <Ref> { Cylinder.001 }}
     }
     <Polygon> {
-      <MRef> { Material.006 }
       <Normal> {0.881921 -0.000000 0.471397}
       <VertexRef> { 20 21 22 23 <Ref> { Cylinder.001 }}
     }
     <Polygon> {
-      <MRef> { Material.006 }
       <Normal> {0.956940 -0.000000 0.290285}
       <VertexRef> { 24 25 26 27 <Ref> { Cylinder.001 }}
     }
     <Polygon> {
-      <MRef> { Material.006 }
       <Normal> {0.995185 -0.000000 0.098017}
       <VertexRef> { 28 29 30 31 <Ref> { Cylinder.001 }}
     }
     <Polygon> {
-      <MRef> { Material.006 }
       <Normal> {0.995185 0.000000 -0.098017}
       <VertexRef> { 32 33 34 35 <Ref> { Cylinder.001 }}
     }
     <Polygon> {
-      <MRef> { Material.006 }
       <Normal> {0.956940 0.000000 -0.290285}
       <VertexRef> { 36 37 38 39 <Ref> { Cylinder.001 }}
     }
     <Polygon> {
-      <MRef> { Material.006 }
       <Normal> {0.881921 0.000000 -0.471396}
       <VertexRef> { 40 41 42 43 <Ref> { Cylinder.001 }}
     }
     <Polygon> {
-      <MRef> { Material.006 }
       <Normal> {0.773010 0.000000 -0.634393}
       <VertexRef> { 44 45 46 47 <Ref> { Cylinder.001 }}
     }
     <Polygon> {
-      <MRef> { Material.006 }
       <Normal> {0.634393 0.000000 -0.773010}
       <VertexRef> { 48 49 50 51 <Ref> { Cylinder.001 }}
     }
     <Polygon> {
-      <MRef> { Material.006 }
       <Normal> {0.471397 0.000001 -0.881921}
       <VertexRef> { 52 53 54 55 <Ref> { Cylinder.001 }}
     }
     <Polygon> {
-      <MRef> { Material.006 }
       <Normal> {0.290284 0.000001 -0.956940}
       <VertexRef> { 56 57 58 59 <Ref> { Cylinder.001 }}
     }
     <Polygon> {
-      <MRef> { Material.006 }
       <Normal> {0.098017 0.000001 -0.995185}
       <VertexRef> { 60 61 62 63 <Ref> { Cylinder.001 }}
     }
     <Polygon> {
-      <MRef> { Material.006 }
       <Normal> {-0.098018 0.000001 -0.995185}
       <VertexRef> { 64 65 66 67 <Ref> { Cylinder.001 }}
     }
     <Polygon> {
-      <MRef> { Material.006 }
       <Normal> {-0.290285 0.000001 -0.956940}
       <VertexRef> { 68 69 70 71 <Ref> { Cylinder.001 }}
     }
     <Polygon> {
-      <MRef> { Material.006 }
       <Normal> {-0.471397 0.000001 -0.881921}
       <VertexRef> { 72 73 74 75 <Ref> { Cylinder.001 }}
     }
     <Polygon> {
-      <MRef> { Material.006 }
       <Normal> {-0.634394 0.000000 -0.773010}
       <VertexRef> { 76 77 78 79 <Ref> { Cylinder.001 }}
     }
     <Polygon> {
-      <MRef> { Material.006 }
       <Normal> {-0.773011 0.000000 -0.634393}
       <VertexRef> { 80 81 82 83 <Ref> { Cylinder.001 }}
     }
     <Polygon> {
-      <MRef> { Material.006 }
       <Normal> {-0.881922 0.000000 -0.471396}
       <VertexRef> { 84 85 86 87 <Ref> { Cylinder.001 }}
     }
     <Polygon> {
-      <MRef> { Material.006 }
       <Normal> {-0.956941 0.000000 -0.290284}
       <VertexRef> { 88 89 90 91 <Ref> { Cylinder.001 }}
     }
     <Polygon> {
-      <MRef> { Material.006 }
       <Normal> {-0.995185 0.000000 -0.098016}
       <VertexRef> { 92 93 94 95 <Ref> { Cylinder.001 }}
     }
     <Polygon> {
-      <MRef> { Material.006 }
       <Normal> {-0.995185 -0.000000 0.098018}
       <VertexRef> { 96 97 98 99 <Ref> { Cylinder.001 }}
     }
     <Polygon> {
-      <MRef> { Material.006 }
       <Normal> {-0.956940 -0.000000 0.290286}
       <VertexRef> { 100 101 102 103 <Ref> { Cylinder.001 }}
     }
     <Polygon> {
-      <MRef> { Material.006 }
       <Normal> {-0.881921 -0.000000 0.471398}
       <VertexRef> { 104 105 106 107 <Ref> { Cylinder.001 }}
     }
     <Polygon> {
-      <MRef> { Material.006 }
       <Normal> {-0.773010 -0.000000 0.634394}
       <VertexRef> { 108 109 110 111 <Ref> { Cylinder.001 }}
     }
     <Polygon> {
-      <MRef> { Material.006 }
       <Normal> {-0.634392 -0.000000 0.773011}
       <VertexRef> { 112 113 114 115 <Ref> { Cylinder.001 }}
     }
     <Polygon> {
-      <MRef> { Material.006 }
       <Normal> {-0.471395 -0.000001 0.881922}
       <VertexRef> { 116 117 118 119 <Ref> { Cylinder.001 }}
     }
     <Polygon> {
-      <MRef> { Material.006 }
       <Normal> {-0.000000 -1.000000 -0.000001}
       <VertexRef> { 120 121 122 123 124 125 126 127 128 129 130 131 132 133 134 135 136 137 138 139 140 141 142 143 144 145 146 147 148 149 150 151 <Ref> { Cylinder.001 }}
     }
     <Polygon> {
-      <MRef> { Material.006 }
       <Normal> {-0.098017 -0.000001 0.995185}
       <VertexRef> { 152 153 154 155 <Ref> { Cylinder.001 }}
     }
     <Polygon> {
-      <MRef> { Material.006 }
       <Normal> {-0.290283 -0.000001 0.956941}
       <VertexRef> { 156 157 158 159 <Ref> { Cylinder.001 }}
     }
     <Polygon> {
-      <MRef> { Material.006 }
       <Normal> {0.000000 1.000000 0.000001}
       <VertexRef> { 160 161 162 163 164 165 166 167 168 169 170 171 172 173 174 175 176 177 178 179 180 181 182 183 184 185 186 187 188 189 190 191 <Ref> { Cylinder.001 }}
     }

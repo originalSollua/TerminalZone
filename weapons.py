@@ -35,11 +35,11 @@ class RecursionRifle(object):
         #Set model and projectile paths
         self.gunPath = NodePath("gun")
         self.gunPath.reparentTo(base.camera)
-        self.gunPath.setPos(1 ,10,-3.5)
-        self.gunModel = loader.loadModel("./resources/gunmodel")
+        self.gunPath.setPos(1,10,-3.5)
+        self.gunModel = loader.loadModel("./resources/rr1")
         self.gunModel.reparentTo(self.gunPath)
-        self.gunModel.setPos(camera,.7,3,-.9)
-        self.gunModel.setHpr(0,180,180)
+        self.gunModel.setPos(camera,.7,4,-2)
+        self.gunModel.setHpr(90,0,0)
         self.gunModel.setColor(0, 255, 0)
         self.reticle = OnscreenImage("./resources/reticle.png")
         self.reticle.setTransparency(True)
@@ -83,6 +83,72 @@ class RecursionRifle(object):
         return task.cont
     
     def hide(self):
+        self.gunModel.hide()
+
+    def show(self):
+
+        self.gunModel.show()
+
+class CatchBlock(object):
+    
+    time = 0
+    step = False
+    curScale = 0
+
+
+    def __init__(self, camera, id):
+        print "guns init"
+        #Set model and projectile paths
+        self.gunPath = NodePath("gun4")
+        self.gunPath.reparentTo(base.camera)
+        self.gunPath.setPos(1 ,10,-3.5)
+        self.gunModel = loader.loadModel("./resources/gunmodel")
+        self.gunModel.reparentTo(self.gunPath)
+        self.gunModel.setPos(camera,.7,3,-.9)
+        self.gunModel.setHpr(0,180,180)
+        self.gunModel.setColor(1, 1, 1)
+        self.reticle = OnscreenImage("./resources/cbReticle.png")
+        self.reticle.setTransparency(True)
+        self.reticle.setScale(0)
+        base.taskMgr.add(self.animate, "cbReticle")
+
+    def fire(self):
+
+        #Spawn projectile, add it to taskMgr and play sfx
+        proj = CBShield(self.gunPath, base.camera, len(base.projectileList))
+        base.taskMgr.add(proj.placeTask, "place projectile")
+        base.projectileList.append(proj)
+        shotSfx = base.loader.loadSfx("./resources/sounds/blunderbuss.wav")
+        shotSfx.setVolume(.4)
+        shotSfx.play()
+        
+        print "Shots fired: ", len(base.projectileList)
+
+    def animate(self, task):
+    
+        if task.time - self.time  > .05:
+            
+            self.reticle.setScale(self.curScale)
+            if self.curScale < .08 and self.step:
+
+                self.curScale += .001
+                self.reticle.setScale(self.curScale)
+                self.time = task.time
+                if self.curScale >= .08:
+
+                    self.step = False
+            elif self.curScale > .05:
+
+                self.curScale -= .001
+                self.reticle.setScale(self.curScale)
+                self.time = task.time
+                if self.curScale <= .05:
+                    
+                    self.step = True
+
+        return task.cont
+    
+    def hide(self):
 
         self.gunModel.hide()
 
@@ -96,7 +162,7 @@ class MHB(object):
     time = 0
     step = False
     curScale = 0
-    
+    hbcount = 0 
     def __init__(self, camera, id):
         
         #Set model and projectile paths
@@ -118,10 +184,10 @@ class MHB(object):
         #Spawn 20 projectiles, add them to taskMgr and play sfx
         for i in range(1,20):
 
-            proj = MHBProjectile(self.gunPath, base.camera, len(base.projectileList), i)
+            proj = MHBProjectile(self.gunPath, base.camera, len(base.projectileList)+self.hbcount, i)
             base.taskMgr.add(proj.moveTask, "move projectile")
             base.projectileList.append(proj)
-        
+            self.hbcount+=1
         shotSfx = base.loader.loadSfx("resources/sounds/blunderbuss.wav")
         shotSfx.setVolume(.4)
         shotSfx.play()
