@@ -34,8 +34,10 @@ class LevelChanger(DirectObject):
 
     def __init__(self):
         self.level01 = "resources/debug"
-        self.level02 = "resources/levelWithRoom"
-        self.levelMap = {1:self.level01, 2:self.level02}
+        self.level02 = "resources/chasm"
+        self.level03 = "resources/levelWithRoom"
+        self.levelMap = {1:self.level01, 2:self.level02, 3:self.level03}
+        self.currentLevel = 1
         print"welcome to levelchanger"
 
     #checks the enemy list
@@ -55,13 +57,12 @@ class LevelChanger(DirectObject):
             self.transition.setFadeColor(0, 0, 0)
             self.fadeOut = self.transition.fadeOut(2)
 
-            level = "resources/debug.egg.pz"
-            level2 = "resources/chasm"
-            
-            self.unload(level)
-            
-            self.load(level2)
+            #unload the current level and models
+            self.unload(self.levelMap[self.currentLevel])
 
+            #load the next level and models
+            self.load(self.levelMap[self.currentLevel + 1])
+            
             #self.fadeIn = self.transition.fadeIn(5)
             base.taskMgr.remove(task)
         return task.cont
@@ -90,6 +91,9 @@ class LevelChanger(DirectObject):
         base.environ = base.loader.loadModel(level)
         base.environ.reparentTo(base.render)
         base.environ.setScale(7, 7, 3)
+
+        #update the currentLevel.
+        self.currentLevel += 1
 
         #load monkey
         base.monkey = base.loader.loadModel("resources/lordMonkey")
