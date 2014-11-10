@@ -18,6 +18,7 @@ from pausemenu import PauseMenu
 
 import sys
 
+from panda3d.core import NodePath
 from direct.gui.OnscreenImage import OnscreenImage
 from math import pi,sin,cos
 from direct.task import Task
@@ -25,9 +26,12 @@ from direct.showbase.DirectObject import DirectObject
 
 class CameraMovement(DirectObject):
    
-
+    playerNode = 0
+    
     # Takes in a cameraModel and sets up key listeners
-    def __init__(self, cameraModel):
+    def __init__(self, cameraModel, playerNode):
+        
+        self.playerNode = playerNode
         
         #Make keyMap globa
         self.keyMap = base.keyMap
@@ -50,7 +54,7 @@ class CameraMovement(DirectObject):
         if(self.keyMap["m"] == True):
             
             #self.pm = PauseMenu()
-            base.taskMgr.add(PauseMenu().controlPause, "pauseMenu")
+            base.taskMgr.add(PauseMenu(self.playerNode).controlPause, "pauseMenu")
             
         # Calculate pitch of camera based on mouse position
         mouse = base.win.getPointer(0)

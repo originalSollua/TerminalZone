@@ -60,7 +60,7 @@ class Player(DirectObject):
         hud.setTransparency(True)
         hud.reparentTo(render2d)
         
-        base.taskMgr.add(CameraMovement(cameraModel).cameraControl, "cameraControl")
+        base.taskMgr.add(CameraMovement(cameraModel, self.playerNode).cameraControl, "cameraControl")
         self.createColision()
 
 		
