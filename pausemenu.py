@@ -74,8 +74,13 @@ class PauseMenu(object):
         cameraModel = loader.loadModel("models/camera")
         cameraModel.reparentTo(self.playerNode)
         base.taskMgr.add(CameraMovement(cameraModel).cameraControl, "cameraControl")
+        base.taskMgr.remove("pauseMenu")
         
         properties = WindowProperties()
         properties.setCursorHidden(True)
         base.win.requestProperties(properties)
+        self.myAspect.removeNode()
+        
+        
+        
         
