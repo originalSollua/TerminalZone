@@ -21,6 +21,7 @@ import os, sys
 from player import Player
 from enemy import Enemy
 from spawner import Spawner
+from levelChanger import LevelChanger
 
 #Panda imports
 from panda3d.core import CollisionTraverser, CollisionHandlerPusher
@@ -79,10 +80,14 @@ class GameStart(ShowBase):
         #Create spawner open on current level
         self.spawner = Spawner(self.environ)
 
+        #Create level changer
+        self.levelChanger = LevelChanger()
+
         #Add tasks
         base.taskMgr.add(self.spawner.checkSpawn, "Spawn Enemies")
         base.taskMgr.add(self.projCleanTask, "Projectile Clean Up")
         base.taskMgr.add(self.enemyCleanUp, "enemyCleanup")
+        base.taskMgr.add(self.levelChanger.checkLevel, "checkLevel")
 
         #Open file to get configs
         self.configFile = open("config.txt")
@@ -133,6 +138,8 @@ class GameStart(ShowBase):
         return task.cont
 
     def enemyCleanUp(self, task):
+
+        self.levelChanger.checkLevel(task)
         
         #Remove flagged enemies
         for i in self.enemyList:
@@ -141,7 +148,7 @@ class GameStart(ShowBase):
                
                 i.enemyNode.removeNode()
                 self.enemyList.remove(i)
-                self.spawner.spawnableCount-=1
+                #self.spawner.spawnableCount-=1
         return task.cont
 
 TerminalZone = GameStart()
