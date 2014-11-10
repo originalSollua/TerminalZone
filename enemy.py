@@ -35,9 +35,10 @@ class Enemy(DirectObject):
         self.enemyNode.reparentTo(base.render)
 
         # Load the enemy model, set the scale, and add to render
-        self.enemy = Actor(model)
+        self.enemy = Actor(model,{"walk":"resources/humanoid-walk"})
         self.enemy.setScale(0.2,0.2,0.2)
         self.enemy.reparentTo(self.enemyNode)
+        #self.enemy.loop("walk")
         
         #Set behavior
         self.setAI(ai)
