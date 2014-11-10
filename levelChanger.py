@@ -42,28 +42,21 @@ class LevelChanger(DirectObject):
     #if the list is empty, level is complete
     #set flag to true and change the level.
     def checkLevel (self, task):
-        print"check the enemy list"
-        print len(base.enemyList)
         enemy = base.spawner.spawnableCount
         if(len(base.enemyList) == 0):
             if enemy > 0:
-                print "--", base.spawner.spawnableCount
-                print "the enemy list should be empty"
                 self.levelComplete = True
                 self.changeLevel(task)
         
 
     def changeLevel(self, task):
-        print"inside changeLevel"
         if(self.levelComplete == True):
-            print"inside changeLeve if levelComplete"
             self.transition = Transitions(loader)
             self.transition.setFadeColor(0, 0, 0)
             self.fadeOut = self.transition.fadeOut(2)
 
             level = "resources/debug.egg.pz"
             level2 = "resources/chasm"
-            #level2 = "resources/debug"
             
             self.unload(level)
             
@@ -71,10 +64,6 @@ class LevelChanger(DirectObject):
 
             #self.fadeIn = self.transition.fadeIn(5)
             base.taskMgr.remove(task)
-        
-        #self.levelChange = Sequence(self.fadeOut, self.unload, self.load, self.fadeIn)
-        #self.levelChange.start()
-        
         return task.cont
 
     #unloading the stuff not needed
