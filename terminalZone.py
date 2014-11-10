@@ -108,7 +108,6 @@ class GameStart(ShowBase):
         self.accept(self.backward, self.setKey, ["backward", True])
         self.accept(self.left, self.setKey, ["left", True])
         self.accept(self.right, self.setKey, ["right", True])
-        self.accept("m", self.setKey, ["m", True])
         
         self.accept(self.forward+"-up", self.setKey, ["forward", False])
         self.accept(self.backward+"-up", self.setKey, ["backward", False])

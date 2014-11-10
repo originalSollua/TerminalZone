@@ -18,6 +18,7 @@
 
 from camMov import CameraMovement
 from weapons import *
+from pausemenu import PauseMenu
 
 from direct.gui.OnscreenImage import OnscreenImage
 from panda3d.core import CollisionNode, CollisionSphere, CollisionRay, CollisionHandlerGravity
@@ -60,8 +61,11 @@ class Player(DirectObject):
         hud.setTransparency(True)
         hud.reparentTo(render2d)
         
-        base.taskMgr.add(CameraMovement(cameraModel, self.playerNode).cameraControl, "cameraControl")
+        base.taskMgr.add(CameraMovement(cameraModel).cameraControl, "cameraControl")
         self.createColision()
+        
+        #Calls the pause menu
+        self.accept("m", self.startPause)
 
 		
     
@@ -160,3 +164,6 @@ class Player(DirectObject):
         collRayNP.show()
         return collRayNP
 
+    def startPause(self):
+        
+        base.taskMgr.add(PauseMenu(self.playerNode).controlPause, "pauseMenu")

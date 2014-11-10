@@ -51,7 +51,7 @@ class PauseMenu(object):
         self.myAspect.setScale(1.0 / aspectRatio, 1.0, 1.0)
         self.myAspect.node().setMouseWatcher(base.mouseWatcherNode)
         
-        frame = DirectFrame(frameColor=(0,0,0,0), frameSize=(base.a2dLeft,base.a2dRight,-1,1), pos=(0,0,0))
+        frame = DirectFrame(frameColor=(0,0,0,.4), frameSize=(base.a2dLeft,base.a2dRight,-1,1), pos=(0,0,0))
         frame.reparentTo(self.myAspect)
         
     
