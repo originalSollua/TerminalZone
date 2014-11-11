@@ -34,7 +34,7 @@ class LevelChanger(DirectObject):
 
     def __init__(self):
         self.level01 = "resources/debug"
-        self.level02 = "resources/chasm"
+        self.level02 = "resources/theDualChannel"
         self.level03 = "resources/levelWithRoom"
         self.levelMap = {1:self.level01, 2:self.level02, 3:self.level03}
         self.currentLevel = 1
@@ -49,6 +49,8 @@ class LevelChanger(DirectObject):
             if enemy > 0:
                 self.levelComplete = True
                 self.changeLevel(task)
+        
+        return task.cont
         
 
     def changeLevel(self, task):
@@ -76,6 +78,9 @@ class LevelChanger(DirectObject):
         
         #detach playerNode
         base.player.playerNode.detachNode()
+        
+        #Remove enemies
+        base.taskMgr.remove("Spawn Enemies")
 
         #unload monkey
         base.loader.unloadModel("resources/lordMonkey")
@@ -91,7 +96,7 @@ class LevelChanger(DirectObject):
         base.environ = base.loader.loadModel(level)
         base.environ.reparentTo(base.render)
         base.environ.setScale(7, 7, 3)
-
+        
         #update the currentLevel.
         self.currentLevel += 1
 
@@ -106,6 +111,10 @@ class LevelChanger(DirectObject):
 
         #create new spawner on the env
         base.spawner = Spawner(base.environ)
+        #Reinit enemies
+        base.taskMgr.add(base.spawner.checkSpawn, "Spawn Enemies")
+        base.taskMgr.add(self.checkLevel, "checkLevel")
+
         self.fadeIn = self.transition.fadeIn(2)
         base.music.play()
                 
