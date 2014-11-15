@@ -138,7 +138,7 @@ class Player(DirectObject):
         base.cTrav.addCollider(playerCollNodePath, base.pusher)
         base.pusher.addCollider(playerCollNodePath, self.playerNode)
         
-        # Create Floor Ray
+        # Create Floor Ray - for gravity / floor
         floorCollRayPath = self.initCollisionRay(1,-1) 
         base.floor.addCollider(floorCollRayPath, self.playerNode)
         base.cTrav.addCollider(floorCollRayPath, base.floor)
@@ -148,10 +148,11 @@ class Player(DirectObject):
         # Create sphere and attach to player
         cNode = CollisionNode('player')
 
-        ## Sphere is moved in front of player for testing ##
-        cNode.addSolid(CollisionSphere(0,1,4,2))
-        cNodePath = obj.attachNewNode(cNode)
+        cs = CollisionSphere(0, 0, 4, 2)
+        cNodePath = obj.attachNewNode(CollisionNode('cnode'))
+        cNodePath.node().addSolid(cs)
         cNodePath.show()
+        
         return cNodePath
 
     def initCollisionRay(self, originZ, dirZ):
