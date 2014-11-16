@@ -62,7 +62,7 @@ class GameStart(ShowBase):
         base.pusher = CollisionHandlerPusher()
         
         #Load Environment
-        self.environ = self.loader.loadModel("./resources/system32")
+        self.environ = self.loader.loadModel("./resources/theRoot")
         self.environ.reparentTo(self.render)
         self.environ.setScale(7, 7, 3)
         
