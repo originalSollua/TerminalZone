@@ -74,7 +74,6 @@ class GameStart(ShowBase):
         self.monkey = self.loader.loadModel("resources/lordMonkey")
         self.monkey.reparentTo(render)
         self.monkey.setScale(3.5,3.5,3.5)
-
         #Init player here
         self.player = Player()
 

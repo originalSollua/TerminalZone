@@ -65,9 +65,16 @@ class Player(DirectObject):
         #Calls the pause menu
         self.accept("m", self.startPause)
 
+        # define player health here
+        # try not to re-create the player object, will alter reset these values
+        # alernatively, dump player stats off in save file before recreating
+        self.maxEnergy = 100
+        self.curEnergy = self.maxEnergy
 		
     
-
+    def hit(self, damage):
+        self.curEnergy = self.curEnergy-damage
+        print self.curEnergy
     def swapWeapon(self): 
         # ignore this print. using it to gather data about the size of the debug room
         print self.playerNode.getPos()
@@ -153,3 +160,8 @@ class Player(DirectObject):
     def startPause(self):
         
         base.taskMgr.add(PauseMenu(self.playerNode).controlPause, "pauseMenu")
+
+    # call this method when collide with a health upgrade
+    def energyUpgrade(self):
+        self.maxEnergy +=100
+        self.curEnergy = self.maxEnergy

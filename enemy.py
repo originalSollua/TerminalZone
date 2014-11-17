@@ -21,6 +21,7 @@ from panda3d.core import CollisionNode, CollisionSphere, CollisionTube, NodePath
 from panda3d.core import CollisionTraverser, CollisionHandlerEvent
 from direct.showbase.DirectObject import DirectObject
 from panda3d.ai import AIWorld, AICharacter
+from player import Player
 
 class Enemy(DirectObject):
     
@@ -28,7 +29,7 @@ class Enemy(DirectObject):
     delFlag = False
 
     def __init__(self, model, id, ai):
-        
+        self.id = id
         #init and render
         self.enemyNode = NodePath('enemy'+str(id))
         self.AIWorld = AIWorld(base.render)
@@ -65,6 +66,7 @@ class Enemy(DirectObject):
         self.accept('cnode'+str(id), self.hit)
         # base settings like damage and health. modify spawner later to change these onec we have a more diverse population
         self.health = 20
+        self.damage = 25;
     def setPos(self, x, y, z):
 		
         #Set enemy position
@@ -93,10 +95,9 @@ class Enemy(DirectObject):
             self.AIbehaviors.pursue(base.camera)
         
         base.taskMgr.add(self.AIUpdate, "Update AI")
-
     def AIUpdate(self,task):
-        
         self.AIWorld.update()
         return task.cont
     def destroy(self):
+        base.taskMgr.remove("attack"+str(self.id))
         del self
