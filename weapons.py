@@ -28,6 +28,11 @@ class RecursionRifle(object):
     time = 0
     step = False
     curScale = .025
+    delayShot = 0
+    overHeat = False
+    ohTime = 0
+    ttTemp = 1
+    ttTempBool = True
 
 
     def __init__(self, camera, id):
@@ -46,7 +51,7 @@ class RecursionRifle(object):
         self.reticle.setScale(self.curScale)
         base.taskMgr.add(self.animate, "rrReticle")
 
-    def fire(self):
+    def fire(self, task):
 
         #Spawn projectile, add it to taskMgr and play sfx
         proj = RRProjectile(self.gunPath, base.camera, len(base.projectileList))
@@ -55,6 +60,9 @@ class RecursionRifle(object):
         shotSfx = base.loader.loadSfx("./resources/sounds/recursion_rifle.wav")
         shotSfx.setVolume(.4)
         shotSfx.play()
+        
+        self.delayShot = task.time + 2
+        self.ohTime = self.ohTime + 2
         
         print "Shots fired: ", len(base.projectileList)
 
@@ -88,6 +96,31 @@ class RecursionRifle(object):
     def show(self):
 
         self.gunModel.show()
+        
+    def canShoot(self):
+        taskList = base.taskMgr.getTasksNamed("fire")
+        print taskList
+        if taskList[0].time >= self.delayShot:
+            return True
+        else:
+            return False
+    def over(self, task):
+        if self.ohTime > 10:
+            self.overheat = True
+        else:
+            self.overheat = False  
+             
+        if task.time >= self.ttTemp:
+            self.ttTemp = self.ttTemp + 1
+            self.ttTempBool = True
+        if self.ttTemp%3 <= 0:
+            if self.ttTempBool == True:
+                self.ohTime = self.ohTime - 1
+                self.ttTempBool = False
+        return task.cont
+
+    def getOverHeat(self):
+        return self.overheat
 
 #Max Heao Blunderbuss
 class MHB(object):
@@ -96,6 +129,12 @@ class MHB(object):
     step = False
     curScale = 0
     hbcount = 0 
+    delayShot = 0
+    overHeat = False
+    ohTime = 0
+    ttTemp = 1
+    ttTempBool = True
+    
     def __init__(self, camera, id):
         
         #Set model and projectile paths
@@ -112,7 +151,7 @@ class MHB(object):
         base.taskMgr.add(self.animate, "mhbReticle")
         self.gunModel.setColor(0, 0, 0)
     
-    def fire(self):
+    def fire(self, task):
         
         #Spawn 20 projectiles, add them to taskMgr and play sfx
         for i in range(1,20):
@@ -124,6 +163,9 @@ class MHB(object):
         shotSfx = base.loader.loadSfx("resources/sounds/blunderbuss.wav")
         shotSfx.setVolume(.4)
         shotSfx.play()
+        
+        self.delayShot = task.time + 2
+        self.ohTime = self.ohTime + 2
         
         print "Shots fired: ", len(base.projectileList)
 
@@ -158,6 +200,31 @@ class MHB(object):
     def show(self):
         
         self.gunModel.show()
+        
+    def canShoot(self):
+        taskList = base.taskMgr.getTasksNamed("fire")
+        print taskList
+        if taskList[0].time >= self.delayShot:
+            return True
+        else:
+            return False
+    def over(self, task):
+        if self.ohTime > 10:
+            self.overheat = True
+        else:
+            self.overheat = False  
+             
+        if task.time >= self.ttTemp:
+            self.ttTemp = self.ttTemp + 1
+            self.ttTempBool = True
+        if self.ttTemp%3 <= 0:
+            if self.ttTempBool == True:
+                self.ohTime = self.ohTime - 1
+                self.ttTempBool = False
+        return task.cont
+
+    def getOverHeat(self):
+        return self.overheat
 
 class KeyValue(object):
     
@@ -166,6 +233,11 @@ class KeyValue(object):
     curScale = 0
     fireRight = True
     fireLeft = False
+    delayShot = 0
+    overHeat = False
+    ohTime = 0
+    ttTemp = 1
+    ttTempBool = True
 
     def __init__(self, camera, id):
        
@@ -198,7 +270,7 @@ class KeyValue(object):
         self.reticle.setScale(0)
         base.taskMgr.add(self.animate, "kvReticle")
 
-    def fire(self):
+    def fire(self, task):
 
         if self.fireRight:
             #Spawn projectile, add it to taskMgr and play sfx
@@ -222,6 +294,9 @@ class KeyValue(object):
             shotSfx.play()
             self.fireRight = True
             self.fireLeft = False
+            
+        self.delayShot = task.time + 2
+        self.ohTime = self.ohTime + 2
         
         print "Shots fired: ", len(base.projectileList)
 
@@ -258,3 +333,28 @@ class KeyValue(object):
 
         self.gunModel1.show()
         self.gunModel2.show()
+    
+    def canShoot(self):
+        taskList = base.taskMgr.getTasksNamed("fire")
+        print taskList
+        if taskList[0].time >= self.delayShot:
+            return True
+        else:
+            return False
+    def over(self, task):
+        if self.ohTime > 10:
+            self.overheat = True
+        else:
+            self.overheat = False  
+             
+        if task.time >= self.ttTemp:
+            self.ttTemp = self.ttTemp + 1
+            self.ttTempBool = True
+        if self.ttTemp%3 <= 0:
+            if self.ttTempBool == True:
+                self.ohTime = self.ohTime - 1
+                self.ttTempBool = False
+        return task.cont
+
+    def getOverHeat(self):
+        return self.overheat
