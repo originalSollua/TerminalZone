@@ -104,6 +104,7 @@ class RecursionRifle(object):
             return True
         else:
             return False
+            
     def over(self, task):
         if self.ohTime > 10:
             self.overheat = True
@@ -113,7 +114,7 @@ class RecursionRifle(object):
         if task.time >= self.ttTemp:
             self.ttTemp = self.ttTemp + 1
             self.ttTempBool = True
-        if self.ttTemp%3 <= 0:
+        if self.ttTemp%1 <= 0:
             if self.ttTempBool == True:
                 self.ohTime = self.ohTime - 1
                 self.ttTempBool = False
@@ -217,7 +218,7 @@ class MHB(object):
         if task.time >= self.ttTemp:
             self.ttTemp = self.ttTemp + 1
             self.ttTempBool = True
-        if self.ttTemp%3 <= 0:
+        if self.ttTemp%1 <= 0:
             if self.ttTempBool == True:
                 self.ohTime = self.ohTime - 1
                 self.ttTempBool = False
@@ -350,7 +351,7 @@ class KeyValue(object):
         if task.time >= self.ttTemp:
             self.ttTemp = self.ttTemp + 1
             self.ttTempBool = True
-        if self.ttTemp%3 <= 0:
+        if self.ttTemp%1 <= 0:
             if self.ttTempBool == True:
                 self.ohTime = self.ohTime - 1
                 self.ttTempBool = False
