@@ -38,10 +38,10 @@ class Player(DirectObject):
         self.playerNode.setPos(0,-30,30)
         
         self.playerNode.setScale(1.0)
-        cameraModel = loader.loadModel("models/camera")
-        cameraModel.reparentTo(self.playerNode)
+        self.cameraModel = loader.loadModel("models/camera")
+        self.cameraModel.reparentTo(self.playerNode)
         #cameraModel.hide()
-        cameraModel.setPos(0,0,2)
+        self.cameraModel.setPos(0,0,2)
         self.rRifle = RecursionRifle(base.camera, len(base.projectileList))
         self.mhBlunder = MHB(base.camera, len(base.projectileList))
         self.kvDuals = KeyValue(base.camera, len(base.projectileList))
@@ -59,7 +59,7 @@ class Player(DirectObject):
         hud.setTransparency(True)
         hud.reparentTo(render2d)
         
-        base.taskMgr.add(CameraMovement(cameraModel).cameraControl, "cameraControl")
+        base.taskMgr.add(CameraMovement(self.cameraModel).cameraControl, "cameraControl")
         self.createColision()
         
         #Calls the pause menu
@@ -147,6 +147,7 @@ class Player(DirectObject):
         floorCollRayPath = self.initCollisionRay(1,-1) 
         base.floor.addCollider(floorCollRayPath, self.playerNode)
         base.cTrav.addCollider(floorCollRayPath, base.floor)
+	floorCollRayPath.reparentTo(self.cameraModel)
 
     def initCollisionSphere(self, obj):
         
