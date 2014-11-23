@@ -70,11 +70,13 @@ class Player(DirectObject):
         # alernatively, dump player stats off in save file before recreating
         self.maxEnergy = 100
         self.curEnergy = self.maxEnergy
-		
+        self.accept("cnode", self.hit)
     
     def hit(self, damage):
         self.curEnergy = self.curEnergy-damage
         print self.curEnergy
+        if self.curEnergy <=0:
+           sys.exit(0)
     def swapWeapon(self): 
         # ignore this print. using it to gather data about the size of the debug room
         print self.playerNode.getPos()

@@ -15,6 +15,7 @@
 #
 #======================================================================#
 
+from weapons import ScrubCannon
 # Panda imports
 from direct.actor.Actor import Actor
 from panda3d.core import CollisionNode, CollisionSphere, CollisionTube, NodePath
@@ -67,6 +68,9 @@ class Enemy(DirectObject):
         # base settings like damage and health. modify spawner later to change these onec we have a more diverse population
         self.health = 20
         self.damage = 25;
+        self.fireDelta = 0
+        self.deadFlag = False
+        self.scrubCannon = ScrubCannon(base.camera, self.enemy)
     def setPos(self, x, y, z):
 		
         #Set enemy position
@@ -81,7 +85,12 @@ class Enemy(DirectObject):
         if self.health <= 0:
             self.delFlag = True
             self.enemy.cleanup()
+            self.deadFlag = True
             self.destroy()
+
+    def fire(self):
+        print "its fire time"
+        base.taskMgr.add(self.scrubCannon.fire, "fireE")
 
     def setAI(self, ai):
        
@@ -96,8 +105,11 @@ class Enemy(DirectObject):
         
         base.taskMgr.add(self.AIUpdate, "Update AI")
     def AIUpdate(self,task):
+        self.fireDelta+=1
+        if self.fireDelta >= 200 and not self.deadFlag:
+            self.fireDelta = 0
+            self.fire()
         self.AIWorld.update()
         return task.cont
     def destroy(self):
-        base.taskMgr.remove("attack"+str(self.id))
         del self

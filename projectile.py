@@ -25,6 +25,71 @@ import random
 #possible depricated library
 from direct.interval.IntervalGlobal import *
 
+class ScrubProjectile(DirectObject):
+    dur = 2
+    delta = .15
+    flag = False
+    def __init__(self, spawn, taregt, id):
+        self.projectileNode = NodePath('projectile'+str(id))
+        self.projectileNode.reparentTo(render)
+
+        self.projectileNode.setPos(spawn,0,-10, 0)
+        self.projectileNode.setScale(.1)
+        projectileModel = loader.loadModel("./resources/cubeShot.egg")
+        projectileModel.setColorScale(200, 0, 255, 100)
+        projectileModel.reparentTo(self.projectileNode)
+        self.projectileNode.setHpr(spawn, 0, 0, 0)
+
+
+        dir = render.getRelativeVector(spawn, Vec3(0, 1, 0))
+        self.vec = dir*-100
+        cs = CollisionSphere(0, 0, 0, 2.5)
+        cnodepath = self.projectileNode.attachNewNode(CollisionNode('projNode'))
+        cnodepath.node().addSolid(cs)
+        self.collHand = CollisionHandlerEvent()
+        self.collHand.addInPattern('enemyProjectileinto'+str(id))
+        self.collHand.addOutPattern('outof')
+        base.cTrav.addCollider(cnodepath, self.collHand)
+        self.acceptOnce('enemyProjectileinto'+str(id), self.hit)
+        self.damage = 10
+
+
+    def moveTask(self, task):    
+        
+        if self.flag:
+            return task.done
+        
+        velx = self.vec.x*self.delta
+        vely = self.vec.y*self.delta
+        velz = self.vec.z*self.delta
+        x = self.projectileNode.getX()
+        y = self.projectileNode.getY()
+        z = self.projectileNode.getZ()
+        self.projectileNode.setPos(x+velx, y+vely, z+velz)
+        
+        if task.time < self.dur:
+        
+            return task.cont
+        else:
+            
+            self.flag = True
+            return task.done
+
+
+    def hit(self, collEntry):
+        
+        #throw out a custom message for what hit
+        if collEntry.getIntoNodePath().getName() != 'projNode':
+           
+            temp = collEntry.getIntoNodePath().getName()
+            print temp
+            messenger.send(temp, [self.damage]) 
+            
+            #remove the impacting projectile
+            collEntry.getFromNodePath().getParent().getParent().removeNode()
+            self.flag =  True
+            del self
+
 class RRProjectile(DirectObject):
     
     #Property stuff
@@ -42,7 +107,7 @@ class RRProjectile(DirectObject):
         self.projectileNode = NodePath('projectile'+str(id))
         self.projectileNode.reparentTo(render)
         
-
+        
         #by passing the camera node form the camMov object, all projectiles are spawned 5 units in front of the camera
         self.projectileNode.setHpr(look, 0, 0, 0)
         self.projectileNode.setPos(camera,0,3, 3)

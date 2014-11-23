@@ -22,6 +22,25 @@ from direct.showbase.ShowBase import ShowBase
 
 from projectile import *
 
+
+
+#ScrubCannon - the thing the enemies shoot at us
+class ScrubCannon(object):
+    #few details needed. just going to spawn a laser at the enemy and move it at us
+
+    def __init__(self, camera, spawnNodePoint):
+        self.spawnNode = spawnNodePoint
+        self.targetNode = camera
+    def fire(self, task):
+        
+        proj = ScrubProjectile(self.spawnNode, self.targetNode, len(base.projectileList))
+        base.taskMgr.add(proj.moveTask, "move projectile")
+        base.projectileList.append(proj)
+        shotSfx = base.loader.loadSfx("./resources/sounds/recursion_rifle.wav")
+        shotSfx.setVolume(.4)
+        shotSfx.play()
+
+
 #Recursion Rifle
 class RecursionRifle(object):
     
