@@ -71,6 +71,9 @@ class Player(DirectObject):
         self.maxEnergy = 100
         self.curEnergy = self.maxEnergy
         self.accept("cnode", self.hit)
+
+	#Kill Floor task
+	base.taskMgr.add(self.killFloor, "Kill Floor") 
     
     def hit(self, damage):
         self.curEnergy = self.curEnergy-damage
@@ -181,3 +184,13 @@ class Player(DirectObject):
     def energyUpgrade(self):
         self.maxEnergy +=100
         self.curEnergy = self.maxEnergy
+
+    def killFloor(self, task):
+
+	z = int(self.playerNode.getPos()[2])
+
+	if(z < -7):
+		self.playerNode.setPos(0,-30,3) #resets height
+		self.cameraModel.setPos(0,0,2) #resets position
+		self.hit(10)
+	return task.cont
