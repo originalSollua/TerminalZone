@@ -4,4 +4,5 @@ left=a
 right=d
 xRes=1280
 yRes=720
-MorseNode=false
+peacefulMode=True
+MorseNode=False
