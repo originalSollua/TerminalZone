@@ -33,10 +33,11 @@ class LevelChanger(DirectObject):
     levelComplete = False 
 
     def __init__(self):
-        self.level01 = "resources/debug"
-        self.level02 = "resources/theDualChannel"
-        self.level03 = "resources/levelWithRoom"
-        self.levelMap = {1:self.level01, 2:self.level02, 3:self.level03}
+        self.level01 = "resources/theSouthBridge"
+        self.level02 = "resources/theSocket"
+        self.level03 = "resources/theDualChannel"
+        self.level04 = "resources/theRoot"
+        self.levelMap = {1:self.level01, 2:self.level02, 3:self.level03, 4:self.level04}
         self.currentLevel = 1
         print"welcome to levelchanger"
 
@@ -107,8 +108,10 @@ class LevelChanger(DirectObject):
 
         #reattach player to render
         base.player.playerNode.reparentTo(render)
-        base.player.playerNode.setPos(0, -30, 30)
-
+		
+        base.player.playerNode.setPos(0,-30,3) #resets height
+        base.player.cameraModel.setPos(0,0,2) #resets position
+        
         #create new spawner on the env
         base.spawner = Spawner(base.environ)
         #Reinit enemies

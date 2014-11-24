@@ -103,7 +103,7 @@ class Enemy(DirectObject):
         if ai == 1:
 
             # Flag this as an AI character
-            self.AIchar = AICharacter("chase", self.enemy, 100,.05,12.5)
+            self.AIchar = AICharacter("chase", self.enemy, 100,.05,15)
             self.AIWorld.addAiChar(self.AIchar)
             self.AIbehaviors = self.AIchar.getAiBehaviors()
 
