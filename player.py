@@ -18,7 +18,7 @@
 
 from camMov import CameraMovement
 from weapons import *
-from pausemenu import PauseMenu
+#from menus import PauseMenu
 
 from direct.gui.OnscreenImage import OnscreenImage
 from panda3d.core import CollisionNode, CollisionSphere, CollisionRay, CollisionHandlerGravity
@@ -59,11 +59,11 @@ class Player(DirectObject):
         hud.setTransparency(True)
         hud.reparentTo(render2d)
         
-        base.taskMgr.add(CameraMovement(self.cameraModel).cameraControl, "cameraControl")
+        base.taskMgr.add(CameraMovement(self.cameraModel).cameraControl, "cameraControl", taskChain='GameTasks')
         self.createColision()
         
         #Calls the pause menu
-        self.accept("m", self.startPause)
+        #self.accept("m", self.startPause)
 
         # define player health here
         # try not to re-create the player object, will alter reset these values

@@ -22,6 +22,7 @@ from player import Player
 from enemy import Enemy
 from spawner import Spawner
 from levelChanger import LevelChanger
+from TerminalZoneFSM import TerminalZoneFSM
 
 #Panda imports
 from panda3d.core import CollisionTraverser, CollisionHandlerPusher
@@ -38,12 +39,23 @@ class GameStart(ShowBase):
         
     #Initialize keys
     keyMap = {"forward":False, "backward":False, "left":False, "right":False, "m":False}
+    fsm = 0
     
     def __init__(self):
         
         #Start ShowBase
         ShowBase.__init__(self)
-       
+        
+        #Set up task chain for game play
+        base.taskMgr.setupTaskChain('GameTasks')
+        
+        #start FSM
+        self.fsm = TerminalZoneFSM()
+        
+        self.fsm.request('MainMenu')
+        
+    def startNewGame(self):
+    
         #Get window properties, hide the cursor, set properties
         properties = WindowProperties()
         properties.setCursorHidden(True)
@@ -92,10 +104,10 @@ class GameStart(ShowBase):
         self.levelChanger = LevelChanger()
 
         #Add tasks
-        base.taskMgr.add(self.spawner.checkSpawn, "Spawn Enemies")
-        base.taskMgr.add(self.projCleanTask, "Projectile Clean Up")
-        base.taskMgr.add(self.enemyCleanUp, "enemyCleanup")
-        base.taskMgr.add(self.levelChanger.checkLevel, "checkLevel")
+        base.taskMgr.add(self.spawner.checkSpawn, "Spawn Enemies", taskChain='GameTasks')
+        base.taskMgr.add(self.projCleanTask, "Projectile Clean Up", taskChain='GameTasks')
+        base.taskMgr.add(self.enemyCleanUp, "enemyCleanup", taskChain='GameTasks')
+        base.taskMgr.add(self.levelChanger.checkLevel, "checkLevel", taskChain='GameTasks')
 
         #Open file to get configs
         self.configFile = open("config.txt")
