@@ -63,41 +63,41 @@ class CameraMovement(DirectObject):
             
             if(self.keyMap["left"] == True):
                 
-                self.cameraModel.setX(self.cameraModel, -15 * dt)
-                self.cameraModel.setY(self.cameraModel, 20 * dt)
+                self.cameraModel.setX(self.cameraModel, -20 * dt)
+                self.cameraModel.setY(self.cameraModel, 25 * dt)
                 return task.cont
             elif(self.keyMap["right"] == True):
                 
-                self.cameraModel.setX(self.cameraModel, 15 * dt)
-                self.cameraModel.setY(self.cameraModel, 20 * dt)
+                self.cameraModel.setX(self.cameraModel, 20 * dt)
+                self.cameraModel.setY(self.cameraModel, 25 * dt)
                 return task.cont
             else:
                 
-                self.cameraModel.setY(self.cameraModel, 20 * dt)
+                self.cameraModel.setY(self.cameraModel, 25 * dt)
                 return task.cont
         elif(self.keyMap["backward"] == True):
             
             if(self.keyMap["left"] == True):
                 
-                self.cameraModel.setX(self.cameraModel, -15 * dt)
-                self.cameraModel.setY(self.cameraModel, -20 * dt)
+                self.cameraModel.setX(self.cameraModel, -20 * dt)
+                self.cameraModel.setY(self.cameraModel, -25 * dt)
                 return task.cont
             elif(self.keyMap["right"] == True):
                 
-                self.cameraModel.setX(self.cameraModel, 15 * dt)
-                self.cameraModel.setY(self.cameraModel, -20 * dt)
+                self.cameraModel.setX(self.cameraModel, 20 * dt)
+                self.cameraModel.setY(self.cameraModel, -25 * dt)
                 return task.cont
             else:
                 
-                self.cameraModel.setY(self.cameraModel, -20 * dt)
+                self.cameraModel.setY(self.cameraModel, -25 * dt)
                 return task.cont
         elif(self.keyMap["left"] == True):
             
-            self.cameraModel.setX(self.cameraModel, -15 * dt)
+            self.cameraModel.setX(self.cameraModel, -20 * dt)
             return task.cont
         elif(self.keyMap["right"] == True):
             
-            self.cameraModel.setX(self.cameraModel, 15 * dt)
+            self.cameraModel.setX(self.cameraModel, 20 * dt)
             return task.cont
         else:
             return task.cont
