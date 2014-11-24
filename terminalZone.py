@@ -79,7 +79,6 @@ class GameStart(ShowBase):
         self.environ.setScale(7, 7, 3)
         
         self.skybox = loader.loadModel("resources/skyBox")
-        self.skyTex = loader.loadTexture("resources/tex/skyTex.png")
         self.skyboxPath = NodePath(self.skybox)
         self.skyboxPath.setCompass()
         self.skybox.setBin('background',1)
@@ -112,6 +111,7 @@ class GameStart(ShowBase):
         #Open file to get configs
         self.configFile = open("config.txt")
         self.configList = self.configFile.readlines()
+        self.configFile.close()
 
         #Get movement controls
         self.forward = self.configList[0].split("=")[1].translate(None,"\n")

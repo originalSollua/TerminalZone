@@ -77,7 +77,7 @@ class Player(DirectObject):
     
     def hit(self, damage):
         self.curEnergy = self.curEnergy-damage
-        print self.curEnergy
+        print "Player Health:",self.curEnergy
         if self.curEnergy <=0:
            sys.exit(0)
     def swapWeapon(self): 

@@ -32,8 +32,8 @@ class Enemy(DirectObject):
     #Check for peaceful mode
     configFile = open("config.txt")
     configList = configFile.readlines()
+    configFile.close()
     peacefulMode = configList[6].split("=")[1].translate(None,"\n")
-    print peacefulMode
 
     def __init__(self, model, id, ai):
         self.id = id
@@ -87,7 +87,7 @@ class Enemy(DirectObject):
         #access the thing hit like below, the parrent of the collision node
         #damage health etc below
         self.health = self.health-damage
-        print self.health
+        print "Enemy Health:",self.health
         if self.health <= 0:
             self.delFlag = True
             self.enemy.cleanup()
