@@ -18,7 +18,6 @@
 
 from camMov import CameraMovement
 from weapons import *
-#from menus import PauseMenu
 
 from direct.gui.OnscreenImage import OnscreenImage
 from panda3d.core import CollisionNode, CollisionSphere, CollisionRay, CollisionHandlerGravity
@@ -61,9 +60,6 @@ class Player(DirectObject):
         
         base.taskMgr.add(CameraMovement(self.cameraModel).cameraControl, "cameraControl", taskChain='GameTasks')
         self.createColision()
-        
-        #Calls the pause menu
-        #self.accept("m", self.startPause)
 
         # define player health here
         # try not to re-create the player object, will alter reset these values
@@ -175,10 +171,6 @@ class Player(DirectObject):
         collRayNP = self.playerNode.attachNewNode(collNode)
         collRayNP.show()
         return collRayNP
-
-    def startPause(self):
-        
-        base.taskMgr.add(PauseMenu(self.playerNode).controlPause, "pauseMenu")
 
     # call this method when collide with a health upgrade
     def energyUpgrade(self):

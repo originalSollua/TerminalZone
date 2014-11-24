@@ -127,6 +127,7 @@ class GameStart(ShowBase):
 
         #Controls
         self.accept("escape", sys.exit, [0])
+        self.accept("m", self.startPause)
         
         #Set Controls
         self.accept(self.forward, self.setKey, ["forward", True])
@@ -170,6 +171,9 @@ class GameStart(ShowBase):
                 self.enemyList.remove(i)
                 #self.spawner.spawnableCount-=1
         return task.cont
+        
+    def startPause(self):
+        self.fsm.request('PauseMenu')
 
 TerminalZone = GameStart()
 TerminalZone.run()

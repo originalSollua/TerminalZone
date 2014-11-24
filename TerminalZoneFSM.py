@@ -18,26 +18,37 @@ from direct.fsm.FSM import FSM
 from direct.showbase.ShowBase import ShowBase
 
 from menus import mainmenu
+from menus import pausemenu
 
 class TerminalZoneFSM(FSM):
     
     tasks = 0
     mm = 0
+    pm = 0
 
     def __init__(self):
         FSM.__init__(self, "TerminalZoneFSM")
         
     def enterPlay(self):
-        base.startNewGame()
+        if (self.tasks != 0):
+            for t in self.tasks:
+                base.taskMgr.add(t)
+            self.tasks = 0
+        else:    
+            base.startNewGame()
     
     def exitPlay(self):
-        self.tasks = base.taskMgr.findTaskChain('GameTasks')
-        base.taskMgr.remove(self.tasks)
+        self.tasks = base.taskMgr.mgr.findTaskChain('GameTasks').getTasks()
+        base.taskMgr.mgr.remove(self.tasks)
     
     def enterMainMenu(self):
         self.mm = mainmenu.init()
-        print "Made it to the Menu"
         
     def exitMainMenu(self):
-        #if self.mm != 0:
         self.mm.destroy()
+        
+    def enterPauseMenu(self):
+        self.pm = pausemenu.init()
+    
+    def exitPauseMenu(self):
+        self.pm.destroy()
