@@ -29,6 +29,12 @@ class Enemy(DirectObject):
     #Flag for detecting hit enemy
     delFlag = False
 
+    #Check for peaceful mode
+    configFile = open("config.txt")
+    configList = configFile.readlines()
+    peacefulMode = configList[6].split("=")[1].translate(None,"\n")
+    print peacefulMode
+
     def __init__(self, model, id, ai):
         self.id = id
         #init and render
@@ -105,10 +111,11 @@ class Enemy(DirectObject):
         
         base.taskMgr.add(self.AIUpdate, "Update AI")
     def AIUpdate(self,task):
-        self.fireDelta+=1
-        if self.fireDelta >= 200 and not self.deadFlag:
-            self.fireDelta = 0
-            self.fire()
+        if self.peacefulMode == "False":
+            self.fireDelta+=1
+            if self.fireDelta >= 200 and not self.deadFlag:
+                self.fireDelta = 0
+                self.fire()
         self.AIWorld.update()
         return task.cont
     def destroy(self):

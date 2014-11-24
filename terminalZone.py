@@ -25,7 +25,7 @@ from levelChanger import LevelChanger
 
 #Panda imports
 from panda3d.core import CollisionTraverser, CollisionHandlerPusher
-from panda3d.core import WindowProperties, Filename, Point3
+from panda3d.core import WindowProperties, Filename, Point3, NodePath
 from direct.showbase.ShowBase import ShowBase
 from direct.interval.IntervalGlobal import Sequence
 
@@ -61,22 +61,30 @@ class GameStart(ShowBase):
         base.cTrav = CollisionTraverser()
         base.pusher = CollisionHandlerPusher()
         
-        #Load Environment
-        self.environ = self.loader.loadModel("./resources/theSouthBridge")
+        #Load Environment and skybox
+        self.environ = self.loader.loadModel("./resources/theRoot")
         self.environ.reparentTo(self.render)
         self.environ.setScale(7, 7, 3)
         
+        self.skybox = loader.loadModel("resources/skyBox")
+        self.skyTex = loader.loadTexture("resources/tex/skyTex.png")
+        self.skyboxPath = NodePath(self.skybox)
+        self.skyboxPath.setCompass()
+        self.skybox.setBin('background',1)
+        self.skybox.setDepthWrite(False)
+        self.skybox.setLightOff()
+        self.skybox.reparentTo(camera)
+
         #Debug scalling (0.5, 0.5, 0.5)
         #for chasm, use(7,7,3). will refine scaling standards later.
         #self.environ.setScale(0.5,0.5,0.5)
-
         #Test load for monkey, will remove later
         self.monkey = self.loader.loadModel("resources/lordMonkey")
         self.monkey.reparentTo(render)
         self.monkey.setScale(3.5,3.5,3.5)
         #Init player here
         self.player = Player()
-
+        
         #Create spawner open on current level
         self.spawner = Spawner(self.environ)
 

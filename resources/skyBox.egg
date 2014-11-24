@@ -1,0 +1,238 @@
+<CoordinateSystem> { Z-up } 
+<Material> Material.001 {
+  <Scalar> diffr { 1.0 }
+  <Scalar> diffg { 1.0 }
+  <Scalar> diffb { 1.0 }
+  <Scalar> specr { 0.500000 }
+  <Scalar> specg { 0.500000 }
+  <Scalar> specb { 0.500000 }
+  <Scalar> shininess { 12.5 }
+  <Scalar> emitr { 0.000000 }
+  <Scalar> emitg { 0.000000 }
+  <Scalar> emitb { 0.000000 }
+}
+
+<Texture> Cube_diffuse {
+  "./tex/skyTex.png"
+  <Scalar> envtype { MODULATE }
+}
+
+  <Group> Cube {
+    <Transform> {
+      <Matrix4> {
+        7.000000 0.000000 0.000000 0.000000 
+        0.000000 7.000000 0.000000 0.000000 
+        0.000000 0.000000 7.000000 0.000000 
+        0.000000 0.000000 0.000000 1.000000 
+      }
+    }
+    
+    <VertexPool> Cube {
+    
+      <Vertex> 0 {
+        -7.0 -7.0 7.0
+        
+        <UV>  {
+          -1.617270 -1.617270
+        }
+      }
+      <Vertex> 1 {
+        -7.0 -7.0 -7.0
+        
+        <UV>  {
+          -1.617270 2.617270
+        }
+      }
+      <Vertex> 2 {
+        -7.0 7.0 -7.0
+        
+        <UV>  {
+          2.617270 2.617270
+        }
+      }
+      <Vertex> 3 {
+        -7.0 7.0 7.0
+        
+        <UV>  {
+          2.617270 -1.617270
+        }
+      }
+      <Vertex> 4 {
+        -7.0 7.0 7.0
+        
+        <UV>  {
+          -1.617270 -1.617270
+        }
+      }
+      <Vertex> 5 {
+        -7.0 7.0 -7.0
+        
+        <UV>  {
+          -1.617270 2.617270
+        }
+      }
+      <Vertex> 6 {
+        7.0 7.0 -7.0
+        
+        <UV>  {
+          2.617270 2.617270
+        }
+      }
+      <Vertex> 7 {
+        7.0 7.0 7.0
+        
+        <UV>  {
+          2.617270 -1.617270
+        }
+      }
+      <Vertex> 8 {
+        7.0 7.0 7.0
+        
+        <UV>  {
+          -1.617270 -1.617270
+        }
+      }
+      <Vertex> 9 {
+        7.0 7.0 -7.0
+        
+        <UV>  {
+          -1.617270 2.617270
+        }
+      }
+      <Vertex> 10 {
+        7.0 -7.0 -7.0
+        
+        <UV>  {
+          2.617270 2.617270
+        }
+      }
+      <Vertex> 11 {
+        7.0 -7.0 7.0
+        
+        <UV>  {
+          2.617270 -1.617270
+        }
+      }
+      <Vertex> 12 {
+        7.0 -7.0 7.0
+        
+        <UV>  {
+          -1.617270 -1.617270
+        }
+      }
+      <Vertex> 13 {
+        7.0 -7.0 -7.0
+        
+        <UV>  {
+          -1.617270 2.617270
+        }
+      }
+      <Vertex> 14 {
+        -7.0 -7.0 -7.0
+        
+        <UV>  {
+          2.617270 2.617270
+        }
+      }
+      <Vertex> 15 {
+        -7.0 -7.0 7.0
+        
+        <UV>  {
+          2.617270 -1.617270
+        }
+      }
+      <Vertex> 16 {
+        -7.0 -7.0 -7.0
+        
+        <UV>  {
+          -1.617270 -1.617270
+        }
+      }
+      <Vertex> 17 {
+        7.0 -7.0 -7.0
+        
+        <UV>  {
+          -1.617270 2.617270
+        }
+      }
+      <Vertex> 18 {
+        7.0 7.0 -7.0
+        
+        <UV>  {
+          2.617270 2.617270
+        }
+      }
+      <Vertex> 19 {
+        -7.0 7.0 -7.0
+        
+        <UV>  {
+          2.617270 -1.617270
+        }
+      }
+      <Vertex> 20 {
+        7.0 -7.0 7.0
+        
+        <UV>  {
+          -1.617270 -1.617270
+        }
+      }
+      <Vertex> 21 {
+        -7.0 -7.0 7.0
+        
+        <UV>  {
+          -1.617270 2.617270
+        }
+      }
+      <Vertex> 22 {
+        -7.0 7.0 7.0
+        
+        <UV>  {
+          2.617270 2.617270
+        }
+      }
+      <Vertex> 23 {
+        7.0 7.0 7.0
+        
+        <UV>  {
+          2.617270 -1.617270
+        }
+      }}
+    
+    
+    <Polygon> {
+      <TRef> { Cube_diffuse }
+      <MRef> { Material.001 }
+      <Normal> {1.000000 0.000000 0.000000}
+      <VertexRef> { 0 1 2 3 <Ref> { Cube }}
+    }
+    <Polygon> {
+      <TRef> { Cube_diffuse }
+      <MRef> { Material.001 }
+      <Normal> {0.000000 -1.000000 0.000000}
+      <VertexRef> { 4 5 6 7 <Ref> { Cube }}
+    }
+    <Polygon> {
+      <TRef> { Cube_diffuse }
+      <MRef> { Material.001 }
+      <Normal> {-1.000000 0.000000 0.000000}
+      <VertexRef> { 8 9 10 11 <Ref> { Cube }}
+    }
+    <Polygon> {
+      <TRef> { Cube_diffuse }
+      <MRef> { Material.001 }
+      <Normal> {0.000000 1.000000 0.000000}
+      <VertexRef> { 12 13 14 15 <Ref> { Cube }}
+    }
+    <Polygon> {
+      <TRef> { Cube_diffuse }
+      <MRef> { Material.001 }
+      <Normal> {0.000000 0.000000 1.000000}
+      <VertexRef> { 16 17 18 19 <Ref> { Cube }}
+    }
+    <Polygon> {
+      <TRef> { Cube_diffuse }
+      <MRef> { Material.001 }
+      <Normal> {0.000000 0.000000 -1.000000}
+      <VertexRef> { 20 21 22 23 <Ref> { Cube }}
+    }
+  }
