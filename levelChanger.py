@@ -33,12 +33,28 @@ class LevelChanger(DirectObject):
     levelComplete = False 
 
     def __init__(self):
+        
         self.level01 = "resources/theSouthBridge"
         self.level02 = "resources/theSocket"
         self.level03 = "resources/theDualChannel"
         self.level04 = "resources/theRoot"
         self.levelMap = {1:self.level01, 2:self.level02, 3:self.level03, 4:self.level04}
         self.currentLevel = 1
+
+
+        #Open file to get player spawns 
+        self.pSpawnsFile = open("playerSpawns.txt")
+        self.pSpawnsList = self.pSpawnsFile.readlines()
+        self.pSpawnsFile.close()
+        
+        self.spawnIndex = 0
+        #Get movement controls
+        base.xPos = float(self.pSpawnsList[self.spawnIndex + 1].split("=")[self.spawnIndex + 1].translate(None,"\n"))
+        base.yPos = float(self.pSpawnsList[self.spawnIndex + 2].split("=")[1].translate(None,"\n"))
+        base.zPos = float(self.pSpawnsList[self.spawnIndex + 3].split("=")[1].translate(None,"\n"))
+ 
+        base.player.playerNode.setPos(0, 0, 30) #resets height
+        base.player.cameraModel.setPos(base.xPos, base.yPos, base.zPos) #resets position
         print"welcome to levelchanger"
 
     #checks the enemy list
@@ -108,9 +124,15 @@ class LevelChanger(DirectObject):
 
         #reattach player to render
         base.player.playerNode.reparentTo(render)
-		
-        base.player.playerNode.setPos(0,-30,3) #resets height
-        base.player.cameraModel.setPos(0,0,2) #resets position
+	    
+        self.spawnIndex += 4
+        #Get movement controls
+        base.xPos = float(self.pSpawnsList[self.spawnIndex + 1].split("=")[1].translate(None,"\n"))
+        base.yPos = float(self.pSpawnsList[self.spawnIndex + 2].split("=")[1].translate(None,"\n"))
+        base.zPos = float(self.pSpawnsList[self.spawnIndex + 3].split("=")[1].translate(None,"\n"))
+        
+        base.player.playerNode.setPos(0,0,30) #resets height
+        base.player.cameraModel.setPos(base.xPos, base.yPos, base.zPos) #resets position
         
         #create new spawner on the env
         base.spawner = Spawner(base.environ)

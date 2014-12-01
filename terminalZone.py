@@ -99,6 +99,11 @@ class GameStart(ShowBase):
         #Create spawner open on current level
         self.spawner = Spawner(self.environ)
 
+        #Current spawn coordinates
+        self.xPos = 0
+        self.yPos = 0
+        self.zPos = 3
+
         #Create level changer
         self.levelChanger = LevelChanger()
 

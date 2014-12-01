@@ -1,0 +1,16 @@
+level1
+x=-250
+y=-250
+z=3
+level2
+x=0
+y=0
+z=3
+level3
+x=-200
+y=0
+z=3
+level4
+x=-20
+y=0
+z=3
