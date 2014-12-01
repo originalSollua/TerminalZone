@@ -15,6 +15,7 @@
 #
 #======================================================================#
 
+import math
 from weapons import ScrubCannon
 # Panda imports
 from direct.actor.Actor import Actor
@@ -111,11 +112,35 @@ class Enemy(DirectObject):
         
         base.taskMgr.add(self.AIUpdate, "Update AI")
     def AIUpdate(self,task):
-        if self.peacefulMode == "False":
+        if self.peacefulMode == "Flase":
+            if not self.deadFlag:
+                eX = self.enemy.getX()
+                eY = self.enemy.getY()
+                #eZ = self.enemy.getZ()-15
+            
+                pX = base.player.cameraModel.getX()
+                pY = base.player.cameraModel.getY()
+
+                x = eX - pX
+                x = math.pow(x, 2)
+            
+                y = pY - pY
+                y = math.pow(y,2)
+
+                dist = math.sqrt(x + y)
+            #print"dist: ",dist    
             self.fireDelta+=1
             if self.fireDelta >= 200 and not self.deadFlag:
-                self.fireDelta = 0
-                self.fire()
+                if(dist < 15):
+                    print"enemy can fire now"
+                    print"dist: ",dist 
+                    self.fireDelta = 0
+                    self.fire()
+
+                
+            #elif distance between < MHBrifle.dir:
+                    #chase
+                
         self.AIWorld.update()
         return task.cont
     def destroy(self):
