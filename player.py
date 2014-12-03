@@ -79,6 +79,7 @@ class Player(DirectObject):
     def swapWeapon(self): 
         # ignore this print. using it to gather data about the size of the debug room
         print self.playerNode.getPos()
+        self.weaponMap[self.curWeapon].resetWeapon
         if  self.curWeapon == 1:
             
             self.weaponMap[1].reticle.setScale(0)    
@@ -117,17 +118,18 @@ class Player(DirectObject):
             self.weaponMap[1].curScale = .025
          
         base.taskMgr.remove("overheat")
+        base.taskMgr.remove("weaponDelay")
         base.taskMgr.add(self.weaponMap[self.curWeapon].over, "overheat")
     
     def fireWeapon(self):
-        print base.taskMgr.hasTaskNamed("fire")
-        if base.taskMgr.hasTaskNamed("fire") == False:
+
+        if base.taskMgr.hasTaskNamed("weaponDelay") == False:
             if self.weaponMap[self.curWeapon].getOverHeat() == False:
                 base.taskMgr.add(self.weaponMap[self.curWeapon].fire, "fire")
             
         elif self.weaponMap[self.curWeapon].canShoot() == True:
             if self.weaponMap[self.curWeapon].getOverHeat() == False:
-                base.taskMgr.remove("fire")
+                base.taskMgr.remove("weaponDelay")
                 base.taskMgr.add(self.weaponMap[self.curWeapon].fire, "fire")
             
         else:
