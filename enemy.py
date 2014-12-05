@@ -35,7 +35,7 @@ class Enemy(DirectObject):
     configFile.close()
     peacefulMode = configList[6].split("=")[1].translate(None,"\n")
 
-    def __init__(self, model, id, ai):
+    def __init__(self, model, id):
         self.id = id
         #init and render
         self.enemyNode = NodePath('enemy'+str(id))
@@ -45,10 +45,7 @@ class Enemy(DirectObject):
         # Load the enemy model, set the scale, and add to render
         self.enemy = Actor(model,{"walk":"resources/humanoid-walk"})
         self.enemy.reparentTo(self.enemyNode)
-        #self.enemy.loop("walk")
         self.enemy.setScale(0.2,0.2,0.2)
-        #Set behavior
-        self.setAI(ai)
         
         #configure hit tube
         xTop = self.enemy.getX()
@@ -77,6 +74,7 @@ class Enemy(DirectObject):
         self.fireDelta = 0
         self.deadFlag = False
         self.scrubCannon = ScrubCannon(base.camera, self.enemy)
+
     def setPos(self, x, y, z):
 		
         #Set enemy position
@@ -98,18 +96,17 @@ class Enemy(DirectObject):
         print "its fire time"
         base.taskMgr.add(self.scrubCannon.fire, "fireE")
 
-    def setAI(self, ai):
+    def setAI(self):
        
-        if ai == 1:
+    	# Flag this as an AI character
+        self.AIchar = AICharacter("chase", self.enemy, 100,.05,25)
+        self.AIWorld.addAiChar(self.AIchar)
+        self.AIbehaviors = self.AIchar.getAiBehaviors()
 
-            # Flag this as an AI character
-            self.AIchar = AICharacter("chase", self.enemy, 100,.05,25)
-            self.AIWorld.addAiChar(self.AIchar)
-            self.AIbehaviors = self.AIchar.getAiBehaviors()
-
-            self.AIbehaviors.pursue(base.camera)
+        self.AIbehaviors.pursue(base.camera)
         
         base.taskMgr.add(self.AIUpdate, "Update AI")
+
     def AIUpdate(self,task):
         if self.peacefulMode == "False":
             self.fireDelta+=1
@@ -118,5 +115,11 @@ class Enemy(DirectObject):
                 self.fire()
         self.AIWorld.update()
         return task.cont
+
     def destroy(self):
         del self
+
+    def animate(self):
+	
+	self.enemy.play("walk")
+	self.enemy.loop("walk", fromFrame = 10)

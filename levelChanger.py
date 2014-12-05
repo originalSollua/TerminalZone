@@ -99,11 +99,6 @@ class LevelChanger(DirectObject):
         #Remove enemies
         base.taskMgr.remove("Spawn Enemies")
 
-        #unload monkey
-        base.loader.unloadModel("resources/lordMonkey")
-
-        #detach spawner
-
         #unload the env and detach remove the node
         base.loader.unloadModel(level)
         base.environ.removeNode()
@@ -116,11 +111,6 @@ class LevelChanger(DirectObject):
         
         #update the currentLevel.
         self.currentLevel += 1
-
-        #load monkey
-        base.monkey = base.loader.loadModel("resources/lordMonkey")
-        base.monkey.reparentTo(render)
-        base.monkey.setScale(3.5, 3.5, 3.5)
 
         #reattach player to render
         base.player.playerNode.reparentTo(render)
