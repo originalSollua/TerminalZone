@@ -20,8 +20,9 @@ from camMov import CameraMovement
 from weapons import *
 
 from direct.gui.OnscreenImage import OnscreenImage
+from direct.gui.OnscreenText import OnscreenText
 from panda3d.core import CollisionNode, CollisionSphere, CollisionRay, CollisionHandlerGravity
-from panda3d.core import NodePath, BitMask32, TransparencyAttrib, Filename
+from panda3d.core import NodePath, BitMask32, TransparencyAttrib, Filename, TextNode
 from direct.showbase.DirectObject import DirectObject
 class Player(DirectObject):
     
@@ -31,7 +32,11 @@ class Player(DirectObject):
     #game manager ->player ->camera as far as instantiating goes
     
     def __init__(self):
+        self.red = 0
+        self.green = 1
+        self.blue = 1
         
+        self.down = True
         self.playerNode = NodePath('player')
         self.playerNode.reparentTo(render)
         self.playerNode.setPos(0,-30,30)
@@ -57,20 +62,28 @@ class Player(DirectObject):
         hud = OnscreenImage("resources/hud.png")
         hud.setTransparency(True)
         hud.reparentTo(render2d)
-        
+        base.taskMgr.add(self.hFlicker, "hflicker")     
         base.taskMgr.add(CameraMovement(self.cameraModel).cameraControl, "cameraControl", taskChain='GameTasks')
         self.createColision()
-
+        
         # define player health here
         # try not to re-create the player object, will alter reset these values
-        # alernatively, dump player stats off in save file before recreating
-        self.maxEnergy = 100
+       # alernatively, dump player stats off in save file before recreating
+        self.maxEnergy = 30
         self.curEnergy = self.maxEnergy
         self.accept("cnode", self.hit)
-
+        
+        #set up on screen health bar
+        self.healthLable = TextNode('health field name')
+        self.healthLable.setText("Abstraction")
+        textNodePath = aspect2d.attachNewNode(self.healthLable)
+        textNodePath.setScale(0.07)
+        self.healthLable.setAlign(TextNode.ACenter)
+        textNodePath.setPos(0, 0, .7)
+        self.healthLable.setTextColor(self.red, self.green, self.blue, 1)
 	#Kill Floor task
 	base.taskMgr.add(self.killFloor, "Kill Floor") 
-    
+
     def hit(self, damage):
         self.curEnergy = self.curEnergy-damage
         print "Player Health:",self.curEnergy
@@ -188,3 +201,22 @@ class Player(DirectObject):
 		self.cameraModel.setPos(base.xPos, base.yPos, base.zPos) #resets position
 		self.hit(10)
 	return task.cont
+
+    def hFlicker(self, task):
+        if self.curEnergy <=30:
+            if self.down:
+                self.red = self.red+0.1
+                self.blue = self.blue-.01
+                self.green = self.green-.01
+            else:
+                self.red = self.red-0.1
+                self.blue = self.green+0.1
+                self.green = self.green+0.1
+        if self.red >=1:
+            self.down = False
+        if self.red <=0:
+            self.down = True
+        self.healthLable.setTextColor(self.red, self.green, self.blue, 1)
+        return task.cont
+
+                
