@@ -49,7 +49,7 @@ class LevelChanger(DirectObject):
         
         self.spawnIndex = 0
         #Get movement controls
-        base.xPos = float(self.pSpawnsList[self.spawnIndex + 1].split("=")[self.spawnIndex + 1].translate(None,"\n"))
+        base.xPos = float(self.pSpawnsList[self.spawnIndex + 1].split("=")[1].translate(None,"\n"))
         base.yPos = float(self.pSpawnsList[self.spawnIndex + 2].split("=")[1].translate(None,"\n"))
         base.zPos = float(self.pSpawnsList[self.spawnIndex + 3].split("=")[1].translate(None,"\n"))
  
@@ -61,7 +61,8 @@ class LevelChanger(DirectObject):
     #if the list is empty, level is complete
     #set flag to true and change the level.
     def checkLevel (self, task):
-        enemy = base.spawner.spawnableCount
+        
+        enemy = base.spawner.spawnId
         if(len(base.enemyList) == 0):
             if enemy > 0:
                 self.levelComplete = True
@@ -99,11 +100,6 @@ class LevelChanger(DirectObject):
         #Remove enemies
         base.taskMgr.remove("Spawn Enemies")
 
-        #unload monkey
-        base.loader.unloadModel("resources/lordMonkey")
-
-        #detach spawner
-
         #unload the env and detach remove the node
         base.loader.unloadModel(level)
         base.environ.removeNode()
@@ -116,11 +112,6 @@ class LevelChanger(DirectObject):
         
         #update the currentLevel.
         self.currentLevel += 1
-
-        #load monkey
-        base.monkey = base.loader.loadModel("resources/lordMonkey")
-        base.monkey.reparentTo(render)
-        base.monkey.setScale(3.5, 3.5, 3.5)
 
         #reattach player to render
         base.player.playerNode.reparentTo(render)
@@ -135,9 +126,9 @@ class LevelChanger(DirectObject):
         base.player.cameraModel.setPos(base.xPos, base.yPos, base.zPos) #resets position
         
         #create new spawner on the env
-        base.spawner = Spawner(base.environ)
+        base.spawner = Spawner(base.environ, level.split("/")[1].translate(None,"\n"))
         #Reinit enemies
-        base.taskMgr.add(base.spawner.checkSpawn, "Spawn Enemies")
+        base.spawner.spawn()
         base.taskMgr.add(self.checkLevel, "checkLevel")
 
         self.fadeIn = self.transition.fadeIn(2)
