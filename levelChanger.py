@@ -105,6 +105,9 @@ class LevelChanger(DirectObject):
         base.environ.removeNode()
 
     def load(self, level):
+        
+        base.player.curEnergy = 100
+
         #load Environment - new level
         base.environ = base.loader.loadModel(level)
         base.environ.reparentTo(base.render)

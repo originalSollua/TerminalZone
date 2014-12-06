@@ -48,18 +48,18 @@ class Spawner(DirectObject):
             self.enemyX = float(self.eSpawnsList[lineIndex].split("=")[1].translate(None,"\n"))
             self.enemyY = float(self.eSpawnsList[lineIndex + 1].split("=")[1].translate(None,"\n"))
             self.enemyZ = float(self.eSpawnsList[lineIndex + 2].split("=")[1].translate(None,"\n"))
-            print(self.enemyY)
             lineIndex += 3
             self.spawnEnemy(1, self.spawnId)
             
             # Increase enemy count
             self.spawnId += 1
+        if base.levelChanger.currentLevel == 3:
 
-	    if base.levelChanger.currentLevel == 4:
+            base.taskMgr.add(self.spawnEnemies, "Spawn enemies", taskChain='GameTasks')
+	    
+        if base.levelChanger.currentLevel == 4:
 
-	        self.spawnBoss()
-
-        
+	        self.spawnBoss()      
     
     def spawnEnemy(self, modelNum, id):
 
@@ -78,6 +78,28 @@ class Spawner(DirectObject):
         base.enemyList.append(enemy)
         self.offset+=1
         #print "Enemies: ", len(base.enemyList)
+
+    def spawnEnemies(self, task):
+        
+
+        if base.player.cameraModel.getX() >= 0:
+
+            lineIndex = 0
+            while lineIndex < len(self.eSpawnsList):
+           
+                self.enemyX = -1 * float(self.eSpawnsList[lineIndex].split("=")[1].translate(None,"\n"))
+                self.enemyY = -1 * float(self.eSpawnsList[lineIndex + 1].split("=")[1].translate(None,"\n"))
+                self.enemyZ = float(self.eSpawnsList[lineIndex + 2].split("=")[1].translate(None,"\n"))
+                lineIndex += 3
+                self.spawnEnemy(1, self.spawnId)
+            
+                # Increase enemy count
+                self.spawnId += 1
+
+            return task.done
+
+        return task.cont
+
 
     def spawnBoss(self):
 

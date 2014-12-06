@@ -80,7 +80,7 @@ class RecursionRifle(object):
         shotSfx.setVolume(.4)
         shotSfx.play()
         
-        self.delayShot = task.time + 2
+        self.delayShot = task.time + .8
         base.taskMgr.add(self.contTask, "weaponDelay")
         self.ohTime = self.ohTime + 2
         
@@ -194,7 +194,7 @@ class MHB(object):
         shotSfx.setVolume(.4)
         shotSfx.play()
         
-        self.delayShot = task.time + 2
+        self.delayShot = task.time + 1.2
         base.taskMgr.add(self.contTask, "weaponDelay")
         self.ohTime = self.ohTime + 2
         
@@ -336,7 +336,7 @@ class KeyValue(object):
             self.fireRight = True
             self.fireLeft = False
             
-        self.delayShot = task.time + 2
+        self.delayShot = task.time + .1
         base.taskMgr.add(self.contTask, "weaponDelay")
         self.ohTime = self.ohTime + 2
         

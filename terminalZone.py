@@ -141,7 +141,7 @@ class GameStart(ShowBase):
     
     # Changes the states of the keys pressed
     def setKey(self, key, value):
-        
+                
         self.keyMap[key] = value
 
     def projCleanTask(self, task):
