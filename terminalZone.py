@@ -32,7 +32,7 @@ from direct.interval.IntervalGlobal import Sequence
 
 
 class GameStart(ShowBase):
-    
+   
     #Lists for storing entities
     projectileList = []
     enemyList = []
@@ -86,20 +86,9 @@ class GameStart(ShowBase):
         self.skybox.setLightOff()
         self.skybox.reparentTo(camera)
 
-        #Debug scalling (0.5, 0.5, 0.5)
-        #for chasm, use(7,7,3). will refine scaling standards later.
-        #self.environ.setScale(0.5,0.5,0.5)
-        #Test load for monkey, will remove later
-        self.monkey = self.loader.loadModel("resources/lordMonkey")
-        self.monkey.reparentTo(render)
-        self.monkey.setScale(3.5,3.5,3.5)
         #Init player here
         self.player = Player()
         
-        #Create spawner open on current level
-        self.spawner = Spawner(self.environ, "theSouthBridge")
-        self.spawner.spawn()
-
         #Current spawn coordinates
         self.xPos = 0
         self.yPos = 0
@@ -108,6 +97,10 @@ class GameStart(ShowBase):
         #Create level changer
         self.levelChanger = LevelChanger()
 
+        #Create spawner open on current level
+        self.spawner = Spawner(self.environ, "theSouthBridge")
+        self.spawner.spawn()
+        
         #Add tasks
         #base.taskMgr.add(self.spawner.checkSpawn, "Spawn Enemies", taskChain='GameTasks')
         base.taskMgr.add(self.projCleanTask, "Projectile Clean Up", taskChain='GameTasks')

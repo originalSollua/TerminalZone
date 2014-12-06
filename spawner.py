@@ -37,7 +37,6 @@ class Spawner(DirectObject):
         self.enemyY = 0
         self.enemyZ = 0
         self.spawnId = 0
-        self.bossCount = 0
         self.offset = 0
 
     def spawn(self):
@@ -56,11 +55,10 @@ class Spawner(DirectObject):
             # Increase enemy count
             self.spawnId += 1
 
-	    if self.bossCount < 1:
+	    if base.levelChanger.currentLevel == 4:
 
-	        #self.spawnBoss()
+	        self.spawnBoss()
 
-	        self.bossCount += 1
         
     
     def spawnEnemy(self, modelNum, id):
@@ -74,7 +72,7 @@ class Spawner(DirectObject):
             print "Invalid Model Number Given"
 
         enemy = Enemy(enemyModel, id+self.offset)
-        #enemy.setAI() 
+        enemy.setAI() 
         enemy.setPos(self.enemyX, self.enemyY, self.enemyZ)
         #enemy.animate()
         base.enemyList.append(enemy)
