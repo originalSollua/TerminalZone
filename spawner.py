@@ -15,7 +15,7 @@
 #======================================================================#
 
 # Python imports
-from random import randint
+import sys
 
 # Our class imports
 from enemy import Enemy
@@ -26,35 +26,42 @@ from direct.showbase.DirectObject import DirectObject
 
 class Spawner(DirectObject):
    
-    def __init__(self, level):
+    def __init__(self, level, spawnFile):
         
-        #Get the maximum and minimum coordinates of the level
-        mini, maxi = level.getTightBounds()
-        self.mini = [int(mini[0]), int(mini[1])]
-        self.maxi = [int(maxi[0]), int(maxi[1])]
 
-        self.spawnableCount = 0
-	self.bossCount = 0
+        self.eSpawnsFile = open("./enemySpawns/" + spawnFile + "Spawns.txt")
+        self.eSpawnsList = self.eSpawnsFile.readlines()
+        self.eSpawnsFile.close()
+        
+        self.enemyX = 0
+        self.enemyY = 0
+        self.enemyZ = 0
+        self.spawnId = 0
+        self.bossCount = 0
         self.offset = 0
 
-    def checkSpawn(self, task):
+    def spawn(self):
         
-        # If there is room, spawn and move an enemy to a random location
-        if self.spawnableCount < 5:
+        
+        lineIndex = 0
+        while lineIndex < len(self.eSpawnsList):
            
-            #Create new enemy with 'num' model
-            self.spawnEnemy(1, self.spawnableCount)
-
+            self.enemyX = float(self.eSpawnsList[lineIndex].split("=")[1].translate(None,"\n"))
+            self.enemyY = float(self.eSpawnsList[lineIndex + 1].split("=")[1].translate(None,"\n"))
+            self.enemyZ = float(self.eSpawnsList[lineIndex + 2].split("=")[1].translate(None,"\n"))
+            print(self.enemyY)
+            lineIndex += 3
+            self.spawnEnemy(1, self.spawnId)
+            
             # Increase enemy count
-            self.spawnableCount+= 1
+            self.spawnId += 1
 
-	if self.bossCount < 1:
+	    if self.bossCount < 1:
 
-	    self.spawnBoss()
+	        #self.spawnBoss()
 
-	    self.bossCount += 1
+	        self.bossCount += 1
         
-        return task.cont
     
     def spawnEnemy(self, modelNum, id):
 
@@ -66,20 +73,20 @@ class Spawner(DirectObject):
             
             print "Invalid Model Number Given"
 
-	enemy = Enemy(enemyModel, id+self.offset)
-        enemy.setPos(randint(self.mini[0], self.maxi[0]), randint(self.mini[1], self.maxi[1]), 8)
-	enemy.setAI()
-	enemy.animate()
+        enemy = Enemy(enemyModel, id+self.offset)
+        enemy.setAI() 
+        enemy.setPos(self.enemyX, self.enemyY, self.enemyZ)
+        #enemy.animate()
         base.enemyList.append(enemy)
         self.offset+=1
         #print "Enemies: ", len(base.enemyList)
 
     def spawnBoss(self):
 
-	bossModel = "resources/lordMonkey"
-	boss = Boss(bossModel, 9000)
+	    bossModel = "resources/lordMonkey"
+	    boss = Boss(bossModel, 9000)
 
-	boss.setPos(-245,245,8)
-	boss.setAI()
-	base.enemyList.append(boss)
+	    boss.setPos(-245,245,8)
+	    boss.setAI()
+	    base.enemyList.append(boss)
 

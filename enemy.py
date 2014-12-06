@@ -99,7 +99,7 @@ class Enemy(DirectObject):
     def setAI(self):
        
     	# Flag this as an AI character
-        self.AIchar = AICharacter("chase", self.enemy, 100,.05,25)
+        self.AIchar = AICharacter("standby", self.enemy, 100,.05,25)
         self.AIWorld.addAiChar(self.AIchar)
         self.AIbehaviors = self.AIchar.getAiBehaviors()
 
@@ -121,5 +121,5 @@ class Enemy(DirectObject):
 
     def animate(self):
 	
-	self.enemy.play("walk")
-	self.enemy.loop("walk", fromFrame = 10)
+        self.enemy.play("walk")
+        self.enemy.loop("walk", fromFrame = 10)

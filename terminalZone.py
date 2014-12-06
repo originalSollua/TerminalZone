@@ -97,7 +97,8 @@ class GameStart(ShowBase):
         self.player = Player()
         
         #Create spawner open on current level
-        self.spawner = Spawner(self.environ)
+        self.spawner = Spawner(self.environ, "theSouthBridge")
+        self.spawner.spawn()
 
         #Current spawn coordinates
         self.xPos = 0
@@ -108,7 +109,7 @@ class GameStart(ShowBase):
         self.levelChanger = LevelChanger()
 
         #Add tasks
-        base.taskMgr.add(self.spawner.checkSpawn, "Spawn Enemies", taskChain='GameTasks')
+        #base.taskMgr.add(self.spawner.checkSpawn, "Spawn Enemies", taskChain='GameTasks')
         base.taskMgr.add(self.projCleanTask, "Projectile Clean Up", taskChain='GameTasks')
         base.taskMgr.add(self.enemyCleanUp, "enemyCleanup", taskChain='GameTasks')
         base.taskMgr.add(self.levelChanger.checkLevel, "checkLevel", taskChain='GameTasks')
