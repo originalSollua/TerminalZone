@@ -74,7 +74,7 @@ class Spawner(DirectObject):
             print "Invalid Model Number Given"
 
         enemy = Enemy(enemyModel, id+self.offset)
-        enemy.setAI() 
+        #enemy.setAI() 
         enemy.setPos(self.enemyX, self.enemyY, self.enemyZ)
         #enemy.animate()
         base.enemyList.append(enemy)

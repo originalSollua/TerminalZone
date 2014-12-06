@@ -126,9 +126,9 @@ class LevelChanger(DirectObject):
         base.player.cameraModel.setPos(base.xPos, base.yPos, base.zPos) #resets position
         
         #create new spawner on the env
-        base.spawner = Spawner(base.environ)
+        base.spawner = Spawner(base.environ, level.split("/")[1].translate(None,"\n"))
         #Reinit enemies
-        base.taskMgr.add(base.spawner.checkSpawn, "Spawn Enemies")
+        base.spawner.spawn()
         base.taskMgr.add(self.checkLevel, "checkLevel")
 
         self.fadeIn = self.transition.fadeIn(2)
