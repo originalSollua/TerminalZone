@@ -105,32 +105,44 @@ class Enemy(DirectObject):
         self.AIbehaviors = self.AIchar.getAiBehaviors()
 
         self.AIbehaviors.pursue(base.camera)
-        
+        self.AIbehaviors.pauseAi("pursue")
+       
         base.taskMgr.add(self.AIUpdate, "Update AI")
+
+
+    def getDistance(self):
+        eX = self.enemy.getX()
+        eY = self.enemy.getY()
+        #get player (x,y)
+        pX = base.player.cameraModel.getX()
+        pY = base.player.cameraModel.getY()
+
+        #calculate the distance between the enemy and player (x,y)
+        x = eX - pX
+        x = math.pow(x, 2)            
+        y = pY - pY
+        y = math.pow(y,2)
+
+        self.dist = math.sqrt(x + y)
+        return self.dist
+
 
     def AIUpdate(self,task):
         if not self.deadFlag:
-            #get enemy (x,y)
-            eX = self.enemy.getX()
-            eY = self.enemy.getY()
-            #get player (x,y)
-            pX = base.player.cameraModel.getX()
-            pY = base.player.cameraModel.getY()
+            dist = self.getDistance()
+            #if the distance is 15 or less resume the pursue
+            if(dist < 15):
+                self.AIbehaviors.resumeAi("pursue")
+            #else if the distance is greater than 15 then pause the pursue
+            elif(dist > 15):
+                self.AIbehaviors.pauseAi("pursue")
 
-            #calculate the distance between the enemy and player (x,y)
-            x = eX - pX
-            x = math.pow(x, 2)            
-            y = pY - pY
-            y = math.pow(y,2)
-
-            dist = math.sqrt(x + y)
- 
+            
             self.fireDelta+=1
             if self.fireDelta >= 200 and not self.deadFlag:
                 #if the distance is less than 5
                 #then the enemy is able to shoot
                 if(dist < 5):
-                    print"enemy fire", dist 
                     self.fireDelta = 0
                     self.fire()
 
