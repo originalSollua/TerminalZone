@@ -16,9 +16,11 @@
 
 from direct.fsm.FSM import FSM
 from direct.showbase.ShowBase import ShowBase
+from panda3d.core import WindowProperties
 
 from menus import mainmenu
 from menus import pausemenu
+from menus import gameover
 
 class TerminalZoneFSM(FSM):
     
@@ -42,6 +44,9 @@ class TerminalZoneFSM(FSM):
         base.taskMgr.mgr.remove(self.tasks)
     
     def enterMainMenu(self):
+        properties = WindowProperties()
+        properties.setCursorHidden(False)
+        base.win.requestProperties(properties)
         self.mm = mainmenu.init()
         
     def exitMainMenu(self):
@@ -52,3 +57,15 @@ class TerminalZoneFSM(FSM):
     
     def exitPauseMenu(self):
         self.pm.destroy()
+        
+    def enterGameOver(self):
+        properties = WindowProperties()
+        properties.setCursorHidden(False)
+        base.win.requestProperties(properties)
+        self.gm = gameover.init()
+        
+    def exitGameOver(self):
+        properties = WindowProperties()
+        properties.setCursorHidden(True)
+        base.win.requestProperties(properties)
+        self.gm.destroy()

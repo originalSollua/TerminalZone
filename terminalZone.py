@@ -40,6 +40,8 @@ class GameStart(ShowBase):
     #Initialize keys
     keyMap = {"forward":False, "backward":False, "left":False, "right":False, "m":False}
     fsm = 0
+    levelChanger = 0
+    player = 0
     
     def __init__(self):
         

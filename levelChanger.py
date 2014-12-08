@@ -30,7 +30,7 @@ class LevelChanger(DirectObject):
     #check the emeny list and if it is empty then change the level
 
     #Flag to tell if the level is complete
-    levelComplete = False 
+    levelComplete = False
 
     def __init__(self):
         
@@ -136,4 +136,7 @@ class LevelChanger(DirectObject):
 
         self.fadeIn = self.transition.fadeIn(2)
         base.music.play()
+        
+    def getCurrentLevel(self):
+        return self.currentLevel
                 
