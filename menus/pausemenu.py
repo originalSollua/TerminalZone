@@ -27,11 +27,11 @@ def init():
     properties.setCursorHidden(False)
     base.win.requestProperties(properties)
     
-    frame = DirectFrame(frameColor=(0,.2,.1,.1), frameSize=(base.a2dLeft,base.a2dRight,-1,1), pos=(0,0,0))
+    frame = DirectFrame(frameColor=(.2,.2,0,0),frameSize=(base.a2dLeft,base.a2dRight,-1,1),pos=(0,0,0),image="resources/map.png",image_pos=(.65,0,0),image_scale=(.9,0,.9))
     
-    resume = DirectButton(frame, text=("Resume Game","Resume Game","Resume Game","Resume Game"), scale=.1, command=resumeGame, pressEffect=1, pos=(0,0,.3))
-    main = DirectButton(frame, text=("Main Menu","Main Menu","Main Menu","Main Menu"), scale=.1, command=mainMenu, pressEffect=1, pos=(0,0,0))
-    exit = DirectButton(frame, text=("Exit Game","Exit Game","Exit Game","Exit Game"), scale=.1, command=sys.exit, pressEffect=1, pos=(0,0,-3))
+    resume = DirectButton(frame, text=("Resume Game","Resume Game","Resume Game","Resume Game"), scale=.1, command=resumeGame, pressEffect=1, pos=(-.95,0,.4))
+    main = DirectButton(frame, text=("Main Menu","Main Menu","Main Menu","Main Menu"), scale=.1, command=mainMenu, pressEffect=1, pos=(-.95,0,0))
+    exit = DirectButton(frame, text=("Exit Game","Exit Game","Exit Game","Exit Game"), scale=.1, command=sys.exit, pressEffect=1, pos=(-.95,0,-.4))
     
     return frame
     

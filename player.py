@@ -89,7 +89,7 @@ class Player(DirectObject):
         print "Player Health:",self.curEnergy
         if self.curEnergy <=0:
             
-            base.fsm.request('MainMenu')
+            base.fsm.request('GameOver')
 
     def swapWeapon(self): 
         # ignore this print. using it to gather data about the size of the debug room
@@ -220,5 +220,8 @@ class Player(DirectObject):
             self.down = True
         self.healthLable.setTextColor(self.red, self.green, self.blue, 1)
         return task.cont
+        
+    def resetEnergy(self):
+        self.curEnergy = self.maxEnergy
 
                 
