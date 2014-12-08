@@ -138,14 +138,14 @@ class Enemy(DirectObject):
             elif(dist > 15):
                 self.AIbehaviors.pauseAi("pursue")
 
-            
-            self.fireDelta+=1
-            if self.fireDelta >= 200:
-                #if the distance is less than 5
-                #then the enemy is able to shoot
-                if(dist < 5):
-                    self.fireDelta = 0
-                    self.fire()
+            if(self.peacefulMode != "True"):            
+                self.fireDelta+=1
+                if self.fireDelta >= 200:
+                    #if the distance is less than 5
+                    #then the enemy is able to shoot
+                    if(dist < 5):
+                        self.fireDelta = 0
+                        self.fire()
 
         self.AIWorld.update()
         return task.cont

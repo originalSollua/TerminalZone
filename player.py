@@ -88,7 +88,9 @@ class Player(DirectObject):
         self.curEnergy = self.curEnergy-damage
         print "Player Health:",self.curEnergy
         if self.curEnergy <=0:
-           sys.exit(0)
+            
+            base.fsm.request('MainMenu')
+
     def swapWeapon(self): 
         # ignore this print. using it to gather data about the size of the debug room
         print self.playerNode.getPos()
