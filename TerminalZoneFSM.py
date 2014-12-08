@@ -44,6 +44,9 @@ class TerminalZoneFSM(FSM):
         base.taskMgr.mgr.remove(self.tasks)
     
     def enterMainMenu(self):
+        properties = WindowProperties()
+        properties.setCursorHidden(False)
+        base.win.requestProperties(properties)
         self.mm = mainmenu.init()
         
     def exitMainMenu(self):
