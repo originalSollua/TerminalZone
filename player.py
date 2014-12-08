@@ -69,7 +69,7 @@ class Player(DirectObject):
         # define player health here
         # try not to re-create the player object, will alter reset these values
        # alernatively, dump player stats off in save file before recreating
-        self.maxEnergy = 30
+        self.maxEnergy = 100
         self.curEnergy = self.maxEnergy
         self.accept("cnode", self.hit)
         

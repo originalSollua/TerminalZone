@@ -8,7 +8,7 @@
 #    Brandon Williams
 #    Jeremy Rose
 #
-# Last modification: 10/19/14 by: Nick
+# Last modification: 12/8/14 by: Brandon
 #
 # Description: Represents all the data about an enemy that we could
 # ever want.
@@ -46,15 +46,15 @@ class Enemy(DirectObject):
         # Load the enemy model, set the scale, and add to render
         self.enemy = Actor(model,{"walk":"resources/humanoid-walk"})
         self.enemy.reparentTo(self.enemyNode)
-        self.enemy.setScale(0.2,0.2,0.2)
-        
-        #configure hit tube
+        self.enemy.setScale(0.2)
+
+		#configure hit tube
         xTop = self.enemy.getX()
         yTop = self.enemy.getY()
-        zTop = self.enemy.getZ()-15
+        zTop = self.enemy.getZ() -15
         xBot = xTop
         yBot = yTop
-        zBot = zTop-10
+        zBot = zTop -10
         cs = CollisionTube(xTop, yTop, zTop, xBot, yBot, zBot, 20)
         
         #init cnode
@@ -69,6 +69,7 @@ class Enemy(DirectObject):
         # must be same cTrav that was set in player, global collider thing
         base.cTrav.addCollider(cnodepath, self.chand)
         self.accept('cnode'+str(id), self.hit)
+
         # base settings like damage and health. modify spawner later to change these onec we have a more diverse population
         self.health = 20
         self.damage = 25;
@@ -89,7 +90,7 @@ class Enemy(DirectObject):
         print "Enemy Health:",self.health
         if self.health <= 0:
             self.delFlag = True
-            self.enemy.cleanup()
+	    self.enemy.cleanup()
             self.deadFlag = True
             self.destroy()
 
@@ -139,7 +140,7 @@ class Enemy(DirectObject):
 
             
             self.fireDelta+=1
-            if self.fireDelta >= 200 and not self.deadFlag:
+            if self.fireDelta >= 200:
                 #if the distance is less than 5
                 #then the enemy is able to shoot
                 if(dist < 5):

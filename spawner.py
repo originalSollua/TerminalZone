@@ -8,7 +8,7 @@
 #   Brandon Williams
 #   Jeremy Rose
 #
-# Last modification: 12/5/14 By: Brandon
+# Last modification: 12/8/14 By: Brandon
 #
 # Description: Spawning Enemies
 #
@@ -49,13 +49,13 @@ class Spawner(DirectObject):
             self.enemyY = float(self.eSpawnsList[lineIndex + 1].split("=")[1].translate(None,"\n"))
             self.enemyZ = float(self.eSpawnsList[lineIndex + 2].split("=")[1].translate(None,"\n"))
             lineIndex += 3
-            self.spawnEnemy(1, self.spawnId)
+            #self.spawnEnemy(1, self.spawnId)
             
             # Increase enemy count
             self.spawnId += 1
         if base.levelChanger.currentLevel == 3:
 
-            base.taskMgr.add(self.spawnEnemies, "Spawn enemies", taskChain='GameTasks')
+           base.taskMgr.add(self.spawnEnemies, "Spawn enemies", taskChain='GameTasks')
 	    
         if base.levelChanger.currentLevel == 4:
 
@@ -72,7 +72,7 @@ class Spawner(DirectObject):
             print "Invalid Model Number Given"
 
         enemy = Enemy(enemyModel, id+self.offset)
-        enemy.setAI() 
+        enemy.setAI()
         enemy.setPos(self.enemyX, self.enemyY, self.enemyZ)
         #enemy.animate()
         base.enemyList.append(enemy)
@@ -100,13 +100,11 @@ class Spawner(DirectObject):
 
         return task.cont
 
-
     def spawnBoss(self):
 
-	    bossModel = "resources/lordMonkey"
-	    boss = Boss(bossModel, 9000)
+	bossModel = "resources/lordMonkey"
+	boss = Boss(bossModel, 9000)
 
-	    boss.setPos(-245,245,8)
-	    boss.setAI()
-	    base.enemyList.append(boss)
-
+	boss.setPos(-245,245,20)
+	boss.setAI()
+	base.enemyList.append(boss)

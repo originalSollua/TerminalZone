@@ -8,7 +8,7 @@
 #    Brandon Williams
 #	 Jeremy Rose
 #
-# Last modification: 10/29/14
+# Last modification: 12/8/14 by: Brandon
 #
 # Description: weapon class to have projectiles parented to.
 #
@@ -22,7 +22,22 @@ from direct.showbase.ShowBase import ShowBase
 
 from projectile import *
 
+#boss weapon
+class ChargeCannon(object):
+    #few details needed. just going to spawn a laser at the enemy and move it at us
 
+    def __init__(self, camera, spawnNodePoint):
+        self.spawnNode = spawnNodePoint
+        self.targetNode = camera
+
+    def fire(self, task):
+        
+	proj = ChargeProjectile(self.spawnNode, self.targetNode, len(base.projectileList))
+	base.taskMgr.add(proj.moveTask, "move projectile")
+	base.projectileList.append(proj)
+	shotSfx = base.loader.loadSfx("./resources/sounds/charge_cannon.wav")
+	shotSfx.setVolume(.5)
+	shotSfx.play()
 
 #ScrubCannon - the thing the enemies shoot at us
 class ScrubCannon(object):
@@ -31,12 +46,13 @@ class ScrubCannon(object):
     def __init__(self, camera, spawnNodePoint):
         self.spawnNode = spawnNodePoint
         self.targetNode = camera
+
     def fire(self, task):
         
         proj = ScrubProjectile(self.spawnNode, self.targetNode, len(base.projectileList))
         base.taskMgr.add(proj.moveTask, "move projectile")
         base.projectileList.append(proj)
-        shotSfx = base.loader.loadSfx("./resources/sounds/recursion_rifle.wav")
+        shotSfx = base.loader.loadSfx("./resources/sounds/scrub_cannon.wav")
         shotSfx.setVolume(.4)
         shotSfx.play()
 
@@ -55,7 +71,7 @@ class RecursionRifle(object):
 
 
     def __init__(self, camera, id):
-        print "guns init"
+        #print "guns init"
         #Set model and projectile paths
         self.gunPath = NodePath("gun")
         self.gunPath.reparentTo(base.camera)

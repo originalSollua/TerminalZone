@@ -8,13 +8,14 @@
 #    Brandon Williams
 #	 Jeremy Rose
 #
-# Last modification: 10/14/14
+# Last modification: 12/8/14 by Brandon
 #
 # Description: Creates a projectile in the world
 #
 #======================================================================#
 
 from direct.showbase.DirectObject import DirectObject
+from direct.actor.Actor import Actor
 from panda3d.core import NodePath, Vec3, CollisionNode, CollisionSphere, CollisionTube, CollisionTraverser, CollisionHandlerEvent, TransparencyAttrib
 from math import sin, cos
 
@@ -24,6 +25,79 @@ import random
 
 #possible depricated library
 from direct.interval.IntervalGlobal import *
+
+class ChargeProjectile(DirectObject):
+    dur = 2
+    delta = .15
+    flag = False
+    def __init__(self, spawn, taregt, id):
+        self.projectileNode = NodePath('projectile'+str(id))
+        self.projectileNode.reparentTo(render)
+
+        self.projectileNode.setPos(spawn,0,-10, 0)
+        self.projectileNode.setScale(1.5)
+	self.projectileModel = Actor("./resources/sphereShot",{"grow":"./resources/sphereShot-grow"})
+        self.projectileModel.setColorScale(200, 0, 255, 100)
+        self.projectileModel.reparentTo(self.projectileNode)
+        self.projectileNode.setHpr(spawn, 0, 0, 0)
+
+
+        dir = render.getRelativeVector(spawn, Vec3(0, 1, 0))
+        self.vec = dir*-100
+        cs = CollisionSphere(0, 0, 0, 2.5)
+        cnodepath = self.projectileNode.attachNewNode(CollisionNode('projNode'))
+        cnodepath.node().addSolid(cs)
+        self.collHand = CollisionHandlerEvent()
+        self.collHand.addInPattern('bossProjectileinto'+str(id))
+        self.collHand.addOutPattern('outof')
+        base.cTrav.addCollider(cnodepath, self.collHand)
+        self.acceptOnce('bossProjectileinto'+str(id), self.hit)
+        self.damage = 15
+
+
+    def moveTask(self, task):    
+        
+        if self.flag:
+            return task.done
+        
+        velx = self.vec.x*self.delta
+        vely = self.vec.y*self.delta
+        velz = self.vec.z*self.delta
+        x = self.projectileNode.getX()
+        y = self.projectileNode.getY()
+        z = self.projectileNode.getZ()
+        self.projectileNode.setPos(x+velx, y+vely, z+velz)
+
+        if task.time < self.dur:
+        
+            return task.cont
+        else:
+            
+            self.flag = True
+            return task.done
+
+    def hit(self, collEntry):
+        
+        #throw out a custom message for what hit
+        if collEntry.getIntoNodePath().getName() != 'projNode':
+           
+            temp = collEntry.getIntoNodePath().getName()
+            print temp
+            messenger.send(temp, [self.damage]) 
+            
+            #remove the impacting projectile
+            collEntry.getFromNodePath().getParent().getParent().removeNode()
+            self.flag =  True
+            del self
+
+    def wait(self, task):
+	
+	print task.time
+
+	if task.time > 2.24:
+	    return task.done
+	
+	return task.cont
 
 class ScrubProjectile(DirectObject):
     dur = 2
@@ -66,7 +140,7 @@ class ScrubProjectile(DirectObject):
         y = self.projectileNode.getY()
         z = self.projectileNode.getZ()
         self.projectileNode.setPos(x+velx, y+vely, z+velz)
-        
+
         if task.time < self.dur:
         
             return task.cont
