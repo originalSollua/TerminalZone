@@ -21,7 +21,8 @@ from weapons import *
 
 from direct.gui.OnscreenImage import OnscreenImage
 from direct.gui.OnscreenText import OnscreenText
-from panda3d.core import CollisionNode, CollisionSphere, CollisionRay, CollisionHandlerGravity
+from direct.gui.DirectGui import *
+from panda3d.core import CollisionNode, CollisionSphere, CollisionRay, CollisionHandlerGravity, CardMaker
 from panda3d.core import NodePath, BitMask32, TransparencyAttrib, Filename, TextNode
 from direct.showbase.DirectObject import DirectObject
 class Player(DirectObject):
@@ -81,11 +82,19 @@ class Player(DirectObject):
         self.healthLable.setAlign(TextNode.ACenter)
         textNodePath.setPos(0, 0, .7)
         self.healthLable.setTextColor(self.red, self.green, self.blue, 1)
+
+        # create a card that will just be a color block to hole our helath bar
+
+        self.bar = DirectWaitBar(text = "", value = self.curEnergy, range = self.maxEnergy, pos = (0,.4,.95), barColor = (self.red, self.green, self.blue, 1))
+        self.bar.setScale(0.5)
+
+
 	#Kill Floor task
 	base.taskMgr.add(self.killFloor, "Kill Floor") 
 
     def hit(self, damage):
         self.curEnergy = self.curEnergy-damage
+        self.bar['value'] = self.curEnergy
         print "Player Health:",self.curEnergy
         if self.curEnergy <=0:
             
@@ -219,6 +228,7 @@ class Player(DirectObject):
         if self.red <=0:
             self.down = True
         self.healthLable.setTextColor(self.red, self.green, self.blue, 1)
+        self.bar['barColor']=(self.red, self.green, self.blue, 1)
         return task.cont
 
                 
