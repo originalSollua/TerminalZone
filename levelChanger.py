@@ -90,6 +90,8 @@ class LevelChanger(DirectObject):
     #unloading the stuff not needed
     #like enviroment and stopping sound.
     def unload(self, level):
+    
+        base.enemyList = []
         print"unloading level.. stop sound, unload level.."
         #stop the music
         base.music.stop()
@@ -147,5 +149,19 @@ class LevelChanger(DirectObject):
         self.unload(self.levelMap[1])
         self.load(self.levelMap[4])
         self.currentLevel = 4
+        
+    def resetEnemer(self):
+        base.player.cameraModel.setPos(base.xPos, base.yPos, base.zPos)
+        
+        for i in base.enemyList:
+            i.enemyNode.removeNode()
+            base.enemyList.remove(i)
+          
+        base.enemyList = []
+        #create new spawner on the env
+        base.spawner = Spawner(base.environ, self.levelMap[self.currentLevel].split("/")[1].translate(None,"\n"))
+        #Reinit enemies
+        base.spawner.spawn()
+        
         
                 
