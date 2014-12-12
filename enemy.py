@@ -44,7 +44,7 @@ class Enemy(DirectObject):
         self.enemyNode.reparentTo(base.render)
 
         # Load the enemy model, set the scale, and add to render
-        self.enemy =o Actor(model,{"walk":"resources/humanoid-walk"})
+        self.enemy =Actor(model,{"walk":"resources/humanoid-walk"})
         self.enemy.reparentTo(self.enemyNode)
         self.enemy.setScale(0.2)
 
@@ -151,7 +151,7 @@ class Enemy(DirectObject):
                 if(dist < 150):
                     if(self.peacefulMode != "True"):            
                         self.fireDelta+=1
-                        if self.fireDelta >= 200+self.fireOffset:
+                        if self.fireDelta >= 100+self.fireOffset:
                             self.fireDelta = 0
                             self.fire()
             #else if the distance is more than 200 then don't chase or fire
@@ -164,7 +164,6 @@ class Enemy(DirectObject):
     def destroy(self):
         self.enemyNode.removeNode()
         self.enemy.removeNode()
-        self.cs.removeNode()
         base.cTrav.removeCollider(self.cnodepath)
         del self
 

@@ -91,7 +91,7 @@ class Spawner(DirectObject):
                 self.enemyY = -1 * float(self.eSpawnsList[lineIndex + 1].split("=")[1].translate(None,"\n"))
                 self.enemyZ = float(self.eSpawnsList[lineIndex + 2].split("=")[1].translate(None,"\n"))
                 lineIndex += 3
-                self.spawnEnemy(1, self.spawnId)
+                self.spawnEnemy(1, self.spawnId*base.levelChanger.currentLevel)
             
                 # Increase enemy count
                 self.spawnId += 1
