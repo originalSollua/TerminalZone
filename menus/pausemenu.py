@@ -39,7 +39,7 @@ def resumeGame():
     properties = WindowProperties()
     properties.setCursorHidden(True)
     base.win.requestProperties(properties)
-    base.fsm.request('Play')
+    base.fsm.request('Play', False)
     
 def mainMenu():
     properties = WindowProperties()
