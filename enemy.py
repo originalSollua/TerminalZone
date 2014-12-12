@@ -15,7 +15,7 @@
 #
 #======================================================================#
 
-import math
+import math, random
 from weapons import ScrubCannon
 # Panda imports
 from direct.actor.Actor import Actor
@@ -74,6 +74,7 @@ class Enemy(DirectObject):
         self.health = 20
         self.damage = 25;
         self.fireDelta = 0
+        self.fireOffset = random.randint(0, 200)
         self.deadFlag = False
         self.scrubCannon = ScrubCannon(base.camera, self.enemy)
 
@@ -140,7 +141,7 @@ class Enemy(DirectObject):
 
             if(self.peacefulMode != "True"):            
                 self.fireDelta+=1
-                if self.fireDelta >= 200:
+                if self.fireDelta >= 200+self.fireOffset:
                     #if the distance is less than 5
                     #then the enemy is able to shoot
                     if(dist < 5):
