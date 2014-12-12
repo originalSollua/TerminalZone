@@ -144,7 +144,7 @@ class Enemy(DirectObject):
     def AIUpdate(self,task):
         if not self.deadFlag:
             dist = self.getDistance()
-            print"d", dist
+            #print"d", dist
             #if the distance is 200 or less resume the pursue
             if(dist <= 200):
                 self.AIbehaviors.resumeAi("pursue")
@@ -163,6 +163,8 @@ class Enemy(DirectObject):
         return task.cont
 
     def destroy(self):
+        self.enemyNode.removeNode()
+
         del self
 
     def animate(self):
