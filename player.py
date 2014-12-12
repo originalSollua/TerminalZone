@@ -233,5 +233,6 @@ class Player(DirectObject):
         
     def resetEnergy(self):
         self.curEnergy = self.maxEnergy
+        
 
                 
