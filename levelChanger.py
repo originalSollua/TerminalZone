@@ -139,4 +139,13 @@ class LevelChanger(DirectObject):
         
     def getCurrentLevel(self):
         return self.currentLevel
+        
+    def goToBoss(self):
+        self.transition = Transitions(loader)
+        self.transition.setFadeColor(0, 0, 0)
+        self.fadeOut = self.transition.fadeOut(2)
+        self.unload(self.levelMap[1])
+        self.load(self.levelMap[4])
+        self.currentLevel = 4
+        
                 

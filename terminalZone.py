@@ -56,7 +56,7 @@ class GameStart(ShowBase):
         
         self.fsm.request('MainMenu')
         
-    def startNewGame(self):
+    def startNewGame(self, load):
     
         #Get window properties, hide the cursor, set properties
         properties = WindowProperties()
@@ -98,9 +98,15 @@ class GameStart(ShowBase):
 
         #Create level changer
         self.levelChanger = LevelChanger()
-
-        #Create spawner open on current level
-        self.spawner = Spawner(self.environ, "theSouthBridge")
+        
+        #Check to see if load game was pressed
+        if load:
+            self.levelChanger.goToBoss()
+            #Create spawner open on current level
+            self.spawner = Spawner(self.environ, "theRoot")
+        else:
+            #Create spawner open on current level
+            self.spawner = Spawner(self.environ, "theSouthBridge")
         self.spawner.spawn()
         
         #Add tasks
