@@ -111,41 +111,53 @@ class Enemy(DirectObject):
         base.taskMgr.add(self.AIUpdate, "Update AI")
 
 
+    #Calculate the distance between the player and the enemies.
     def getDistance(self):
+        #get enemy (x,y,z)
         eX = self.enemy.getX()
         eY = self.enemy.getY()
-        #get player (x,y)
+        eZ = self.enemy.getZ()
+        
+        #get player (x,y,z)
         pX = base.player.cameraModel.getX()
         pY = base.player.cameraModel.getY()
+        pZ = base.player.cameraModel.getZ()
 
-        #calculate the distance between the enemy and player (x,y)
+        #calculate the distance between the enemy and player (x,y,z)
+        #(eX - pX)^2
         x = eX - pX
-        x = math.pow(x, 2)            
-        y = pY - pY
+        x = math.pow(x, 2)
+
+        #(eY - pY)^2
+        y = eY - pY
         y = math.pow(y,2)
 
-        self.dist = math.sqrt(x + y)
+        #(eZ - pZ)^2
+        z = eZ - pZ
+        z = math.pow(z, 2)
+
+        self.dist = math.sqrt(x + y + z)
         return self.dist
 
 
     def AIUpdate(self,task):
         if not self.deadFlag:
             dist = self.getDistance()
-            #if the distance is 15 or less resume the pursue
-            if(dist < 15):
+            print"d", dist
+            #if the distance is 200 or less resume the pursue
+            if(dist <= 200):
                 self.AIbehaviors.resumeAi("pursue")
-            #else if the distance is greater than 15 then pause the pursue
-            elif(dist > 15):
+                #also if the distance is less than 150 then enemies can fire
+                if(dist < 150):
+                    if(self.peacefulMode != "True"):            
+                        self.fireDelta+=1
+                        if self.fireDelta >= 200:
+                            self.fireDelta = 0
+                            self.fire()
+            #else if the distance is more than 200 then don't chase or fire
+            elif(dist > 200):
                 self.AIbehaviors.pauseAi("pursue")
 
-            if(self.peacefulMode != "True"):            
-                self.fireDelta+=1
-                if self.fireDelta >= 200:
-                    #if the distance is less than 5
-                    #then the enemy is able to shoot
-                    if(dist < 5):
-                        self.fireDelta = 0
-                        self.fire()
 
         self.AIWorld.update()
         return task.cont
