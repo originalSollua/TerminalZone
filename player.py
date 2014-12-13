@@ -148,15 +148,15 @@ class Player(DirectObject):
     def fireWeapon(self):
 
         if base.taskMgr.hasTaskNamed("weaponDelay") == False:
-            if self.weaponMap[self.curWeapon].getOverHeat() == False:
                 base.taskMgr.add(self.weaponMap[self.curWeapon].fire, "fire")
             
         elif self.weaponMap[self.curWeapon].canShoot() == True:
-            if self.weaponMap[self.curWeapon].getOverHeat() == False:
                 base.taskMgr.remove("weaponDelay")
                 base.taskMgr.add(self.weaponMap[self.curWeapon].fire, "fire")
             
+        
         else:
+
             print "Can't Shoot"
 
     def createColision(self):
@@ -174,7 +174,7 @@ class Player(DirectObject):
         floorCollRayPath = self.initCollisionRay(1,-1) 
         base.floor.addCollider(floorCollRayPath, self.playerNode)
         base.cTrav.addCollider(floorCollRayPath, base.floor)
-	floorCollRayPath.reparentTo(self.cameraModel)
+        floorCollRayPath.reparentTo(self.cameraModel)
 
     def initCollisionSphere(self, obj):
         

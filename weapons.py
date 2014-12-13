@@ -32,12 +32,12 @@ class ChargeCannon(object):
 
     def fire(self, task):
         
-	proj = ChargeProjectile(self.spawnNode, self.targetNode, len(base.projectileList))
-	base.taskMgr.add(proj.moveTask, "move projectile")
-	base.projectileList.append(proj)
-	shotSfx = base.loader.loadSfx("./resources/sounds/charge_cannon.wav")
-	shotSfx.setVolume(.5)
-	shotSfx.play()
+	    proj = ChargeProjectile(self.spawnNode, self.targetNode, len(base.projectileList))
+	    base.taskMgr.add(proj.moveTask, "move projectile")
+	    base.projectileList.append(proj)
+	    shotSfx = base.loader.loadSfx("./resources/sounds/charge_cannon.wav")
+	    shotSfx.setVolume(.5)
+	    shotSfx.play()
 
 #ScrubCannon - the thing the enemies shoot at us
 class ScrubCannon(object):
@@ -103,6 +103,7 @@ class RecursionRifle(object):
         print "Shots fired: ", len(base.projectileList)
         
     def contTask(self, task):
+        
         return task.cont
 
     def animate(self, task):
@@ -130,6 +131,7 @@ class RecursionRifle(object):
         return task.cont
     
     def hide(self):
+        
         self.gunModel.hide()
 
     def show(self):
@@ -137,6 +139,7 @@ class RecursionRifle(object):
         self.gunModel.show()
         
     def canShoot(self):
+        
         taskList = base.taskMgr.getTasksNamed("weaponDelay")
         if taskList[0].time >= self.delayShot:
             return True
@@ -277,11 +280,17 @@ class MHB(object):
         return self.overheat
     
     def resetWeapon(self):
+        
+        time = 0
+        step = False
+        curScale = 0
+        hbcount = 0 
         delayShot = 0
         overHeat = False
         ohTime = 0
         ttTemp = 1
         ttTempBool = True
+    
 
 class KeyValue(object):
     
