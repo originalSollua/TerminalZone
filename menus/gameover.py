@@ -31,8 +31,7 @@ def startMain():
     base.fsm.request('MainMenu')
     
 def reLevel():
-    #base.levelChanger.unload(base.levelChanger.getCurrentLevel())
-    #base.levelChanger.load(base.levelChanger.getCurrentLevel())
+    base.levelChanger.resetEnemer()
     base.player.resetEnergy()
-    base.fsm.request('Play')
+    base.fsm.request('Play', False)
     

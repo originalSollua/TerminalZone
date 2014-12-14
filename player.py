@@ -56,6 +56,7 @@ class Player(DirectObject):
         self.mhBlunder = MHB(base.camera, len(base.projectileList))
         self.kvDuals = KeyValue(base.camera, len(base.projectileList))
         #Weapons
+        self.overheat = 0
         self.weaponMap = {1:self.rRifle, 2:self.mhBlunder, 3:self.kvDuals}
         self.curWeapon = 1
         self.mhBlunder.hide()
@@ -103,7 +104,10 @@ class Player(DirectObject):
         if self.curEnergy <=0:
             
             base.fsm.request('GameOver')
-
+    # set the player health to a specific value        
+    def adjustHealth(self, value):
+        self.curEnergy = value
+        self.bar['value'] = self.curEnergy
     def swapWeapon(self): 
         # ignore this print. using it to gather data about the size of the debug room
         print self.playerNode.getPos()
@@ -154,7 +158,7 @@ class Player(DirectObject):
             if not self.isOverHeated:
 
                 base.taskMgr.add(self.weaponMap[self.curWeapon].fire, "fire")
-            
+                
         elif self.weaponMap[self.curWeapon].canShoot() == True:
 
             if not self.isOverHeated:
@@ -255,5 +259,7 @@ class Player(DirectObject):
         
     def resetEnergy(self):
         self.curEnergy = self.maxEnergy
+        self.adjustHealth(self.curEnergy)
+        
 
                 

@@ -44,7 +44,7 @@ class Enemy(DirectObject):
         self.enemyNode.reparentTo(base.render)
 
         # Load the enemy model, set the scale, and add to render
-        self.enemy = Actor(model,{"walk":"resources/humanoid-walk"})
+        self.enemy =Actor(model,{"walk":"resources/humanoid-walk"})
         self.enemy.reparentTo(self.enemyNode)
         self.enemy.setScale(0.2)
 
@@ -55,19 +55,19 @@ class Enemy(DirectObject):
         xBot = xTop
         yBot = yTop
         zBot = zTop -10
-        cs = CollisionTube(xTop, yTop, zTop, xBot, yBot, zBot, 20)
+        self.cs = CollisionTube(xTop, yTop, zTop, xBot, yBot, zBot, 20)
         
         #init cnode
-        cnodepath = self.enemy.attachNewNode(CollisionNode('cnode'+str(id)))
-        cnodepath.setTag('objectTag', str(id))
-        cnodepath.node().addSolid(cs)
+        self.cnodepath = self.enemy.attachNewNode(CollisionNode('cnode'+str(id)))
+        self.cnodepath.setTag('objectTag', str(id))
+        self.cnodepath.node().addSolid(self.cs)
         #cnodepath.show()
         
         #so we can walk into the enimies
         self.chand = CollisionHandlerEvent()
         
         # must be same cTrav that was set in player, global collider thing
-        base.cTrav.addCollider(cnodepath, self.chand)
+        base.cTrav.addCollider(self.cnodepath, self.chand)
         self.accept('cnode'+str(id), self.hit)
 
         # base settings like damage and health. modify spawner later to change these onec we have a more diverse population
@@ -151,7 +151,7 @@ class Enemy(DirectObject):
                 if(dist < 150):
                     if(self.peacefulMode != "True"):            
                         self.fireDelta+=1
-                        if self.fireDelta >= 200+self.fireOffset:
+                        if self.fireDelta >= 100+self.fireOffset:
                             self.fireDelta = 0
                             self.fire()
             #else if the distance is more than 200 then don't chase or fire
@@ -163,7 +163,10 @@ class Enemy(DirectObject):
 
     def destroy(self):
         self.enemyNode.removeNode()
-
+        self.enemy.removeNode()
+        self.cnodepath.node().clearSolids()
+        
+        base.cTrav.removeCollider(self.cnodepath)
         del self
 
     def animate(self):
