@@ -156,6 +156,7 @@ class LevelChanger(DirectObject):
         base.player.cameraModel.setPos(base.xPos, base.yPos, base.zPos)
         base.player.playerNode.setPos(0,0,30) #resets height
         
+           
         for i in base.enemyList:
             i.enemyNode.removeNode()
             base.enemyList.remove(i)
