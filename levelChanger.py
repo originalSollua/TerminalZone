@@ -100,7 +100,8 @@ class LevelChanger(DirectObject):
         base.player.playerNode.detachNode()
         
         #Remove enemies
-        base.taskMgr.remove("Spawn Enemies")
+        #base.taskMgr.remove("Spawn Enemies")
+        base.taskMgr.remove("enemyCleanup")
 
         #unload the env and detach remove the node
         base.loader.unloadModel(level)
@@ -135,6 +136,7 @@ class LevelChanger(DirectObject):
         #Reinit enemies
         base.spawner.spawn()
         base.taskMgr.add(self.checkLevel, "checkLevel")
+        base.taskMgr.add(base.enemyCleanUp, "enemyCleanup", taskChain='GameTasks')
 
         self.fadeIn = self.transition.fadeIn(2)
         base.music.play()
@@ -150,8 +152,9 @@ class LevelChanger(DirectObject):
         self.load(self.levelMap[4])
         self.currentLevel = 4
         
-    def resetEnemer(self):
+    def resetEnemy(self):
         base.player.cameraModel.setPos(base.xPos, base.yPos, base.zPos)
+        base.player.playerNode.setPos(0,0,30) #resets height
         
         for i in base.enemyList:
             i.enemyNode.removeNode()
