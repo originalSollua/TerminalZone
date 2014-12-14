@@ -108,7 +108,7 @@ class LevelChanger(DirectObject):
 
     def load(self, level):
         
-        base.player.adjustHealth(player.maxEnergy)
+        base.player.adjustHealth(base.player.maxEnergy)
 
         #load Environment - new level
         base.environ = base.loader.loadModel(level)
