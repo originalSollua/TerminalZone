@@ -36,6 +36,11 @@ class Player(DirectObject):
         self.red = 0
         self.green = 1
         self.blue = 1
+
+        self.overHeat = 0
+        self.overHeatCount = .1
+        self.isOverHeated = False
+        base.taskMgr.add(self.overHeatTask, "overHeatTask")
         
         self.down = True
         self.playerNode = NodePath('player')
@@ -57,7 +62,6 @@ class Player(DirectObject):
         self.kvDuals.hide()
         self.accept("mouse1", self.fireWeapon)
         self.accept("mouse3", self.swapWeapon)
-        base.taskMgr.add(self.weaponMap[self.curWeapon].over, "overheat")
         
         #HUD
         hud = OnscreenImage("resources/hud.png")
@@ -141,23 +145,41 @@ class Player(DirectObject):
             self.weaponMap[1].reticle.setScale(.025)
             self.weaponMap[1].curScale = .025
          
-        base.taskMgr.remove("overheat")
         base.taskMgr.remove("weaponDelay")
-        base.taskMgr.add(self.weaponMap[self.curWeapon].over, "overheat")
     
     def fireWeapon(self):
 
         if base.taskMgr.hasTaskNamed("weaponDelay") == False:
+
+            if not self.isOverHeated:
+
                 base.taskMgr.add(self.weaponMap[self.curWeapon].fire, "fire")
             
         elif self.weaponMap[self.curWeapon].canShoot() == True:
+
+            if not self.isOverHeated:
+                
                 base.taskMgr.remove("weaponDelay")
                 base.taskMgr.add(self.weaponMap[self.curWeapon].fire, "fire")
-            
-        
         else:
 
             print "Can't Shoot"
+
+    def overHeatTask(self, task):
+        
+        self.overHeat -= self.overHeatCount
+        if self.overHeat >= 100:
+            
+            self.overHeatCount = .5
+            self.isOverHeated = True
+        elif self.overHeat < 0:
+            
+            self.overHeatCount = .1
+            self.overHeat = 0
+            self.isOverHeated = False
+
+        return task.cont
+
 
     def createColision(self):
         
