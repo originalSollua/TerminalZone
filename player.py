@@ -36,6 +36,9 @@ class Player(DirectObject):
         self.red = 0
         self.green = 1
         self.blue = 1
+        self.oRed = 0
+        self.oGreen = 1
+        self.oBlue = 1
 
         self.overHeat = 0
         self.overHeatCount = .1
@@ -68,6 +71,7 @@ class Player(DirectObject):
         hud = OnscreenImage("resources/hud.png")
         hud.setTransparency(True)
         hud.reparentTo(render2d)
+        base.taskMgr.add(self.updateUsage, "usagePaint")
         base.taskMgr.add(self.hFlicker, "hflicker")     
         base.taskMgr.add(CameraMovement(self.cameraModel).cameraControl, "cameraControl", taskChain='GameTasks')
         self.createColision()
@@ -92,6 +96,10 @@ class Player(DirectObject):
 
         self.bar = DirectWaitBar(text = "", value = self.curEnergy, range = self.maxEnergy, pos = (0,.4,.95), barColor = (self.red, self.green, self.blue, 1))
         self.bar.setScale(0.5)
+        
+        self.usageBar = DirectWaitBar(text = "", value = self.overHeat, range = 100, pos =(0,-.4,-.95), barColor =(1, 0, 0,1))
+        #self.usageBar['frameSize'] =(1, 2, 1, 2)
+        self.usageBar.setScale(0.5)
 
 
 	#Kill Floor task
@@ -108,6 +116,17 @@ class Player(DirectObject):
     def adjustHealth(self, value):
         self.curEnergy = value
         self.bar['value'] = self.curEnergy
+
+    def updateUsage(self, task):
+        if self.overHeat < 50:
+            self.usageBar['barColor'] = (.2, 1, .5, 1)
+        elif self.overHeat >=50 and self.overHeat <70:
+            self.usageBar['barColor'] = (1, 1, .2, 1)
+        elif self.overHeat >= 70:
+            self.usageBar['barColor'] = (1, 0, 0, 1)
+        self.usageBar['value'] = self.overHeat
+        return task.cont
+
     def swapWeapon(self): 
         # ignore this print. using it to gather data about the size of the debug room
         print self.playerNode.getPos()
@@ -249,6 +268,10 @@ class Player(DirectObject):
                 self.red = self.red-0.1
                 self.blue = self.green+0.1
                 self.green = self.green+0.1
+        else:
+            self.red = self.oRed
+            self.blue = self.oBlue
+            self.green = self.oGreen
         if self.red >=1:
             self.down = False
         if self.red <=0:
