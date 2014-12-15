@@ -36,7 +36,7 @@ class GameStart(ShowBase):
     #Lists for storing entities
     projectileList = []
     enemyList = []
-        
+    pickuplist = []        
     #Initialize keys
     keyMap = {"forward":False, "backward":False, "left":False, "right":False, "m":False}
     fsm = 0
