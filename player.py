@@ -108,7 +108,7 @@ class Player(DirectObject):
         print "Player Health:",self.curEnergy
         if self.curEnergy <=0:
             
-            base.fsm.request('GameOver')
+            base.fsm.request('GameOver', 1)
     # set the player health to a specific value        
     def adjustHealth(self, value):
         self.curEnergy = value

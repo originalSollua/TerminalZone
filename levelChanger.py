@@ -66,7 +66,10 @@ class LevelChanger(DirectObject):
         if(len(base.enemyList) == 0):
             if enemy > 0:
                 self.levelComplete = True
-                self.changeLevel(task)
+                if self.currentLevel == len(self.levelMap):
+                    base.fsm.request('WinMenu', 1)
+                else:
+                    self.changeLevel(task)
         
         return task.cont
         
@@ -166,6 +169,9 @@ class LevelChanger(DirectObject):
         base.spawner = Spawner(base.environ, self.levelMap[self.currentLevel].split("/")[1].translate(None,"\n"))
         #Reinit enemies
         base.spawner.spawn()
+        
+    
+                
         
         
                 
