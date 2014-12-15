@@ -146,7 +146,6 @@ class ScrubProjectile(DirectObject):
         self.projectileNode.setPos(x+velx, y+vely, z+velz)
 
         if task.time < self.dur:
-            print"-",self.dur
             return task.cont
         else:
             
