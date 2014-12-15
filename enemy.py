@@ -91,13 +91,7 @@ class Enemy(DirectObject):
         self.health = self.health-damage
         #print "Enemy Health:",self.health
         if self.health <= 0:
-            a = random.randint(0, 100)
-            print a
-            if a > 75:
-                print "Health Expansion"
-                #base.pickuplist.append(Pickup(self.id, self.enemyNode))            
             self.delFlag = True
-            self.enemy.cleanup()
             self.deadFlag = True
             #self.destroy()
 
@@ -150,6 +144,7 @@ class Enemy(DirectObject):
     def AIUpdate(self,task):
         if not self.deadFlag:
             dist = self.getDistance()
+            self.pickuppos = self.enemy.getPos()
             #if the distance is 200 or less resume the pursue
             if(dist <= 250):
                 self.AIbehaviors.resumeAi("pursue")
@@ -170,6 +165,11 @@ class Enemy(DirectObject):
         return task.cont
 
     def destroy(self):
+        a = random.randint(0, 100)
+        print a
+        if a > 3:
+            print "Health Expansion"
+            base.spawnPickup(self.id, self.pickuppos)            
         self.enemyNode.removeNode()
         self.enemy.cleanup()
         self.enemy.removeNode()

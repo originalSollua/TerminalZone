@@ -18,6 +18,7 @@
 import os, sys
 
 #Our class imports
+from pickup import Pickup
 from player import Player
 from enemy import Enemy
 from spawner import Spawner
@@ -153,7 +154,8 @@ class GameStart(ShowBase):
     def setKey(self, key, value):
                 
         self.keyMap[key] = value
-
+    def spawnPickup(self, id, node):
+        self.p = Pickup(id, node)
     def projCleanTask(self, task):
         
         #using this task to find all the projectiles in the projList

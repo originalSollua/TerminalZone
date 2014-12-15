@@ -6,27 +6,24 @@
 
 
 
-from panda3d.core import CollisionSphere, CollisionNode, NodePath
+from panda3d.core import CollisionSphere, CollisionNode, NodePath, Filename
 from direct.showbase.DirectObject import DirectObject
+import sys, os
 from player import Player
 
 class Pickup(DirectObject):
 
     def __init__(self, idappend, spawn):
         self.id = "pick"+str(idappend)
-        self.nnode = NodePath
-       
-        
+          
         self.projectileNode = NodePath('heal'+str(idappend))
-        self.projectileNode.reparentTo(base.render)
 
-        self.projectileNode.setPos(spawn,0,-10, 0)
-        self.projectileNode.setScale(.1)
-        projectileModel = loader.loadModel("./resources/cubeShot.egg")
-        projectileModel.setColorScale(200, 0, 255, 100)
-        projectileModel.reparentTo(self.projectileNode)
-        self.projectileNode.setHpr(spawn, 0, 0, 0)
-
+        self.projectileNode.setScale(3)
+        self.projectileModel = loader.loadModel("./resources/cubeShot.egg")
+        self.projectileModel.setColorScale(200, 0, 255, 100)
+        self.projectileModel.reparentTo(self.projectileNode)
+        self.projectileNode.reparentTo(render)
+        self.projectileNode.setPos(spawn)
        # self.model = loader.loadModel("./resources/sphereShot.egg")
        # self.model.setColorScale(200, 0, 255, 100)
        # cs = CollisionSphere(0, 0, 0, .5)
