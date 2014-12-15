@@ -92,15 +92,12 @@ class Player(DirectObject):
         textNodePath.setPos(0, 0, .7)
         self.healthLable.setTextColor(self.red, self.green, self.blue, 1)
 
-        # create a card that will just be a color block to hole our helath bar
-
+        # usage bar
         self.bar = DirectWaitBar(text = "", value = self.curEnergy, range = self.maxEnergy, pos = (0,.4,.95), barColor = (self.red, self.green, self.blue, 1))
         self.bar.setScale(0.5)
-        
-        self.usageBar = DirectWaitBar(text = "", value = self.overHeat, range = 100, pos =(0,-.4,-.95), barColor =(1, 0, 0,1))
-        #self.usageBar['frameSize'] =(1, 2, 1, 2)
+        self.usageBar = DirectWaitBar(text = "", value = self.overHeat, range = 100,  pos = (0, -.4, -.95), barColor =(1, 0, 0,1))
         self.usageBar.setScale(0.5)
-
+        # weapon name 
 
 	#Kill Floor task
 	base.taskMgr.add(self.killFloor, "Kill Floor") 
@@ -125,6 +122,9 @@ class Player(DirectObject):
         elif self.overHeat >= 70:
             self.usageBar['barColor'] = (1, 0, 0, 1)
         self.usageBar['value'] = self.overHeat
+        if self.isOverHeated:
+            self.usageBar['barColor'] = (1, 0, 0, 1)
+            
         return task.cont
 
     def swapWeapon(self): 
@@ -177,7 +177,7 @@ class Player(DirectObject):
             if not self.isOverHeated:
 
                 base.taskMgr.add(self.weaponMap[self.curWeapon].fire, "fire")
-                
+
         elif self.weaponMap[self.curWeapon].canShoot() == True:
 
             if not self.isOverHeated:

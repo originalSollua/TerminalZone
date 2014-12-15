@@ -60,7 +60,7 @@ class ScrubCannon(object):
 #Recursion Rifle
 class RecursionRifle(object):
    
-    weaponOverHeat = 15
+    weaponOverHeat = 10
     time = 0
     step = False
     curScale = .025

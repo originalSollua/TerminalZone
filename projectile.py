@@ -390,7 +390,7 @@ class KVProjectile(DirectObject):
         dir = render.getRelativeVector(look, Vec3(0, 1, 0))
     	
         #speed up or slow down projectiles here
-        dir = dir*10
+        dir = dir*20
         self.vec = dir
         
         #base.cTrav = CollisionTraverser()
