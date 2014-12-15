@@ -32,12 +32,12 @@ class ChargeCannon(object):
 
     def fire(self, task):
         
-	proj = ChargeProjectile(self.spawnNode, self.targetNode, len(base.projectileList))
-	base.taskMgr.add(proj.moveTask, "move projectile")
-	base.projectileList.append(proj)
-	shotSfx = base.loader.loadSfx("./resources/sounds/charge_cannon.wav")
-	shotSfx.setVolume(.5)
-	shotSfx.play()
+	    proj = ChargeProjectile(self.spawnNode, self.targetNode, len(base.projectileList))
+	    base.taskMgr.add(proj.moveTask, "move projectile")
+	    base.projectileList.append(proj)
+	    shotSfx = base.loader.loadSfx("./resources/sounds/charge_cannon.wav")
+	    shotSfx.setVolume(.5)
+	    shotSfx.play()
 
 #ScrubCannon - the thing the enemies shoot at us
 class ScrubCannon(object):
@@ -59,13 +59,12 @@ class ScrubCannon(object):
 
 #Recursion Rifle
 class RecursionRifle(object):
-    
+   
+    weaponOverHeat = 10
     time = 0
     step = False
     curScale = .025
     delayShot = 0
-    overHeat = False
-    ohTime = 0
     ttTemp = 1
     ttTempBool = True
 
@@ -95,14 +94,14 @@ class RecursionRifle(object):
         shotSfx = base.loader.loadSfx("./resources/sounds/recursion_rifle.wav")
         shotSfx.setVolume(.4)
         shotSfx.play()
-        
-        self.delayShot = task.time + .8
+        base.player.overHeat += self.weaponOverHeat
+        self.delayShot = task.time + .5
         base.taskMgr.add(self.contTask, "weaponDelay")
-        self.ohTime = self.ohTime + 2
         
         print "Shots fired: ", len(base.projectileList)
         
     def contTask(self, task):
+        
         return task.cont
 
     def animate(self, task):
@@ -130,6 +129,7 @@ class RecursionRifle(object):
         return task.cont
     
     def hide(self):
+        
         self.gunModel.hide()
 
     def show(self):
@@ -139,38 +139,25 @@ class RecursionRifle(object):
     def canShoot(self):
         taskList = base.taskMgr.getTasksNamed("weaponDelay")
         if taskList[0].time >= self.delayShot:
+                   
             return True
         else:
             return False
-            
-    def over(self, task):
-        if self.ohTime > 10:
-            self.overheat = True
-        else:
-            self.overheat = False  
-             
-        if task.time >= self.ttTemp:
-            self.ttTemp = self.ttTemp + 1
-            self.ttTempBool = True
-        if self.ttTemp%1 <= 0:
-            if self.ttTempBool == True:
-                self.ohTime = self.ohTime - 1
-                self.ttTempBool = False
-        return task.cont
 
     def getOverHeat(self):
         return self.overheat
         
     def resetWeapon(self):
         delayShot = 0
-        overHeat = False
+        overHeat = 0
         ohTime = 0
         ttTemp = 1
         ttTempBool = True
 
 #Max Heao Blunderbuss
 class MHB(object):
-   
+
+    weaponOverHeat = 33
     time = 0
     step = False
     curScale = 0
@@ -210,6 +197,7 @@ class MHB(object):
         shotSfx.setVolume(.4)
         shotSfx.play()
         
+        base.player.overHeat += self.weaponOverHeat
         self.delayShot = task.time + 1.2
         base.taskMgr.add(self.contTask, "weaponDelay")
         self.ohTime = self.ohTime + 2
@@ -258,33 +246,26 @@ class MHB(object):
         else:
             return False
             
-    def over(self, task):
-        if self.ohTime > 10:
-            self.overheat = True
-        else:
-            self.overheat = False  
-             
-        if task.time >= self.ttTemp:
-            self.ttTemp = self.ttTemp + 1
-            self.ttTempBool = True
-        if self.ttTemp%1 <= 0:
-            if self.ttTempBool == True:
-                self.ohTime = self.ohTime - 1
-                self.ttTempBool = False
-        return task.cont
 
     def getOverHeat(self):
         return self.overheat
     
     def resetWeapon(self):
+        
+        time = 0
+        step = False
+        curScale = 0
+        hbcount = 0 
         delayShot = 0
         overHeat = False
         ohTime = 0
         ttTemp = 1
         ttTempBool = True
+    
 
 class KeyValue(object):
     
+    weaponOverHeat = 5
     time = 0
     step = False
     curScale = 0
@@ -352,6 +333,7 @@ class KeyValue(object):
             self.fireRight = True
             self.fireLeft = False
             
+        base.player.overHeat += self.weaponOverHeat
         self.delayShot = task.time + .1
         base.taskMgr.add(self.contTask, "weaponDelay")
         self.ohTime = self.ohTime + 2
@@ -402,20 +384,6 @@ class KeyValue(object):
             return True
         else:
             return False
-    def over(self, task):
-        if self.ohTime > 10:
-            self.overheat = True
-        else:
-            self.overheat = False  
-             
-        if task.time >= self.ttTemp:
-            self.ttTemp = self.ttTemp + 1
-            self.ttTempBool = True
-        if self.ttTemp%1 <= 0:
-            if self.ttTempBool == True:
-                self.ohTime = self.ohTime - 1
-                self.ttTempBool = False
-        return task.cont
 
     def getOverHeat(self):
         return self.overheat

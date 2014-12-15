@@ -36,6 +36,14 @@ class Player(DirectObject):
         self.red = 0
         self.green = 1
         self.blue = 1
+        self.oRed = 0
+        self.oGreen = 1
+        self.oBlue = 1
+
+        self.overHeat = 0
+        self.overHeatCount = .1
+        self.isOverHeated = False
+        base.taskMgr.add(self.overHeatTask, "overHeatTask")
         
         self.down = True
         self.playerNode = NodePath('player')
@@ -51,18 +59,19 @@ class Player(DirectObject):
         self.mhBlunder = MHB(base.camera, len(base.projectileList))
         self.kvDuals = KeyValue(base.camera, len(base.projectileList))
         #Weapons
+        self.overheat = 0
         self.weaponMap = {1:self.rRifle, 2:self.mhBlunder, 3:self.kvDuals}
         self.curWeapon = 1
         self.mhBlunder.hide()
         self.kvDuals.hide()
         self.accept("mouse1", self.fireWeapon)
         self.accept("mouse3", self.swapWeapon)
-        base.taskMgr.add(self.weaponMap[self.curWeapon].over, "overheat")
         
         #HUD
         hud = OnscreenImage("resources/hud.png")
         hud.setTransparency(True)
         hud.reparentTo(render2d)
+        base.taskMgr.add(self.updateUsage, "usagePaint")
         base.taskMgr.add(self.hFlicker, "hflicker")     
         base.taskMgr.add(CameraMovement(self.cameraModel).cameraControl, "cameraControl", taskChain='GameTasks')
         self.createColision()
@@ -83,11 +92,12 @@ class Player(DirectObject):
         textNodePath.setPos(0, 0, .7)
         self.healthLable.setTextColor(self.red, self.green, self.blue, 1)
 
-        # create a card that will just be a color block to hole our helath bar
-
+        # usage bar
         self.bar = DirectWaitBar(text = "", value = self.curEnergy, range = self.maxEnergy, pos = (0,.4,.95), barColor = (self.red, self.green, self.blue, 1))
         self.bar.setScale(0.5)
-
+        self.usageBar = DirectWaitBar(text = "", value = self.overHeat, range = 100,  pos = (0, -.4, -.95), barColor =(1, 0, 0,1))
+        self.usageBar.setScale(0.5)
+        # weapon name 
 
 	#Kill Floor task
 	base.taskMgr.add(self.killFloor, "Kill Floor") 
@@ -99,6 +109,23 @@ class Player(DirectObject):
         if self.curEnergy <=0:
             
             base.fsm.request('GameOver')
+    # set the player health to a specific value        
+    def adjustHealth(self, value):
+        self.curEnergy = value
+        self.bar['value'] = self.curEnergy
+
+    def updateUsage(self, task):
+        if self.overHeat < 50:
+            self.usageBar['barColor'] = (.2, 1, .5, 1)
+        elif self.overHeat >=50 and self.overHeat <70:
+            self.usageBar['barColor'] = (1, 1, .2, 1)
+        elif self.overHeat >= 70:
+            self.usageBar['barColor'] = (1, 0, 0, 1)
+        self.usageBar['value'] = self.overHeat
+        if self.isOverHeated:
+            self.usageBar['barColor'] = (1, 0, 0, 1)
+            
+        return task.cont
 
     def swapWeapon(self): 
         # ignore this print. using it to gather data about the size of the debug room
@@ -141,23 +168,41 @@ class Player(DirectObject):
             self.weaponMap[1].reticle.setScale(.025)
             self.weaponMap[1].curScale = .025
          
-        base.taskMgr.remove("overheat")
         base.taskMgr.remove("weaponDelay")
-        base.taskMgr.add(self.weaponMap[self.curWeapon].over, "overheat")
     
     def fireWeapon(self):
 
         if base.taskMgr.hasTaskNamed("weaponDelay") == False:
-            if self.weaponMap[self.curWeapon].getOverHeat() == False:
+
+            if not self.isOverHeated:
+
                 base.taskMgr.add(self.weaponMap[self.curWeapon].fire, "fire")
-            
+
         elif self.weaponMap[self.curWeapon].canShoot() == True:
-            if self.weaponMap[self.curWeapon].getOverHeat() == False:
+
+            if not self.isOverHeated:
+                
                 base.taskMgr.remove("weaponDelay")
                 base.taskMgr.add(self.weaponMap[self.curWeapon].fire, "fire")
-            
         else:
+
             print "Can't Shoot"
+
+    def overHeatTask(self, task):
+        
+        self.overHeat -= self.overHeatCount
+        if self.overHeat >= 100:
+            
+            self.overHeatCount = .5
+            self.isOverHeated = True
+        elif self.overHeat < 0:
+            
+            self.overHeatCount = .1
+            self.overHeat = 0
+            self.isOverHeated = False
+
+        return task.cont
+
 
     def createColision(self):
         
@@ -174,7 +219,7 @@ class Player(DirectObject):
         floorCollRayPath = self.initCollisionRay(1,-1) 
         base.floor.addCollider(floorCollRayPath, self.playerNode)
         base.cTrav.addCollider(floorCollRayPath, base.floor)
-	floorCollRayPath.reparentTo(self.cameraModel)
+        floorCollRayPath.reparentTo(self.cameraModel)
 
     def initCollisionSphere(self, obj):
         
@@ -223,6 +268,10 @@ class Player(DirectObject):
                 self.red = self.red-0.1
                 self.blue = self.green+0.1
                 self.green = self.green+0.1
+        else:
+            self.red = self.oRed
+            self.blue = self.oBlue
+            self.green = self.oGreen
         if self.red >=1:
             self.down = False
         if self.red <=0:
@@ -233,6 +282,7 @@ class Player(DirectObject):
         
     def resetEnergy(self):
         self.curEnergy = self.maxEnergy
+        self.adjustHealth(self.curEnergy)
         
 
                 

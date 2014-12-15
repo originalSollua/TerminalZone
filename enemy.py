@@ -164,6 +164,8 @@ class Enemy(DirectObject):
     def destroy(self):
         self.enemyNode.removeNode()
         self.enemy.removeNode()
+        self.cnodepath.node().clearSolids()
+        
         base.cTrav.removeCollider(self.cnodepath)
         del self
 
