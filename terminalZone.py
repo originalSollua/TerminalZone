@@ -190,13 +190,13 @@ class GameStart(ShowBase):
                 base.fsm.request('MainMenu', 2)
             elif s == "mainmenu2":
                 base.fsm.request('MainMenu', 1)
-            elif s == "mainmenu2":
+            elif s == "gameover1":
                 base.fsm.request('GameOver', 2)
-            elif s == "mainmenu2":
+            elif s == "gameover2":
                 base.fsm.request('GameOver', 1)
-            elif s == "mainmenu2":
+            elif s == "winmenu1":
                 base.fsm.request('WinMenu', 2)
-            elif s == "mainmenu2":
+            elif s == "winmenu2":
                 base.fsm.request('WinMenu', 1)
         return task.cont
 
