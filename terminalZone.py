@@ -176,7 +176,8 @@ class GameStart(ShowBase):
            
            if i.delFlag:
                
-                i.enemyNode.removeNode()
+                #i.enemyNode.removeNode()
+                i.destroy()
                 self.enemyList.remove(i)
                 #self.spawner.spawnableCount-=1
         return task.cont

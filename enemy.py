@@ -95,11 +95,11 @@ class Enemy(DirectObject):
             print a
             if a > 75:
                 print "Health Expansion"
-                base.pickuplist.append(Pickup(self.id, self.enemyNode))            
+                #base.pickuplist.append(Pickup(self.id, self.enemyNode))            
             self.delFlag = True
-	    self.enemy.cleanup()
+            self.enemy.cleanup()
             self.deadFlag = True
-            self.destroy()
+            #self.destroy()
 
     def fire(self):
         print "its fire time"
@@ -163,12 +163,15 @@ class Enemy(DirectObject):
             #else if the distance is more than 200 then don't chase or fire
             elif(dist >250):
                 self.AIbehaviors.pauseAi("pursue")
-
+        else:
+            return task.done
         self.AIWorld.update()
+        
         return task.cont
 
     def destroy(self):
         self.enemyNode.removeNode()
+        self.enemy.cleanup()
         self.enemy.removeNode()
         self.cnodepath.node().clearSolids()
         
