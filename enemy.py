@@ -151,17 +151,17 @@ class Enemy(DirectObject):
         if not self.deadFlag:
             dist = self.getDistance()
             #if the distance is 200 or less resume the pursue
-            if(dist <= 200):
+            if(dist <= 250):
                 self.AIbehaviors.resumeAi("pursue")
                 #also if the distance is less than 150 then enemies can fire
-                if(dist < 150):
+                if(dist < 100):
                     if(self.peacefulMode != "True"):            
                         self.fireDelta+=1
                         if self.fireDelta >= 100+self.fireOffset:
                             self.fireDelta = 0
                             self.fire()
             #else if the distance is more than 200 then don't chase or fire
-            elif(dist > 200):
+            elif(dist >250):
                 self.AIbehaviors.pauseAi("pursue")
 
         self.AIWorld.update()

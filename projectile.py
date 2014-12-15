@@ -116,7 +116,11 @@ class ScrubProjectile(DirectObject):
 
 
         dir = render.getRelativeVector(spawn, Vec3(0, 1, 0))
-        self.vec = dir*-100
+
+        #speed up or slow down projectiles here
+        #dir = dir*20
+        self.vec = dir*-200
+        
         cs = CollisionSphere(0, 0, 0, 2.5)
         cnodepath = self.projectileNode.attachNewNode(CollisionNode('projNode'))
         cnodepath.node().addSolid(cs)
@@ -142,7 +146,6 @@ class ScrubProjectile(DirectObject):
         self.projectileNode.setPos(x+velx, y+vely, z+velz)
 
         if task.time < self.dur:
-        
             return task.cont
         else:
             
