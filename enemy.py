@@ -24,6 +24,7 @@ from panda3d.core import CollisionTraverser, CollisionHandlerEvent
 from direct.showbase.DirectObject import DirectObject
 from panda3d.ai import AIWorld, AICharacter
 from player import Player
+from pickup import Pickup
 
 class Enemy(DirectObject):
     
@@ -49,13 +50,13 @@ class Enemy(DirectObject):
         self.enemy.setScale(0.2)
 
 		#configure hit tube
-        xTop = self.enemy.getX()
-        yTop = self.enemy.getY()
-        zTop = self.enemy.getZ() -15
-        xBot = xTop
-        yBot = yTop
-        zBot = zTop -10
-        self.cs = CollisionTube(xTop, yTop, zTop, xBot, yBot, zBot, 20)
+        self.xTop = self.enemy.getX()
+        self.yTop = self.enemy.getY()
+        self.zTop = self.enemy.getZ() -15
+        xBot = self.xTop
+        yBot = self.yTop
+        zBot = self.zTop -10
+        self.cs = CollisionTube(self.xTop, self.yTop, self.zTop, xBot, yBot, zBot, 20)
         
         #init cnode
         self.cnodepath = self.enemy.attachNewNode(CollisionNode('cnode'+str(id)))
@@ -88,8 +89,13 @@ class Enemy(DirectObject):
         #access the thing hit like below, the parrent of the collision node
         #damage health etc below
         self.health = self.health-damage
-        print "Enemy Health:",self.health
+        #print "Enemy Health:",self.health
         if self.health <= 0:
+            a = random.randint(0, 100)
+            print a
+            if a > 75:
+                print "Health Expansion"
+                base.pickuplist.append(Pickup(self.id, self.enemyNode))            
             self.delFlag = True
 	    self.enemy.cleanup()
             self.deadFlag = True
