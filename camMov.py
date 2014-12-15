@@ -58,6 +58,14 @@ class CameraMovement(DirectObject):
             self.cameraModel.setH(self.cameraModel.getH() - (x - base.win.getXSize()/2)*0.1)
             base.camera.setP(base.camera.getP() - (y - base.win.getYSize()/2)*0.1)
 
+        if base.camera.getP() >= 90:
+
+            base.camera.setP(90)
+        
+        if base.camera.getP() <= -90:
+
+            base.camera.setP(-90)
+
         # Changes the position of the cameraModel based on which keys are currently pressed
         if(self.keyMap["forward"] == True):
             
