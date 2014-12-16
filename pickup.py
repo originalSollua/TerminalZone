@@ -18,9 +18,9 @@ class Pickup(DirectObject):
           
         self.projectileNode = NodePath('heal'+str(idappend))
 
-        self.projectileNode.setScale(3)
-        self.projectileModel = loader.loadModel("./resources/cubeShot.egg")
-        self.projectileModel.setColorScale(200, 0, 255, 100)
+        self.projectileNode.setScale(1)
+        self.projectileModel = loader.loadModel("./resources/healthPickup.egg")
+        self.projectileModel.setColorScale(200, 0, 0, 100)
         self.projectileModel.reparentTo(self.projectileNode)
         self.projectileNode.reparentTo(render)
         self.projectileNode.setPos(spawn)
