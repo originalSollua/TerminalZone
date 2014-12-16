@@ -49,10 +49,10 @@ class LevelChanger(DirectObject):
         
         self.spawnIndex = 0
         #Get movement controls
+        
         base.xPos = float(self.pSpawnsList[self.spawnIndex + 1].split("=")[1].translate(None,"\n"))
         base.yPos = float(self.pSpawnsList[self.spawnIndex + 2].split("=")[1].translate(None,"\n"))
         base.zPos = float(self.pSpawnsList[self.spawnIndex + 3].split("=")[1].translate(None,"\n"))
- 
         base.player.playerNode.setPos(0, 0, 30) #resets height
         base.player.cameraModel.setPos(base.xPos, base.yPos, base.zPos) #resets position
         print"welcome to levelchanger"
@@ -61,7 +61,6 @@ class LevelChanger(DirectObject):
     #if the list is empty, level is complete
     #set flag to true and change the level.
     def checkLevel (self, task):
-        
         enemy = base.spawner.spawnId
         if(len(base.enemyList) == 0):
             if enemy > 0:
