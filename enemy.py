@@ -132,9 +132,9 @@ class Enemy(DirectObject):
         eZ = self.enemy.getZ()
         
         #get player (x,y,z)
-        pX = base.player.cameraModel.getX()
-        pY = base.player.cameraModel.getY()
-        pZ = base.player.cameraModel.getZ()
+        pX = base.player.playerModel.getX()
+        pY = base.player.playerModel.getY()
+        pZ = base.player.playerModel.getZ()
 
         #calculate the distance between the enemy and player (x,y,z)
         #(eX - pX)^2

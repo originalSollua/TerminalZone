@@ -54,7 +54,7 @@ class LevelChanger(DirectObject):
         base.yPos = float(self.pSpawnsList[self.spawnIndex + 2].split("=")[1].translate(None,"\n"))
         base.zPos = float(self.pSpawnsList[self.spawnIndex + 3].split("=")[1].translate(None,"\n"))
         base.player.playerNode.setPos(0, 0, 30) #resets height
-        base.player.cameraModel.setPos(base.xPos, base.yPos, base.zPos) #resets position
+        base.player.playerModel.setPos(base.xPos, base.yPos, base.zPos) #resets position
         print"welcome to levelchanger"
 
     #checks the enemy list
@@ -135,7 +135,7 @@ class LevelChanger(DirectObject):
         base.zPos = float(self.pSpawnsList[self.spawnIndex + 3].split("=")[1].translate(None,"\n"))
         
         base.player.playerNode.setPos(0,0,30) #resets height
-        base.player.cameraModel.setPos(base.xPos, base.yPos, base.zPos) #resets position
+        base.player.playerModel.setPos(base.xPos, base.yPos, base.zPos) #resets position
         
         #create new spawner on the env
         base.spawner = Spawner(base.environ, level.split("/")[1].translate(None,"\n"))
@@ -159,7 +159,7 @@ class LevelChanger(DirectObject):
         self.currentLevel = 4
         
     def resetEnemy(self):
-        base.player.cameraModel.setPos(base.xPos, base.yPos, base.zPos)
+        base.player.playerModel.setPos(base.xPos, base.yPos, base.zPos)
         base.player.playerNode.setPos(0,0,30) #resets height
         
            

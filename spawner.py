@@ -82,7 +82,7 @@ class Spawner(DirectObject):
     def spawnEnemies(self, task):
         
 
-        if base.player.cameraModel.getX() >= 0:
+        if base.player.playerModel.getX() >= 0:
 
             lineIndex = 0
             while lineIndex < len(self.eSpawnsList):

@@ -51,10 +51,10 @@ class Player(DirectObject):
         self.playerNode.setPos(0,-30,30)
         
         self.playerNode.setScale(1.0)
-        self.cameraModel = loader.loadModel("./resources/player")
-        self.cameraModel.reparentTo(self.playerNode)
+        self.playerModel = loader.loadModel("./resources/player")
+        self.playerModel.reparentTo(self.playerNode)
         #cameraModel.hide()
-        self.cameraModel.setPos(0,0,2)
+        self.playerModel.setPos(0,0,2)
         self.rRifle = RecursionRifle(base.camera, len(base.projectileList))
         self.mhBlunder = MHB(base.camera, len(base.projectileList))
         self.kvDuals = KeyValue(base.camera, len(base.projectileList))
@@ -85,7 +85,7 @@ class Player(DirectObject):
         base.taskMgr.add(self.updateUsage, "usagePaint", taskChain='Gametasks')
         base.taskMgr.add(self.hFlicker, "hflicker", taskChain='GameTasks')
         base.taskMgr.add(self.updateCount, "Ecount", taskChain='GameTasks')
-        base.taskMgr.add(CameraMovement(self.cameraModel).cameraControl, "cameraControl", taskChain='GameTasks')
+        base.taskMgr.add(CameraMovement(self.playerModel).cameraControl, "cameraControl", taskChain='GameTasks')
         self.createColision()
         
         # define player health here
@@ -253,7 +253,7 @@ class Player(DirectObject):
         floorCollRayPath = self.initCollisionRay(1,-1) 
         base.floor.addCollider(floorCollRayPath, self.playerNode)
         base.cTrav.addCollider(floorCollRayPath, base.floor)
-        floorCollRayPath.reparentTo(self.cameraModel)
+        floorCollRayPath.reparentTo(self.playerModel)
 
     def initCollisionSphere(self, obj):
         
@@ -291,7 +291,7 @@ class Player(DirectObject):
 
 	    if(z < -7):
 		    self.playerNode.setPos(0, 0, 6) #resets height
-		    self.cameraModel.setPos(base.xPos, base.yPos, base.zPos) #resets position
+		    self.playerModel.setPos(base.xPos, base.yPos, base.zPos) #resets position
 		    self.hit(10)
 	    return task.cont
 
