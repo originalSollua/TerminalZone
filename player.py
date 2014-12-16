@@ -108,7 +108,7 @@ class Player(DirectObject):
         self.enemiesLeft.setText(str(len(base.enemyList)))
         texnp = aspect2d.attachNewNode(self.enemiesLeft)
         texnp.setScale(.1)
-        texnp.setPos(-1.66, 0, -.74)
+        texnp.setPos(hud, 0, 0, 0)
         self.enemiesLeft.setTextColor(1, 1, 0, 1)
         
 
@@ -129,23 +129,26 @@ class Player(DirectObject):
         if self.curEnergy <=0:
             
             base.fsm.request('GameOver', 1)
+
     # set the player health to a specific value        
     def adjustHealth(self, value):
         self.curEnergy = value
         self.bar['value'] = self.curEnergy
+
     def updateCount(self, task):
         self.enemiesLeft.setText(str(len(base.enemyList)))
         return task.cont 
     def updateUsage(self, task):
-        if self.overHeat < 50:
-            self.usageBar['barColor'] = (.2, 1, .5, 1)
-        elif self.overHeat >=50 and self.overHeat <70:
-            self.usageBar['barColor'] = (1, 1, .2, 1)
-        elif self.overHeat >= 70:
-            self.usageBar['barColor'] = (1, 0, 0, 1)
-        self.usageBar['value'] = self.overHeat
-        if self.isOverHeated:
-            self.usageBar['barColor'] = (1, 0, 0, 1)
+        if self.curEnergy > 0:
+            if self.overHeat < 50:
+                self.usageBar['barColor'] = (.2, 1, .5, 1)
+            elif self.overHeat >=50 and self.overHeat <70:
+                self.usageBar['barColor'] = (1, 1, .2, 1)
+            elif self.overHeat >= 70:
+                self.usageBar['barColor'] = (1, 0, 0, 1)
+            self.usageBar['value'] = self.overHeat
+            if self.isOverHeated:
+                self.usageBar['barColor'] = (1, 0, 0, 1)
             
         return task.cont
 
