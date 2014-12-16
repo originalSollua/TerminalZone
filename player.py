@@ -94,7 +94,7 @@ class Player(DirectObject):
         self.maxEnergy = 100
         self.curEnergy = self.maxEnergy
         self.accept("cnode", self.hit)
-        
+        self.accept("pickuphealth", self.energyUpgrade)
         #set up on screen health bar
         self.healthLable = TextNode('health field name')
         self.healthLable.setText("Abstraction")
@@ -276,8 +276,11 @@ class Player(DirectObject):
 
     # call this method when collide with a health upgrade
     def energyUpgrade(self):
-        self.maxEnergy +=100
-        self.curEnergy = self.maxEnergy
+        self.maxEnergy +=10
+        self.curEnergy = self.curEnergy+10
+        self.bar['range'] = self.maxEnergy
+        self.adjustHealth(self.curEnergy)
+        print self.maxEnergy
 
     def killFloor(self, task):
 

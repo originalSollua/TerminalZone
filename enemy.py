@@ -183,7 +183,7 @@ class Enemy(DirectObject):
 
     def spawnPick(self):
         a = random.randint(0, 100)
-        if a > 3:
+        if a > 74:
             print "Health Expansion"
             base.spawnPickup(self.id, self.pickuppos)            
 
