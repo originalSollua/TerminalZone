@@ -67,6 +67,7 @@ class LevelChanger(DirectObject):
                 self.levelComplete = True
                 if self.currentLevel == len(self.levelMap):
                     base.fsm.request('WinMenu', 1)
+                    return task.done
                 else:
                     self.changeLevel(task)
         
