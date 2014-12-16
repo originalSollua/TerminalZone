@@ -195,7 +195,7 @@ class GameStart(ShowBase):
         self.fsm.request('PauseMenu')
         
     def menusTasks(self, s, task):
-        if task.time > .35:
+        if task.time > .75:
             if s == "mainmenu1":
                 base.fsm.request('MainMenu', 2)
             elif s == "mainmenu2":
