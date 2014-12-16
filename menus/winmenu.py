@@ -26,7 +26,7 @@ def init(n):
         frame = DirectFrame(frameSize=(-1,-1,1,1), pos=(0,0,0))
         base.victoryImage.setImage("./resources/victory2.png")
         
-    main = DirectButton(frame,text=("Main Menu","Main Menu","Main Menu","Main Menu"),scale=.1,command=startMain,pressEffect=1,pos=(.1,0,.6))
+    main = DirectButton(frame,text=("Main Menu","Main Menu","Main Menu","Main Menu"),scale=.1,command=startMain,pressEffect=1,pos=(.05,0,.4))
     
     return frame
     
