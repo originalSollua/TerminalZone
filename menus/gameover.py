@@ -31,7 +31,7 @@ def init(n):
     return frame
     
 def startMain():
-    base.fsm.request('MainMenu')
+    base.fsm.request('MainMenu', 1)
     
 def reLevel():
     base.levelChanger.resetEnemy()
