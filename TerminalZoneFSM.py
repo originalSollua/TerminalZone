@@ -61,9 +61,17 @@ class TerminalZoneFSM(FSM):
         self.mm.destroy()
         
     def enterPauseMenu(self):
+        #Pause the enemies pursue behavior and shooting ability
+        for enemy in base.enemyList:
+            enemy.pauseFlag = True
+            enemy.AIbehaviors.pauseAi("pursue")
+            enemy.AIbehaviors2.pauseAi("pursue")
         self.pm = pausemenu.init()
     
     def exitPauseMenu(self):
+        #Set the enemy pauseFlag to false allowing enemies to be unpaused
+        for enemy in base.enemyList:
+            enemy.pauseFlag = False
         self.pm.destroy()
         
     def enterGameOver(self, n):
