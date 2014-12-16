@@ -61,7 +61,13 @@ class Player(DirectObject):
         #Weapons
         self.overheat = 0
         self.weaponMap = {1:self.rRifle, 2:self.mhBlunder, 3:self.kvDuals}
+        self.weaponNameMap = {1:"./resources/rrName.png", 2:"./resources/mhbName.png", 3:"./resources/kvdName.png"}
         self.curWeapon = 1
+
+        self.weaponName = OnscreenImage(self.weaponNameMap[self.curWeapon])
+        self.weaponName.setTransparency(True)
+        self.weaponName.reparentTo(render2d)
+        
         self.mhBlunder.hide()
         self.kvDuals.hide()
         self.accept("mouse1", self.fireWeapon)
@@ -95,7 +101,7 @@ class Player(DirectObject):
         # usage bar
         self.bar = DirectWaitBar(text = "", value = self.curEnergy, range = self.maxEnergy, pos = (0,.4,.95), barColor = (self.red, self.green, self.blue, 1))
         self.bar.setScale(0.5)
-        self.usageBar = DirectWaitBar(text = "", value = self.overHeat, range = 100,  pos = (0, -.4, -.95), barColor =(1, 0, 0,1))
+        self.usageBar = DirectWaitBar(text = "", value = self.overHeat, range = 100,  pos = (1.25, -.4, -.95), barColor =(1, 0, 0,1))
         self.usageBar.setScale(0.5)
         # weapon name 
 
@@ -133,10 +139,12 @@ class Player(DirectObject):
         self.weaponMap[self.curWeapon].resetWeapon
         if  self.curWeapon == 1:
             
-            self.weaponMap[1].reticle.setScale(0)    
+            self.weaponName.setImage(self.weaponNameMap[2])
+            self.weaponName.setTransparency(True)
+            self.weaponMap[1].reticle.setScale(0)
             self.weaponMap[1].curScale = 0
             self.weaponMap[1].step = False
-           
+          
             self.rRifle.hide()
             self.mhBlunder.show()
             
@@ -145,6 +153,8 @@ class Player(DirectObject):
             self.weaponMap[2].curScale = .075
         elif self.curWeapon == 2:
             
+            self.weaponName.setImage(self.weaponNameMap[3])
+            self.weaponName.setTransparency(True)
             self.weaponMap[2].reticle.setScale(0)
             self.weaponMap[2].curScale = 0
             self.weaponMap[2].step = False
@@ -157,6 +167,8 @@ class Player(DirectObject):
             self.weaponMap[3].curScale = .025
         elif self.curWeapon == 3:
 
+            self.weaponName.setImage(self.weaponNameMap[1])
+            self.weaponName.setTransparency(True)
             self.weaponMap[3].reticle.setScale(0)
             self.weaponMap[3].curScale = 0
             self.weaponMap[3].step = False

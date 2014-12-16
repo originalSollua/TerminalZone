@@ -181,6 +181,7 @@ class MHB(object):
         self.reticle = OnscreenImage("./resources/mhbReticle.png")
         self.reticle.setTransparency(True)
         self.reticle.setScale(0)
+
         base.taskMgr.add(self.animate, "mhbReticle")
         self.gunModel.setColor(0, 0, 0)
     

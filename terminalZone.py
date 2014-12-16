@@ -105,13 +105,13 @@ class GameStart(ShowBase):
         self.skybox.setLightOff()
         self.skybox.reparentTo(camera)
         
-        #Create level changer
-        self.levelChanger = LevelChanger()
-        
         #Current spawn coordinates
         self.xPos = 0
         self.yPos = 0
         self.zPos = 3
+        
+        #Create level changer
+        self.levelChanger = LevelChanger()
         
         #Check to see if load game was pressed
         if load:
