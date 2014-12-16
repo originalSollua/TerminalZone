@@ -51,7 +51,7 @@ class Player(DirectObject):
         self.playerNode.setPos(0,-30,30)
         
         self.playerNode.setScale(1.0)
-        self.cameraModel = loader.loadModel("models/camera")
+        self.cameraModel = loader.loadModel("./resources/player")
         self.cameraModel.reparentTo(self.playerNode)
         #cameraModel.hide()
         self.cameraModel.setPos(0,0,2)
