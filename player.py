@@ -94,7 +94,7 @@ class Player(DirectObject):
         self.maxEnergy = 100
         self.curEnergy = self.maxEnergy
         self.accept("cnode", self.hit)
-        
+        self.accept("pickuphealth", self.energyUpgrade)
         #set up on screen health bar
         font = loader.loadFont("./resources/ni7seg.ttf")
         self.healthLable = TextNode('health field name')
@@ -111,7 +111,7 @@ class Player(DirectObject):
         self.enemiesLeft.setText(str(len(base.enemyList)))
         texnp = aspect2d.attachNewNode(self.enemiesLeft)
         texnp.setScale(.1)
-        texnp.setPos(hud, 0, 0, 0)
+        texnp.setPos(hud, -.85, 0, -.7)
         self.enemiesLeft.setTextColor(1, 1, 0, 1)
         
 
@@ -279,8 +279,11 @@ class Player(DirectObject):
 
     # call this method when collide with a health upgrade
     def energyUpgrade(self):
-        self.maxEnergy +=100
-        self.curEnergy = self.maxEnergy
+        self.maxEnergy +=10
+        self.curEnergy = self.curEnergy+10
+        self.bar['range'] = self.maxEnergy
+        self.adjustHealth(self.curEnergy)
+        print self.maxEnergy
 
     def killFloor(self, task):
 
