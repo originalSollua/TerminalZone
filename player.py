@@ -82,9 +82,9 @@ class Player(DirectObject):
         hud = OnscreenImage("resources/hud.png")
         hud.setTransparency(True)
         hud.reparentTo(render2d)
-        base.taskMgr.add(self.updateUsage, "usagePaint")
-        base.taskMgr.add(self.hFlicker, "hflicker")
-        base.taskMgr.add(self.updateCount, "Ecount")
+        base.taskMgr.add(self.updateUsage, "usagePaint", taskChain='Gametasks')
+        base.taskMgr.add(self.hFlicker, "hflicker", taskChain='GameTasks')
+        base.taskMgr.add(self.updateCount, "Ecount", taskChain='GameTasks')
         base.taskMgr.add(CameraMovement(self.cameraModel).cameraControl, "cameraControl", taskChain='GameTasks')
         self.createColision()
         

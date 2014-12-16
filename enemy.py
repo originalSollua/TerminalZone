@@ -39,6 +39,7 @@ class Enemy(DirectObject):
     peacefulMode = configList[6].split("=")[1].translate(None,"\n")
 
     def __init__(self, model, id):
+        self.dontSpawn = False
         self.id = id
         #init and render
         self.enemyNode = NodePath('enemy'+str(id))
@@ -95,6 +96,9 @@ class Enemy(DirectObject):
             self.delFlag = True
             self.deadFlag = True
             #self.destroy()
+        if self.deadFlag and not self.dontSpawn:
+            self.spawnPick()
+            self.dontSpawn = True
 
     def fire(self):
         print "its fire time"
@@ -177,12 +181,13 @@ class Enemy(DirectObject):
         
         return task.cont
 
-    def destroy(self):
+    def spawnPick(self):
         a = random.randint(0, 100)
-        print a
         if a > 3:
             print "Health Expansion"
             base.spawnPickup(self.id, self.pickuppos)            
+
+    def destroy(self):
         self.enemyNode.removeNode()
         self.enemy.cleanup()
         self.enemy.removeNode()

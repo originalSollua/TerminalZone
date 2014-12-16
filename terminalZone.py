@@ -152,28 +152,29 @@ class GameStart(ShowBase):
     
     # Changes the states of the keys pressed
     def setKey(self, key, value):
-                
         self.keyMap[key] = value
+
     def spawnPickup(self, id, node):
-         self.pickuplist.append(Pickup(id, node))
+         n = Pickup(id, node)
+         self.pickuplist.append(n)
+
     def projCleanTask(self, task):
         
         #using this task to find all the projectiles in the projList
         #that have reached the end of their lifespan
         #use the built in destroy to remove them
-        for i in self.projectileList:
-            
+        for i in self.projectileList:   
             if i.flag:
-               
                 i.projectileNode.removeNode()
                 self.projectileList.remove(i)
         return task.cont
+
     def pickupClean(self, task):
         for i in self.pickuplist:
             if i.deletePickup:
                 i.destroy()
                 self.pickuplist.remove(i)
-            return task.cont
+        return task.cont
 
     def enemyCleanUp(self, task):
 

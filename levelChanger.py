@@ -171,6 +171,7 @@ class LevelChanger(DirectObject):
             #base.enemyList.remove(i)
         for i in base.pickuplist:
             i.deletePickup = True
+            
         #base.enemyList = []
         #create new spawner on the env
         base.spawner = Spawner(base.environ, self.levelMap[self.currentLevel].split("/")[1].translate(None,"\n"))

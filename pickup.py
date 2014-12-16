@@ -40,7 +40,7 @@ class Pickup(DirectObject):
 
     def destroy(self):
         self.projectileNode.removeNode()
-        self.projectileModel.cleanup()
+        #self.projectileModel.cleanup()
         self.projectileModel.removeNode()
         #self.cnodepath.node().clearSolids()
         
