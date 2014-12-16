@@ -15,7 +15,7 @@ class Pickup(DirectObject):
 
     def __init__(self, idappend, spawn):
         self.id = "pick"+str(idappend)
-          
+        self.deletePickup = False          
         self.projectileNode = NodePath('heal'+str(idappend))
 
         self.projectileNode.setScale(1)
@@ -37,3 +37,12 @@ class Pickup(DirectObject):
     def pickup(self):
         base.messenger.send("pickuphealth", [self.id])
 
+
+    def destroy(self):
+        self.projectileNode.removeNode()
+        self.projectileModel.cleanup()
+        self.projectileModel.removeNode()
+        #self.cnodepath.node().clearSolids()
+        
+        #base.cTrav.removeCollider(self.cnodepath)
+        del self

@@ -128,7 +128,7 @@ class GameStart(ShowBase):
         base.taskMgr.add(self.projCleanTask, "Projectile Clean Up", taskChain='GameTasks')
         base.taskMgr.add(self.enemyCleanUp, "enemyCleanup", taskChain='GameTasks')
         base.taskMgr.add(self.levelChanger.checkLevel, "checkLevel", taskChain='GameTasks')
-
+        base.taskMgr.add(self.pickupClean, "Pickup celeanup", taskChain='GameTasks')
         #Get movement controls
         self.forward = self.configList[0].split("=")[1].translate(None,"\n")
         self.backward = self.configList[1].split("=")[1].translate(None,"\n")
@@ -155,7 +155,7 @@ class GameStart(ShowBase):
                 
         self.keyMap[key] = value
     def spawnPickup(self, id, node):
-        self.p = Pickup(id, node)
+         self.pickuplist.append(Pickup(id, node))
     def projCleanTask(self, task):
         
         #using this task to find all the projectiles in the projList
@@ -168,6 +168,12 @@ class GameStart(ShowBase):
                 i.projectileNode.removeNode()
                 self.projectileList.remove(i)
         return task.cont
+    def pickupClean(self, task):
+        for i in self.pickuplist:
+            if i.deletePickup:
+                i.destroy()
+                self.pickuplist.remove(i)
+            return task.cont
 
     def enemyCleanUp(self, task):
 
