@@ -96,19 +96,22 @@ class Player(DirectObject):
         self.accept("cnode", self.hit)
         
         #set up on screen health bar
+        font = loader.loadFont("./resources/ni7seg.ttf")
         self.healthLable = TextNode('health field name')
+        self.healthLable.setFont(font)
         self.healthLable.setText("Abstraction")
         textNodePath = aspect2d.attachNewNode(self.healthLable)
-        textNodePath.setScale(0.07)
+        textNodePath.setScale(0.05)
         self.healthLable.setAlign(TextNode.ACenter)
-        textNodePath.setPos(0, 0, .7)
+        textNodePath.setPos(0, 0, .68)
         self.healthLable.setTextColor(self.red, self.green, self.blue, 1)
 
         self.enemiesLeft = TextNode('monsters to kill')
+        self.enemiesLeft.setFont(font)
         self.enemiesLeft.setText(str(len(base.enemyList)))
         texnp = aspect2d.attachNewNode(self.enemiesLeft)
         texnp.setScale(.1)
-        texnp.setPos(-1.66, 0, -.74)
+        texnp.setPos(-1.68, 0, -.76)
         self.enemiesLeft.setTextColor(1, 1, 0, 1)
         
 
