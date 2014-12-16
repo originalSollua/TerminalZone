@@ -23,15 +23,15 @@ def init(n):
     else:
         frame = DirectFrame(frameSize=(base.a2dLeft,base.a2dRight,-1,1), pos=(0,0,0), image="resources/gameOver2.png")
     
-    mainMenu = DirectButton(frame,text=("Main Menu","Main Menu","Main Menu","Main Menu"),scale=.1,command=startMain,pressEffect=1,pos=(-.5,0,-.5))
-    replay = DirectButton(frame,text=("Restart Level","Restart Level","Restart Level","Restart Level"),scale=.1,command=reLevel,pressEffect=1,pos=(.5,0,-.5))
+    mainMenu = DirectButton(frame,text=("Main Menu","Main Menu","Main Menu","Main Menu"),scale=.1,command=startMain,pressEffect=1,pos=(0,0,-.4))
+    replay = DirectButton(frame,text=("Restart Level","Restart Level","Restart Level","Restart Level"),scale=.1,command=reLevel,pressEffect=1,pos=(0,0,.1))
     
     base.taskMgr.remove("Spawn enemies")
     
     return frame
     
 def startMain():
-    base.fsm.request('MainMenu')
+    base.fsm.request('MainMenu', 1)
     
 def reLevel():
     base.levelChanger.resetEnemy()

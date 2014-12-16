@@ -29,7 +29,6 @@ class Boss(Enemy):
 	Enemy.__init__(self, model, ident)
 
 	self.enemy.setScale(2)
-
 	self.health = 150
 	self.damage = 20
 	self.weapon = ChargeCannon(base.camera, self.enemy)
@@ -55,6 +54,6 @@ class Boss(Enemy):
         if self.fireDelta >= 90 and not self.deadFlag:
             self.fireDelta = 0
             self.fire()
-
+            self.pickuppos = self.enemy.getPos()
 	self.AIWorld.update()
 	return Task.cont

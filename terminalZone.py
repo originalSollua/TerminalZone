@@ -128,7 +128,7 @@ class GameStart(ShowBase):
         base.taskMgr.add(self.projCleanTask, "Projectile Clean Up", taskChain='GameTasks')
         base.taskMgr.add(self.enemyCleanUp, "enemyCleanup", taskChain='GameTasks')
         base.taskMgr.add(self.levelChanger.checkLevel, "checkLevel", taskChain='GameTasks')
-
+        base.taskMgr.add(self.pickupClean, "Pickup celeanup", taskChain='GameTasks')
         #Get movement controls
         self.forward = self.configList[0].split("=")[1].translate(None,"\n")
         self.backward = self.configList[1].split("=")[1].translate(None,"\n")
@@ -152,21 +152,28 @@ class GameStart(ShowBase):
     
     # Changes the states of the keys pressed
     def setKey(self, key, value):
-                
         self.keyMap[key] = value
+
     def spawnPickup(self, id, node):
-        self.p = Pickup(id, node)
+         n = Pickup(id, node)
+         self.pickuplist.append(n)
+
     def projCleanTask(self, task):
         
         #using this task to find all the projectiles in the projList
         #that have reached the end of their lifespan
         #use the built in destroy to remove them
-        for i in self.projectileList:
-            
+        for i in self.projectileList:   
             if i.flag:
-               
                 i.projectileNode.removeNode()
                 self.projectileList.remove(i)
+        return task.cont
+
+    def pickupClean(self, task):
+        for i in self.pickuplist:
+            if i.deletePickup:
+                i.destroy()
+                self.pickuplist.remove(i)
         return task.cont
 
     def enemyCleanUp(self, task):
@@ -188,7 +195,7 @@ class GameStart(ShowBase):
         self.fsm.request('PauseMenu')
         
     def menusTasks(self, s, task):
-        if task.time > .35:
+        if task.time > .75:
             if s == "mainmenu1":
                 base.fsm.request('MainMenu', 2)
             elif s == "mainmenu2":

@@ -45,4 +45,4 @@ def mainMenu():
     properties = WindowProperties()
     properties.setCursorHidden(True)
     base.win.requestProperties(properties)
-    base.fsm.request('MainMenu')
+    base.fsm.request('MainMenu', 1)

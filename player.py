@@ -82,8 +82,9 @@ class Player(DirectObject):
         hud = OnscreenImage("resources/hud.png")
         hud.setTransparency(True)
         hud.reparentTo(render2d)
-        base.taskMgr.add(self.updateUsage, "usagePaint")
-        base.taskMgr.add(self.hFlicker, "hflicker")     
+        base.taskMgr.add(self.updateUsage, "usagePaint", taskChain='Gametasks')
+        base.taskMgr.add(self.hFlicker, "hflicker", taskChain='GameTasks')
+        base.taskMgr.add(self.updateCount, "Ecount", taskChain='GameTasks')
         base.taskMgr.add(CameraMovement(self.cameraModel).cameraControl, "cameraControl", taskChain='GameTasks')
         self.createColision()
         
@@ -103,6 +104,14 @@ class Player(DirectObject):
         textNodePath.setPos(0, 0, .7)
         self.healthLable.setTextColor(self.red, self.green, self.blue, 1)
 
+        self.enemiesLeft = TextNode('monsters to kill')
+        self.enemiesLeft.setText(str(len(base.enemyList)))
+        texnp = aspect2d.attachNewNode(self.enemiesLeft)
+        texnp.setScale(.1)
+        texnp.setPos(hud, 0, 0, 0)
+        self.enemiesLeft.setTextColor(1, 1, 0, 1)
+        
+
         # usage bar
         self.bar = DirectWaitBar(text = "", value = self.curEnergy, range = self.maxEnergy, pos = (0,.4,.95), barColor = (self.red, self.green, self.blue, 1))
         self.bar.setScale(0.5)
@@ -120,21 +129,26 @@ class Player(DirectObject):
         if self.curEnergy <=0:
             
             base.fsm.request('GameOver', 1)
+
     # set the player health to a specific value        
     def adjustHealth(self, value):
         self.curEnergy = value
         self.bar['value'] = self.curEnergy
 
+    def updateCount(self, task):
+        self.enemiesLeft.setText(str(len(base.enemyList)))
+        return task.cont 
     def updateUsage(self, task):
-        if self.overHeat < 50:
-            self.usageBar['barColor'] = (.2, 1, .5, 1)
-        elif self.overHeat >=50 and self.overHeat <70:
-            self.usageBar['barColor'] = (1, 1, .2, 1)
-        elif self.overHeat >= 70:
-            self.usageBar['barColor'] = (1, 0, 0, 1)
-        self.usageBar['value'] = self.overHeat
-        if self.isOverHeated:
-            self.usageBar['barColor'] = (1, 0, 0, 1)
+        if self.curEnergy > 0:
+            if self.overHeat < 50:
+                self.usageBar['barColor'] = (.2, 1, .5, 1)
+            elif self.overHeat >=50 and self.overHeat <70:
+                self.usageBar['barColor'] = (1, 1, .2, 1)
+            elif self.overHeat >= 70:
+                self.usageBar['barColor'] = (1, 0, 0, 1)
+            self.usageBar['value'] = self.overHeat
+            if self.isOverHeated:
+                self.usageBar['barColor'] = (1, 0, 0, 1)
             
         return task.cont
 

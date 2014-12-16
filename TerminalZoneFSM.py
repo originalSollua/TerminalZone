@@ -34,6 +34,9 @@ class TerminalZoneFSM(FSM):
         FSM.__init__(self, "TerminalZoneFSM")
         
     def enterPlay(self, load):
+        properties = WindowProperties()
+        properties.setCursorHidden(True)
+        base.win.requestProperties(properties)
         if (self.tasks != 0):
             for t in self.tasks:
                 base.taskMgr.add(t)
@@ -46,7 +49,7 @@ class TerminalZoneFSM(FSM):
         base.taskMgr.mgr.remove(self.tasks)
     
     def enterMainMenu(self, n):
-        tasks = 0
+        self.tasks = 0
         properties = WindowProperties()
         properties.setCursorHidden(False)
         base.win.requestProperties(properties)
