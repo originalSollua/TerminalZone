@@ -18,6 +18,7 @@
 import os, sys
 
 #Our class imports
+from pickup import Pickup
 from player import Player
 from enemy import Enemy
 from spawner import Spawner
@@ -36,7 +37,7 @@ class GameStart(ShowBase):
     #Lists for storing entities
     projectileList = []
     enemyList = []
-        
+    pickuplist = []        
     #Initialize keys
     keyMap = {"forward":False, "backward":False, "left":False, "right":False, "m":False}
     fsm = 0
@@ -54,7 +55,20 @@ class GameStart(ShowBase):
         #start FSM
         self.fsm = TerminalZoneFSM()
         
-        self.fsm.request('MainMenu')
+        #Open file to get configs
+        self.configFile = open("config.txt")
+        self.configList = self.configFile.readlines()
+        self.configFile.close()
+        
+        #Get and set resolution
+        properties = WindowProperties()
+        self.xRes = self.configList[4].split("=")[1].translate(None,"\n")
+        self.yRes = self.configList[5].split("=")[1].translate(None,"\n")
+        properties.setSize(int(self.xRes), int(self.yRes))
+        base.win.requestProperties(properties)
+        
+        #Starts main menu
+        self.fsm.request('MainMenu', 1)
         
     def startNewGame(self, load):
     
@@ -75,6 +89,9 @@ class GameStart(ShowBase):
         base.cTrav = CollisionTraverser()
         base.pusher = CollisionHandlerPusher()
         
+        #Init player here
+        self.player = Player()
+        
         #Load Environment and skybox
         self.environ = self.loader.loadModel("./resources/theSouthBridge")
         self.environ.reparentTo(self.render)
@@ -87,17 +104,14 @@ class GameStart(ShowBase):
         self.skybox.setDepthWrite(False)
         self.skybox.setLightOff()
         self.skybox.reparentTo(camera)
-
-        #Init player here
-        self.player = Player()
+        
+        #Create level changer
+        self.levelChanger = LevelChanger()
         
         #Current spawn coordinates
         self.xPos = 0
         self.yPos = 0
         self.zPos = 3
-
-        #Create level changer
-        self.levelChanger = LevelChanger()
         
         #Check to see if load game was pressed
         if load:
@@ -115,22 +129,11 @@ class GameStart(ShowBase):
         base.taskMgr.add(self.enemyCleanUp, "enemyCleanup", taskChain='GameTasks')
         base.taskMgr.add(self.levelChanger.checkLevel, "checkLevel", taskChain='GameTasks')
 
-        #Open file to get configs
-        self.configFile = open("config.txt")
-        self.configList = self.configFile.readlines()
-        self.configFile.close()
-
         #Get movement controls
         self.forward = self.configList[0].split("=")[1].translate(None,"\n")
         self.backward = self.configList[1].split("=")[1].translate(None,"\n")
         self.left = self.configList[2].split("=")[1].translate(None,"\n")
         self.right = self.configList[3].split("=")[1].translate(None,"\n")
-        
-        #Get and set resolution
-        self.xRes = self.configList[4].split("=")[1].translate(None,"\n")
-        self.yRes = self.configList[5].split("=")[1].translate(None,"\n")
-        properties.setSize(int(self.xRes), int(self.yRes))
-        base.win.requestProperties(properties) 
 
         #Controls
         self.accept("escape", sys.exit, [0])
@@ -151,7 +154,8 @@ class GameStart(ShowBase):
     def setKey(self, key, value):
                 
         self.keyMap[key] = value
-
+    def spawnPickup(self, id, node):
+        self.p = Pickup(id, node)
     def projCleanTask(self, task):
         
         #using this task to find all the projectiles in the projList
@@ -174,13 +178,30 @@ class GameStart(ShowBase):
            
            if i.delFlag:
                
-                i.enemyNode.removeNode()
+                #i.enemyNode.removeNode()
+                i.destroy()
                 self.enemyList.remove(i)
                 #self.spawner.spawnableCount-=1
         return task.cont
         
     def startPause(self):
         self.fsm.request('PauseMenu')
+        
+    def menusTasks(self, s, task):
+        if task.time > .35:
+            if s == "mainmenu1":
+                base.fsm.request('MainMenu', 2)
+            elif s == "mainmenu2":
+                base.fsm.request('MainMenu', 1)
+            elif s == "gameover1":
+                base.fsm.request('GameOver', 2)
+            elif s == "gameover2":
+                base.fsm.request('GameOver', 1)
+            elif s == "winmenu1":
+                base.fsm.request('WinMenu', 2)
+            elif s == "winmenu2":
+                base.fsm.request('WinMenu', 1)
+        return task.cont
 
 TerminalZone = GameStart()
 TerminalZone.run()

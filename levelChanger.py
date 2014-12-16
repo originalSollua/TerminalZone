@@ -66,7 +66,10 @@ class LevelChanger(DirectObject):
         if(len(base.enemyList) == 0):
             if enemy > 0:
                 self.levelComplete = True
-                self.changeLevel(task)
+                if self.currentLevel == len(self.levelMap):
+                    base.fsm.request('WinMenu', 1)
+                else:
+                    self.changeLevel(task)
         
         return task.cont
         
@@ -91,7 +94,10 @@ class LevelChanger(DirectObject):
     #like enviroment and stopping sound.
     def unload(self, level):
     
-        base.enemyList = []
+        #base.enemyList = []
+        for i in base.enemyList:
+            i.delFlag = True
+            i.deadFlag = True
         print"unloading level.. stop sound, unload level.."
         #stop the music
         base.music.stop()
@@ -158,14 +164,20 @@ class LevelChanger(DirectObject):
         
            
         for i in base.enemyList:
-            i.enemyNode.removeNode()
-            base.enemyList.remove(i)
+            i.delFlag = True
+            i.deadFlag = True
+            
+            #i.enemyNode.removeNode()
+            #base.enemyList.remove(i)
           
-        base.enemyList = []
+        #base.enemyList = []
         #create new spawner on the env
         base.spawner = Spawner(base.environ, self.levelMap[self.currentLevel].split("/")[1].translate(None,"\n"))
         #Reinit enemies
         base.spawner.spawn()
+        
+    
+                
         
         
                 

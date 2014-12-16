@@ -24,6 +24,7 @@ from panda3d.core import CollisionTraverser, CollisionHandlerEvent
 from direct.showbase.DirectObject import DirectObject
 from panda3d.ai import AIWorld, AICharacter
 from player import Player
+from pickup import Pickup
 
 class Enemy(DirectObject):
     
@@ -49,13 +50,13 @@ class Enemy(DirectObject):
         self.enemy.setScale(0.2)
 
 		#configure hit tube
-        xTop = self.enemy.getX()
-        yTop = self.enemy.getY()
-        zTop = self.enemy.getZ() -15
-        xBot = xTop
-        yBot = yTop
-        zBot = zTop -10
-        self.cs = CollisionTube(xTop, yTop, zTop, xBot, yBot, zBot, 20)
+        self.xTop = self.enemy.getX()
+        self.yTop = self.enemy.getY()
+        self.zTop = self.enemy.getZ() -15
+        xBot = self.xTop
+        yBot = self.yTop
+        zBot = self.zTop -10
+        self.cs = CollisionTube(self.xTop, self.yTop, self.zTop, xBot, yBot, zBot, 20)
         
         #init cnode
         self.cnodepath = self.enemy.attachNewNode(CollisionNode('cnode'+str(id)))
@@ -88,12 +89,11 @@ class Enemy(DirectObject):
         #access the thing hit like below, the parrent of the collision node
         #damage health etc below
         self.health = self.health-damage
-        print "Enemy Health:",self.health
+        #print "Enemy Health:",self.health
         if self.health <= 0:
             self.delFlag = True
-	    self.enemy.cleanup()
             self.deadFlag = True
-            self.destroy()
+            #self.destroy()
 
     def fire(self):
         print "its fire time"
@@ -144,25 +144,34 @@ class Enemy(DirectObject):
     def AIUpdate(self,task):
         if not self.deadFlag:
             dist = self.getDistance()
+            self.pickuppos = self.enemy.getPos()
             #if the distance is 200 or less resume the pursue
-            if(dist <= 200):
+            if(dist <= 250):
                 self.AIbehaviors.resumeAi("pursue")
                 #also if the distance is less than 150 then enemies can fire
-                if(dist < 150):
+                if(dist < 100):
                     if(self.peacefulMode != "True"):            
                         self.fireDelta+=1
                         if self.fireDelta >= 100+self.fireOffset:
                             self.fireDelta = 0
                             self.fire()
             #else if the distance is more than 200 then don't chase or fire
-            elif(dist > 200):
+            elif(dist >250):
                 self.AIbehaviors.pauseAi("pursue")
-
+        else:
+            return task.done
         self.AIWorld.update()
+        
         return task.cont
 
     def destroy(self):
+        a = random.randint(0, 100)
+        print a
+        if a > 3:
+            print "Health Expansion"
+            base.spawnPickup(self.id, self.pickuppos)            
         self.enemyNode.removeNode()
+        self.enemy.cleanup()
         self.enemy.removeNode()
         self.cnodepath.node().clearSolids()
         

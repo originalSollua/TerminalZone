@@ -16,9 +16,12 @@
 
 from direct.gui.DirectGui import *
 
-def init():
+def init(n):
     
-    frame = DirectFrame(frameColor=(0,0,0,.5), frameSize=(base.a2dLeft,base.a2dRight,-1,1), pos=(0,0,0))
+    if n == 1:
+        frame = DirectFrame(frameSize=(base.a2dLeft,base.a2dRight,-1,1), pos=(0,0,0), image="resources/gameOver1.png")
+    else:
+        frame = DirectFrame(frameSize=(base.a2dLeft,base.a2dRight,-1,1), pos=(0,0,0), image="resources/gameOver2.png")
     
     mainMenu = DirectButton(frame,text=("Main Menu","Main Menu","Main Menu","Main Menu"),scale=.1,command=startMain,pressEffect=1,pos=(-.5,0,-.5))
     replay = DirectButton(frame,text=("Restart Level","Restart Level","Restart Level","Restart Level"),scale=.1,command=reLevel,pressEffect=1,pos=(.5,0,-.5))

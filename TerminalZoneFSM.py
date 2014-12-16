@@ -21,12 +21,14 @@ from panda3d.core import WindowProperties
 from menus import mainmenu
 from menus import pausemenu
 from menus import gameover
+from menus import winmenu
 
 class TerminalZoneFSM(FSM):
     
     tasks = 0
     mm = 0
     pm = 0
+    wm = 0
 
     def __init__(self):
         FSM.__init__(self, "TerminalZoneFSM")
@@ -43,14 +45,19 @@ class TerminalZoneFSM(FSM):
         self.tasks = base.taskMgr.mgr.findTaskChain('GameTasks').getTasks()
         base.taskMgr.mgr.remove(self.tasks)
     
-    def enterMainMenu(self):
+    def enterMainMenu(self, n):
         tasks = 0
         properties = WindowProperties()
         properties.setCursorHidden(False)
         base.win.requestProperties(properties)
-        self.mm = mainmenu.init()
+        self.mm = mainmenu.init(n)
+        if n == 1:
+            base.taskMgr.add(base.menusTasks, "menu", extraArgs=["mainmenu1"], appendTask=True)
+        else:
+            base.taskMgr.add(base.menusTasks, "menu", extraArgs=["mainmenu2"], appendTask=True)
         
     def exitMainMenu(self):
+        base.taskMgr.remove("menu")
         self.mm.destroy()
         
     def enterPauseMenu(self):
@@ -59,14 +66,30 @@ class TerminalZoneFSM(FSM):
     def exitPauseMenu(self):
         self.pm.destroy()
         
-    def enterGameOver(self):
+    def enterGameOver(self, n):
         properties = WindowProperties()
         properties.setCursorHidden(False)
         base.win.requestProperties(properties)
-        self.gm = gameover.init()
+        self.gm = gameover.init(n)
+        if n == 1:
+            base.taskMgr.add(base.menusTasks, "menu", extraArgs=["gameover1"], appendTask=True)
+        else:
+            base.taskMgr.add(base.menusTasks, "menu", extraArgs=["gameover2"], appendTask=True)
         
     def exitGameOver(self):
-        properties = WindowProperties()
-        properties.setCursorHidden(True)
-        base.win.requestProperties(properties)
+        base.taskMgr.remove("menu")
         self.gm.destroy()
+        
+    def enterWinMenu(self, n):
+        properties = WindowProperties()
+        properties.setCursorHidden(False)
+        base.win.requestProperties(properties)
+        self.wm = winmenu.init(n)
+        if n == 1:
+            base.taskMgr.add(base.menusTasks, "menu", extraArgs=["winmenu1"], appendTask=True)
+        else:
+            base.taskMgr.add(base.menusTasks, "menu", extraArgs=["winmenu2"], appendTask=True)
+            
+    def exitWinMenu(self):
+        base.taskMgr.remove("menu")
+        self.wm.destroy()
