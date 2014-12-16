@@ -155,18 +155,27 @@ class Enemy(DirectObject):
 
     def AIUpdate(self,task):
         #if the enemy is not flaged as dead or paused then we update the AI
+        self.max = 200
+        self.shoot = 140
+        self.min = 50
         if not self.deadFlag:
             if not self.pauseFlag:
                 dist = self.getDistance()
                 self.pickuppos = self.enemy.getPos()
-                #if the distance is less than 200, resume the pursue
-                if(dist < 200):
+                #if the distance is less than max, resume the pursue
+                if(dist < self.max):
                     self.AIbehaviors.resumeAi("pursue")
-                    #also if the distance is less than 140 then enemies can fire
-                    if(dist < 140):
+                    #also if the distance is less than 'shoot range' then enemies can fire
+                    if(dist < self.shoot):
                         self.AIbehaviors.pauseAi("pursue")
                         self.AIbehaviors2.resumeAi("pursue")
-                        if(self.peacefulMode != "True"):            
+                        #if the distance becomes less than the min
+                        #pause the chasing and double the firing speed
+                        if(dist < self.min):
+                            self.fireDelta = self.fireDelta *2
+                            self.AIbehaviors.pauseAi("pursue")
+                            self.AIbehaviors2.pauseAi("pursue")
+                        if(self.peacefulMode != "True"):
                             self.fireDelta+=1
                             if self.fireDelta >= 100+self.fireOffset:
                                 self.fireDelta = 0
