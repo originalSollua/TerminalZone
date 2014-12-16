@@ -30,6 +30,7 @@ from panda3d.core import CollisionTraverser, CollisionHandlerPusher
 from panda3d.core import WindowProperties, Filename, Point3, NodePath
 from direct.showbase.ShowBase import ShowBase
 from direct.interval.IntervalGlobal import Sequence
+from direct.gui.OnscreenImage import OnscreenImage
 
 
 class GameStart(ShowBase):
@@ -51,7 +52,20 @@ class GameStart(ShowBase):
         
         #Set up task chain for game play
         base.taskMgr.setupTaskChain('GameTasks')
-        
+       
+        self.mainMenuImage = OnscreenImage("./resources/mainMenu1.png")
+        self.mainMenuImage.setImage("./resources/mainMenu2.png")
+        self.mainMenuImage.reparentTo(render2d)
+        self.gameOverImage = OnscreenImage("./resources/gameOver1.png")
+        self.gameOverImage.setImage("./resources/gameOver2.png")
+        self.gameOverImage.reparentTo(render2d)
+        self.gameOverImage.hide()
+        self.victoryImage = OnscreenImage("./resources/victory1.png")
+        self.victoryImage.setImage("./resources/victory2.png")
+        self.victoryImage.reparentTo(render2d)
+        self.victoryImage.hide()
+
+
         #start FSM
         self.fsm = TerminalZoneFSM()
         
@@ -71,6 +85,8 @@ class GameStart(ShowBase):
         self.fsm.request('MainMenu', 1)
         
     def startNewGame(self, load):
+
+        self.mainMenuImage.hide()
     
         #Get window properties, hide the cursor, set properties
         properties = WindowProperties()

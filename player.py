@@ -111,7 +111,7 @@ class Player(DirectObject):
         self.enemiesLeft.setText(str(len(base.enemyList)))
         texnp = aspect2d.attachNewNode(self.enemiesLeft)
         texnp.setScale(.1)
-        texnp.setPos(hud, -.85, 0, -.7)
+        texnp.setPos(-1.68, 0, -.75)
         self.enemiesLeft.setTextColor(1, 1, 0, 1)
         
 

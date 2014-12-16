@@ -105,5 +105,5 @@ class TerminalZoneFSM(FSM):
             base.taskMgr.add(base.menusTasks, "menu", extraArgs=["winmenu2"], appendTask=True)
             
     def exitWinMenu(self):
-       base.taskMgr.remove("menu")
+        base.taskMgr.remove("menu")
         self.wm.destroy()
