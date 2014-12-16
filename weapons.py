@@ -211,7 +211,7 @@ class MHB(object):
             self.hbcount+=1
 	
         shotSfx = self.audio3d.loadSfx("./resources/sounds/blunderbuss.wav")
-	self.audio3d.attachSoundToObject(shotSfx, base,camera)
+	self.audio3d.attachSoundToObject(shotSfx, base.camera)
         #shotSfx.setVolume(.4)
         shotSfx.play()
         
