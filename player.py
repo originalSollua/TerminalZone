@@ -63,8 +63,13 @@ class Player(DirectObject):
         self.weaponMap = {1:self.rRifle, 2:self.mhBlunder, 3:self.kvDuals}
         self.weaponNameMap = {1:"./resources/rrName.png", 2:"./resources/mhbName.png", 3:"./resources/kvdName.png"}
         self.curWeapon = 1
-
-        self.weaponName = OnscreenImage(self.weaponNameMap[self.curWeapon])
+        
+        #Load all images in so it doesn't stutter on swap
+        self.weaponName = OnscreenImage(self.weaponNameMap[3])
+        self.weaponName.setTransparency(True)
+        self.weaponName.setImage(self.weaponNameMap[2])
+        self.weaponName.setTransparency(True)
+        self.weaponName.setImage(self.weaponNameMap[1])
         self.weaponName.setTransparency(True)
         self.weaponName.reparentTo(render2d)
         
