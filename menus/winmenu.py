@@ -20,13 +20,17 @@ from direct.gui.DirectGui import *
 
 def init(n):
     if n == 1:
-        frame = DirectFrame(frameSize=(base.a2dLeft,base.a2dRight,-1,1), pos=(0,0,0), image="resources/victory1.png")
+        frame = DirectFrame(frameSize=(-1,-1,1,1), pos=(0,0,0))
+        base.victoryImage.setImage("./resources/victory1.png")
     else:
-        frame = DirectFrame(frameSize=(base.a2dLeft,base.a2dRight,-1,1), pos=(0,0,0), image="resources/victory2.png")
+        frame = DirectFrame(frameSize=(-1,-1,1,1), pos=(0,0,0))
+        base.victoryImage.setImage("./resources/victory2.png")
         
-    main = DirectButton(frame,text=("Main Menu","Main Menu","Main Menu","Main Menu"),scale=.1,command=startMain,pressEffect=1,pos=(.1,0,.6))
+    main = DirectButton(frame,text=("Main Menu","Main Menu","Main Menu","Main Menu"),scale=.1,command=startMain,pressEffect=1,pos=(.05,0,.4))
     
     return frame
     
 def startMain():
+
+    base.victoryImage.hide()
     base.fsm.request('MainMenu', 1)

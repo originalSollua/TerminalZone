@@ -27,15 +27,15 @@ class CameraMovement(DirectObject):
    
     playerNode = 0
     
-    # Takes in a cameraModel and sets up key listeners
-    def __init__(self, cameraModel):
+    # Takes in a playerModel and sets up key listeners
+    def __init__(self, playerModel):
         
         #Make keyMap globa
         self.keyMap = base.keyMap
 
-        #Reparent camera to cameraModel
-        self.cameraModel = cameraModel
-        camera.reparentTo(cameraModel)
+        #Reparent camera to playerModel
+        self.playerModel = playerModel
+        camera.reparentTo(playerModel)
         camera.setZ(base.camera, 4)
 
     # Determines the movement and pitch of the camera
@@ -55,7 +55,7 @@ class CameraMovement(DirectObject):
         
         if base.win.movePointer(0, base.win.getXSize()/2, base.win.getYSize()/2):
             
-            self.cameraModel.setH(self.cameraModel.getH() - (x - base.win.getXSize()/2)*0.1)
+            self.playerModel.setH(self.playerModel.getH() - (x - base.win.getXSize()/2)*0.1)
             base.camera.setP(base.camera.getP() - (y - base.win.getYSize()/2)*0.1)
 
         if base.camera.getP() >= 90:
@@ -66,46 +66,46 @@ class CameraMovement(DirectObject):
 
             base.camera.setP(-90)
 
-        # Changes the position of the cameraModel based on which keys are currently pressed
+        # Changes the position of the playerModel based on which keys are currently pressed
         if(self.keyMap["forward"] == True):
             
             if(self.keyMap["left"] == True):
                 
-                self.cameraModel.setX(self.cameraModel, -25 * dt)
-                self.cameraModel.setY(self.cameraModel, 30 * dt)
+                self.playerModel.setX(self.playerModel, -25 * dt)
+                self.playerModel.setY(self.playerModel, 30 * dt)
                 return task.cont
             elif(self.keyMap["right"] == True):
                 
-                self.cameraModel.setX(self.cameraModel, 25 * dt)
-                self.cameraModel.setY(self.cameraModel, 30 * dt)
+                self.playerModel.setX(self.playerModel, 25 * dt)
+                self.playerModel.setY(self.playerModel, 30 * dt)
                 return task.cont
             else:
                 
-                self.cameraModel.setY(self.cameraModel, 30 * dt)
+                self.playerModel.setY(self.playerModel, 30 * dt)
                 return task.cont
         elif(self.keyMap["backward"] == True):
             
             if(self.keyMap["left"] == True):
                 
-                self.cameraModel.setX(self.cameraModel, -25 * dt)
-                self.cameraModel.setY(self.cameraModel, -30 * dt)
+                self.playerModel.setX(self.playerModel, -25 * dt)
+                self.playerModel.setY(self.playerModel, -30 * dt)
                 return task.cont
             elif(self.keyMap["right"] == True):
                 
-                self.cameraModel.setX(self.cameraModel, 25 * dt)
-                self.cameraModel.setY(self.cameraModel, -30 * dt)
+                self.playerModel.setX(self.playerModel, 25 * dt)
+                self.playerModel.setY(self.playerModel, -30 * dt)
                 return task.cont
             else:
                 
-                self.cameraModel.setY(self.cameraModel, -30 * dt)
+                self.playerModel.setY(self.playerModel, -30 * dt)
                 return task.cont
         elif(self.keyMap["left"] == True):
             
-            self.cameraModel.setX(self.cameraModel, -25 * dt)
+            self.playerModel.setX(self.playerModel, -25 * dt)
             return task.cont
         elif(self.keyMap["right"] == True):
             
-            self.cameraModel.setX(self.cameraModel, 25 * dt)
+            self.playerModel.setX(self.playerModel, 25 * dt)
             return task.cont
         else:
             return task.cont

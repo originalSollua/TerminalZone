@@ -19,9 +19,11 @@ from direct.gui.DirectGui import *
 def init(n):
     
     if n == 1:
-        frame = DirectFrame(frameSize=(base.a2dLeft,base.a2dRight,-1,1), pos=(0,0,0), image="resources/gameOver1.png")
+        frame = DirectFrame(frameSize=(-1,-1,1,1), pos=(0,0,0))
+        base.gameOverImage.setImage("./resources/gameOver1.png")
     else:
-        frame = DirectFrame(frameSize=(base.a2dLeft,base.a2dRight,-1,1), pos=(0,0,0), image="resources/gameOver2.png")
+        frame = DirectFrame(frameSize=(-1,-1,1,1), pos=(0,0,0))
+        base.gameOverImage.setImage("./resources/gameOver2.png")
     
     mainMenu = DirectButton(frame,text=("Main Menu","Main Menu","Main Menu","Main Menu"),scale=.1,command=startMain,pressEffect=1,pos=(0,0,-.4))
     replay = DirectButton(frame,text=("Restart Level","Restart Level","Restart Level","Restart Level"),scale=.1,command=reLevel,pressEffect=1,pos=(0,0,.1))
@@ -31,9 +33,12 @@ def init(n):
     return frame
     
 def startMain():
+    base.gameOverImage.hide()
     base.fsm.request('MainMenu', 1)
     
 def reLevel():
+
+    base.gameOverImage.hide()
     base.levelChanger.resetEnemy()
     base.player.resetEnergy()
     base.fsm.request('Play', False)

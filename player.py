@@ -51,10 +51,10 @@ class Player(DirectObject):
         self.playerNode.setPos(0,-30,30)
         
         self.playerNode.setScale(1.0)
-        self.cameraModel = loader.loadModel("./resources/player")
-        self.cameraModel.reparentTo(self.playerNode)
+        self.playerModel = loader.loadModel("./resources/player")
+        self.playerModel.reparentTo(self.playerNode)
         #cameraModel.hide()
-        self.cameraModel.setPos(0,0,2)
+        self.playerModel.setPos(0,0,2)
         self.rRifle = RecursionRifle(base.camera, len(base.projectileList))
         self.mhBlunder = MHB(base.camera, len(base.projectileList))
         self.kvDuals = KeyValue(base.camera, len(base.projectileList))
@@ -85,30 +85,33 @@ class Player(DirectObject):
         base.taskMgr.add(self.updateUsage, "usagePaint", taskChain='Gametasks')
         base.taskMgr.add(self.hFlicker, "hflicker", taskChain='GameTasks')
         base.taskMgr.add(self.updateCount, "Ecount", taskChain='GameTasks')
-        base.taskMgr.add(CameraMovement(self.cameraModel).cameraControl, "cameraControl", taskChain='GameTasks')
+        base.taskMgr.add(CameraMovement(self.playerModel).cameraControl, "cameraControl", taskChain='GameTasks')
         self.createColision()
         
         # define player health here
         # try not to re-create the player object, will alter reset these values
-       # alernatively, dump player stats off in save file before recreating
+        # alernatively, dump player stats off in save file before recreating
         self.maxEnergy = 100
         self.curEnergy = self.maxEnergy
         self.accept("cnode", self.hit)
         self.accept("pickuphealth", self.energyUpgrade)
         #set up on screen health bar
+        font = loader.loadFont("./resources/ni7seg.ttf")
         self.healthLable = TextNode('health field name')
+        self.healthLable.setFont(font)
         self.healthLable.setText("Abstraction")
         textNodePath = aspect2d.attachNewNode(self.healthLable)
-        textNodePath.setScale(0.07)
+        textNodePath.setScale(0.05)
         self.healthLable.setAlign(TextNode.ACenter)
-        textNodePath.setPos(0, 0, .7)
+        textNodePath.setPos(0, 0, .68)
         self.healthLable.setTextColor(self.red, self.green, self.blue, 1)
 
         self.enemiesLeft = TextNode('monsters to kill')
+        self.enemiesLeft.setFont(font)
         self.enemiesLeft.setText(str(len(base.enemyList)))
         texnp = aspect2d.attachNewNode(self.enemiesLeft)
         texnp.setScale(.1)
-        texnp.setPos(hud, 0, 0, 0)
+        texnp.setPos(-1.68, 0, -.75)
         self.enemiesLeft.setTextColor(1, 1, 0, 1)
         
 
@@ -250,7 +253,7 @@ class Player(DirectObject):
         floorCollRayPath = self.initCollisionRay(1,-1) 
         base.floor.addCollider(floorCollRayPath, self.playerNode)
         base.cTrav.addCollider(floorCollRayPath, base.floor)
-        floorCollRayPath.reparentTo(self.cameraModel)
+        floorCollRayPath.reparentTo(self.playerModel)
 
     def initCollisionSphere(self, obj):
         
@@ -284,13 +287,13 @@ class Player(DirectObject):
 
     def killFloor(self, task):
 
-	z = int(self.playerNode.getPos()[2])
+	    z = int(self.playerNode.getPos()[2])
 
-	if(z < -7):
-		self.playerNode.setPos(0, 0, 6) #resets height
-		self.cameraModel.setPos(base.xPos, base.yPos, base.zPos) #resets position
-		self.hit(10)
-	return task.cont
+	    if(z < -7):
+		    self.playerNode.setPos(0, 0, 6) #resets height
+		    self.playerModel.setPos(base.xPos, base.yPos, base.zPos) #resets position
+		    self.hit(10)
+	    return task.cont
 
     def hFlicker(self, task):
         if self.curEnergy <=30:

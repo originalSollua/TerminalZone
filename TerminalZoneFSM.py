@@ -89,6 +89,9 @@ class TerminalZoneFSM(FSM):
         
     def exitGameOver(self):
         base.taskMgr.remove("menu")
+        properties = WindowProperties()
+        properties.setCursorHidden(True)
+        base.win.requestProperties(properties)
         self.gm.destroy()
         
     def enterWinMenu(self, n):
