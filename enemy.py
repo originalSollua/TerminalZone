@@ -51,20 +51,23 @@ class Enemy(DirectObject):
         self.enemy.reparentTo(self.enemyNode)
         self.enemy.setScale(0.2)
 
-		#configure hit tube
+	#configure hit tube
+	
+
+
         self.xTop = self.enemy.getX()
         self.yTop = self.enemy.getY()
-        self.zTop = self.enemy.getZ() -15
+        self.zTop = self.enemy.getZ() - 15
         xBot = self.xTop
         yBot = self.yTop
-        zBot = self.zTop -10
+        zBot = self.zTop - 10
         self.cs = CollisionTube(self.xTop, self.yTop, self.zTop, xBot, yBot, zBot, 20)
         
         #init cnode
         self.cnodepath = self.enemy.attachNewNode(CollisionNode('cnode'+str(id)))
         self.cnodepath.setTag('objectTag', str(id))
         self.cnodepath.node().addSolid(self.cs)
-        #cnodepath.show()
+        #self.cnodepath.show()
         
         #so we can walk into the enimies
         self.chand = CollisionHandlerEvent()

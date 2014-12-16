@@ -28,10 +28,30 @@ class Boss(Enemy):
 
 	Enemy.__init__(self, model, ident)
 
-	self.enemy.setScale(2)
+	self.enemy = Actor(model)
+	self.enemy.reparentTo(self.enemyNode)
+
+	self.enemy.setScale(5)
 	self.health = 150
 	self.damage = 20
 	self.weapon = ChargeCannon(base.camera, self.enemy)
+
+	#configure hit tube
+	
+        self.cs = CollisionTube(0, 0, -.5, 0, 0, -1.5, 1.5)
+        
+        #init cnode
+        self.cnodepath = self.enemy.attachNewNode(CollisionNode('cnode'+str(id)))
+        self.cnodepath.setTag('objectTag', str(id))
+        self.cnodepath.node().addSolid(self.cs)
+        #self.cnodepath.show()
+        
+        #so we can walk into the enimies
+        self.chand = CollisionHandlerEvent()
+        
+        # must be same cTrav that was set in player, global collider thing
+        base.cTrav.addCollider(self.cnodepath, self.chand)
+        self.accept('cnode'+str(id), self.hit)
 
     def fire(self):
 	print "Boss Fire"
