@@ -37,7 +37,7 @@ class Boss(Enemy):
         self.damage = 20
         self.weapon = ChargeCannon(base.camera, self.enemy)
         #configure hit tube	
-        self.cs = CollisionTube(0, 0, -.5, 0, 0, -1.5, 1.5) 
+        self.cs = CollisionTube(0, 0, 0, 0, 0, 0, 1.5) 
         #init cnode
         self.cnodepath = self.enemy.attachNewNode(CollisionNode('cnode'+str(id)))
         self.cnodepath.setTag('objectTag', str(id))
