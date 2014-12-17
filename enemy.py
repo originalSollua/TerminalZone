@@ -168,13 +168,15 @@ class Enemy(DirectObject):
                 #if the distance is less than max, resume the pursue
                 if(dist < self.max):
                     self.AIbehaviors.resumeAi("pursue")
-                    #also if the distance is less than 'shoot range' then enemies can fire
+                    
+                    #if the distance is less than 'shoot range' then enemies can fire
                     if(dist < self.shoot):
                         self.AIbehaviors.pauseAi("pursue")
                         self.AIbehaviors2.resumeAi("pursue")
+                        
                         #if the distance becomes less than the min
                         #pause the chasing and double the firing speed
-                        if(dist < self.min):
+                        if(dist <= self.min):
                             self.fireDelta = self.fireDelta *2
                             self.AIbehaviors.pauseAi("pursue")
                             self.AIbehaviors2.pauseAi("pursue")
@@ -190,8 +192,14 @@ class Enemy(DirectObject):
         else:
             return task.done
         self.AIWorld.update()
-        
         return task.cont
+
+    def pause(self):
+        self.AIbehaviors.pauseAi("pursue")
+        self.AIbehaviors2.pauseAi("pursue")
+        self.pauseFlag = True
+    def resume(self):
+        self.pauseFlag = False
 
     def spawnPick(self):
         a = random.randint(0, 100)

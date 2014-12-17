@@ -24,6 +24,8 @@ from direct.task import Task
 
 class Boss(Enemy):
 
+    pauseFlag = False
+
     def __init__(self, model, ident):
 
 	Enemy.__init__(self, model, ident)
@@ -69,11 +71,19 @@ class Boss(Enemy):
 	base.taskMgr.add(self.AIUpdate, "Boss AI Update")
 
     def AIUpdate(self,task):
-
-	self.fireDelta+=1
-        if self.fireDelta >= 90 and not self.deadFlag:
-            self.fireDelta = 0
-            self.fire()
-            self.pickuppos = self.enemy.getPos()
-	self.AIWorld.update()
+        if not self.pauseFlag:
+            self.fireDelta+=1
+            if self.fireDelta >= 90 and not self.deadFlag:
+                self.fireDelta = 0
+                self.fire()
+                self.pickuppos = self.enemy.getPos()
+            self.AIWorld.update()
 	return Task.cont
+
+    def pause(self):
+        self.AIbehaviors.pauseAi("pursue")
+        self.pauseFlag = True
+
+    def resume(self):
+        self.AIbehaviors.resumeAi("puruse")
+        self.pauseFlag = False

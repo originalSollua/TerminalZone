@@ -22,6 +22,7 @@ from menus import mainmenu
 from menus import pausemenu
 from menus import gameover
 from menus import winmenu
+from boss import Boss
 
 class TerminalZoneFSM(FSM):
     
@@ -70,15 +71,13 @@ class TerminalZoneFSM(FSM):
     def enterPauseMenu(self):
         #Pause the enemies pursue behavior and shooting ability
         for enemy in base.enemyList:
-            enemy.pauseFlag = True
-            enemy.AIbehaviors.pauseAi("pursue")
-            enemy.AIbehaviors2.pauseAi("pursue")
+            enemy.pause()
         self.pm = pausemenu.init()
     
     def exitPauseMenu(self):
         #Set the enemy pauseFlag to false allowing enemies to be unpaused
         for enemy in base.enemyList:
-            enemy.pauseFlag = False
+            enemy.resume()
         self.pm.destroy()
         
     def enterGameOver(self, n):
