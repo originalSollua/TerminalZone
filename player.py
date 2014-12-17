@@ -40,7 +40,7 @@ class Player(DirectObject):
         self.oGreen = 1
         self.oBlue = 1
         
-        self.isDead = False
+        self.canUseWeapons = True
         self.overHeat = 0
         self.overHeatCount = .1
         self.isOverHeated = False
@@ -132,7 +132,7 @@ class Player(DirectObject):
         print "Player Health:",self.curEnergy
         if self.curEnergy <=0:
             self.hide()
-            self.isDead = True
+            self.canUseWeapons = False
             base.fsm.request('GameOver', 1)
     
     def hide(self):
@@ -193,7 +193,7 @@ class Player(DirectObject):
         return task.cont
 
     def swapWeapon(self): 
-        if not self.isDead:
+        if self.canUseWeapons:
             # ignore this print. using it to gather data about the size of the debug room
             self.weaponMap[self.curWeapon].resetWeapon
             if  self.curWeapon == 1:
@@ -242,7 +242,7 @@ class Player(DirectObject):
             base.taskMgr.remove("weaponDelay")
     
     def fireWeapon(self):
-        if not self.isDead:
+        if self.canUseWeapons:
             if base.taskMgr.hasTaskNamed("weaponDelay") == False:
 
                 if not self.isOverHeated:
@@ -355,7 +355,7 @@ class Player(DirectObject):
         return task.cont
         
     def resetEnergy(self):
-        self.isDead = False
+        self.canUseWeapons = True
         self.curEnergy = self.maxEnergy
         self.adjustHealth(self.curEnergy)
         

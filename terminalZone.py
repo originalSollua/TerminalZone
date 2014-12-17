@@ -52,7 +52,7 @@ class GameStart(ShowBase):
         
         #Set up task chain for game play
         base.taskMgr.setupTaskChain('GameTasks')
-       
+        self.needPlayer = True       
         self.mainMenuImage = OnscreenImage("./resources/mainMenu1.png")
         self.mainMenuImage.setImage("./resources/mainMenu2.png")
         self.mainMenuImage.reparentTo(render2d)
@@ -105,9 +105,12 @@ class GameStart(ShowBase):
         base.cTrav = CollisionTraverser()
         base.pusher = CollisionHandlerPusher()
         
-        #Init player here
-        self.player = Player()
+        #Init player herei
+        if self.needPlayer:
+            self.player = Player()
+            self.needPlayer = False
         self.player.show()
+        self.player.resetEnergy()
         
         #Load Environment and skybox
         self.environ = self.loader.loadModel("./resources/theSouthBridge")

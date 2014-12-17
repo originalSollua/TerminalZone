@@ -67,6 +67,7 @@ class LevelChanger(DirectObject):
                 self.levelComplete = True
                 if self.currentLevel == len(self.levelMap):
                     base.player.hide()
+                    base.player.canUseWeapons = False
                     base.fsm.request('WinMenu', 1)
                     return task.done
                 else:
