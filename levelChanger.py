@@ -41,6 +41,16 @@ class LevelChanger(DirectObject):
         self.levelMap = {1:self.level01, 2:self.level02, 3:self.level03, 4:self.level04}
         self.currentLevel = 1
 
+        self.level01M = base.loader.loadMusic("resources/sounds/level1.wav")
+        self.level02M = base.loader.loadMusic("resources/sounds/level2.wav")
+        self.level03M = base.loader.loadMusic("resources/sounds/level3.wav")
+        self.level04M = base.loader.loadMusic("resources/sounds/bossMusic.wav")
+        self.musicMap = {1:self.level01M, 2:self.level02M, 3:self.level03M, 4:self.level04M}
+
+        self.currentMusic = self.musicMap[self.currentLevel]
+
+        self.currentMusic.setLoop(True)
+        self.currentMusic.play()
 
         #Open file to get player spawns 
         self.pSpawnsFile = open("playerSpawns.txt")
@@ -87,7 +97,7 @@ class LevelChanger(DirectObject):
 
             #load the next level and models
             self.load(self.levelMap[self.currentLevel + 1])
-            
+
             #self.fadeIn = self.transition.fadeIn(5)
             base.taskMgr.remove(task)
         return task.cont
@@ -103,7 +113,7 @@ class LevelChanger(DirectObject):
             i.deadFlag = True
         print"unloading level.. stop sound, unload level.."
         #stop the music
-        base.music.stop()
+        self.currentMusic.stop()
         
         #detach playerNode
         base.player.playerNode.detachNode()
@@ -148,7 +158,11 @@ class LevelChanger(DirectObject):
         base.taskMgr.add(base.enemyCleanUp, "enemyCleanup", taskChain='GameTasks')
 
         self.fadeIn = self.transition.fadeIn(2)
-        base.music.play()
+        
+        self.currentMusic = self.musicMap[self.currentLevel]
+
+        self.currentMusic.setLoop(True)
+        self.currentMusic.play()
         
     def getCurrentLevel(self):
         return self.currentLevel
