@@ -200,7 +200,17 @@ class Enemy(DirectObject):
         self.AIWorld.update()
         
         return task.cont
+    #Pauses enemyies 
+    def pause(self):
+        
+        self.AIbehaviors.pauseAi("pursue")
+        self.AIbehaviors2.pauseAi("pursue")
+        self.pauseFlag = True
 
+    #Resumes enemies
+    def resume(self):
+
+        self.pauseFlag = False
     #Randomly spawns health pickup on enemy death
     def spawnPick(self):
 
