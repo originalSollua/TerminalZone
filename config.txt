@@ -5,4 +5,5 @@ right=d
 xRes=1280
 yRes=720
 peacefulMode=False
+cryEverytimeMode=False
 MorseNode=False

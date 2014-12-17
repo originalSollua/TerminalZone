@@ -78,7 +78,7 @@ class Enemy(DirectObject):
         self.accept('cnode'+str(id), self.hit)
 
         # base settings like damage and health. modify spawner later to change these once we have a more diverse population
-        self.health = 20
+        self.health = 20*base.damageMod
         self.damage = 25;
         self.fireDelta = 0
         self.fireOffset = random.randint(0, 200)

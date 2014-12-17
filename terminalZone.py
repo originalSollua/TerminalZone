@@ -84,7 +84,13 @@ class GameStart(ShowBase):
         self.yRes = self.configList[5].split("=")[1].translate(None,"\n")
         properties.setSize(int(self.xRes), int(self.yRes))
         base.win.requestProperties(properties)
-        
+
+        #Determine prepare to cry mode
+        if self.configList[7].split("=")[1].translate(None,"\n") == "True":
+            self.damageMod = 2
+        else:
+            self.damageMod = 1
+
         #Starts main menu
         self.fsm.request('MainMenu', 1)
         

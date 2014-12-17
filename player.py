@@ -101,7 +101,8 @@ class Player(DirectObject):
         # define player health here
         # try not to re-create the player object, will alter reset these values
         # alernatively, dump player stats off in save file before recreating
-        self.maxEnergy = 100
+        print "Mod:",base.damageMod
+        self.maxEnergy = 100/base.damageMod
         self.curEnergy = self.maxEnergy
         self.accept("cnode", self.hit)
         self.accept("pickuphealth", self.energyUpgrade)
@@ -377,8 +378,8 @@ class Player(DirectObject):
     #call this method when collide with a health upgrade
     def energyUpgrade(self):
 
-        self.maxEnergy +=10
-        self.curEnergy = self.curEnergy+10
+        self.maxEnergy +=(10/base.damageMod)
+        self.curEnergy = self.curEnergy+(10/base.damageMod)
         self.bar['range'] = self.maxEnergy
         self.adjustHealth(self.curEnergy)
     
