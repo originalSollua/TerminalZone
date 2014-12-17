@@ -24,11 +24,13 @@ from boss import Boss
 # Panda imports
 from direct.showbase.DirectObject import DirectObject
 
+#Handles enemy spawning
 class Spawner(DirectObject):
    
     def __init__(self, level, spawnFile):
         
-
+        
+        #Reads in enemy spawn locations for current level
         self.eSpawnsFile = open("./enemySpawns/" + spawnFile + "Spawns.txt")
         self.eSpawnsList = self.eSpawnsFile.readlines()
         self.eSpawnsFile.close()
@@ -39,8 +41,8 @@ class Spawner(DirectObject):
         self.spawnId = 0
         self.offset = 0
 
+    #Gets enemies spawn location
     def spawn(self):
-        
         
         lineIndex = 0
         while lineIndex < len(self.eSpawnsList):
@@ -53,14 +55,18 @@ class Spawner(DirectObject):
             
             # Increase enemy count
             self.spawnId += 1
+
+        #If it's the third level add the spawn event trigger
         if base.levelChanger.currentLevel == 3:
 
            base.taskMgr.add(self.spawnEnemies, "Spawn enemies", taskChain='GameTasks')
 	    
+        #If it's the fourth level spawn the boss
         if base.levelChanger.currentLevel == 4:
 
 	        self.spawnBoss()      
     
+    #Spawns enemy at specified location
     def spawnEnemy(self, modelNum, id):
 
         if modelNum == 1:
@@ -74,14 +80,12 @@ class Spawner(DirectObject):
         enemy = Enemy(enemyModel, id+self.offset)
         enemy.setAI()
         enemy.setPos(self.enemyX, self.enemyY, self.enemyZ)
-        #enemy.animate()
         base.enemyList.append(enemy)
         self.offset+=1
-        #print "Enemies: ", len(base.enemyList)
-
+    
+    #On the third level spawns enemies behind the player
     def spawnEnemies(self, task):
         
-
         if base.player.playerModel.getX() >= 0:
 
             lineIndex = 0
@@ -99,12 +103,13 @@ class Spawner(DirectObject):
             return task.done
 
         return task.cont
-
+    
+    #Spawns the boss on the fourth level
     def spawnBoss(self):
 
-	bossModel = "resources/lordMonkey"
-	boss = Boss(bossModel, 9000)
+        bossModel = "resources/lordMonkey"
+        boss = Boss(bossModel, 9000)
 
-	boss.setPos(-245,245,20)
-	boss.setAI()
-	base.enemyList.append(boss)
+        boss.setPos(-245,245,20)
+        boss.setAI()
+        base.enemyList.append(boss)

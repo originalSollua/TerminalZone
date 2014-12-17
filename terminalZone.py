@@ -52,7 +52,11 @@ class GameStart(ShowBase):
         
         #Set up task chain for game play
         base.taskMgr.setupTaskChain('GameTasks')
-        self.needPlayer = True       
+        
+        #Flag to see if a player has already been spawned
+        self.needPlayer = True
+        
+        #Load in all menu images. If the don't all get set initially, it stutters on switch,
         self.mainMenuImage = OnscreenImage("./resources/mainMenu1.png")
         self.mainMenuImage.setImage("./resources/mainMenu2.png")
         self.mainMenuImage.reparentTo(render2d)
@@ -85,7 +89,8 @@ class GameStart(ShowBase):
         self.fsm.request('MainMenu', 1)
         
     def startNewGame(self, load):
-
+        
+        #Hide menu background on start of game.
         self.mainMenuImage.hide()
     
         #Get window properties, hide the cursor, set properties
@@ -100,18 +105,23 @@ class GameStart(ShowBase):
         base.cTrav = CollisionTraverser()
         base.pusher = CollisionHandlerPusher()
         
-        #Init player herei
+        #Init player here
+        #If we don't already have a player
         if self.needPlayer:
+
             self.player = Player()
             self.needPlayer = False
+
+        #Display HUD and set default stats    
         self.player.show()
         self.player.resetEnergy()
         
-        #Load Environment and skybox
+        #Load first environment
         self.environ = self.loader.loadModel("./resources/theSouthBridge")
         self.environ.reparentTo(self.render)
         self.environ.setScale(7, 7, 3)
         
+        #Load skybox
         self.skybox = loader.loadModel("resources/skyBox")
         self.skyboxPath = NodePath(self.skybox)
         self.skyboxPath.setCompass()
@@ -120,7 +130,7 @@ class GameStart(ShowBase):
         self.skybox.setLightOff()
         self.skybox.reparentTo(camera)
         
-        #Current spawn coordinates
+        #Global current player spawn coordinates
         self.xPos = 0
         self.yPos = 0
         self.zPos = 3
@@ -130,12 +140,16 @@ class GameStart(ShowBase):
         
         #Check to see if load game was pressed
         if load:
+
             self.levelChanger.goToBoss()
             #Create spawner open on current level
             self.spawner = Spawner(self.environ, "theRoot")
         else:
+
             #Create spawner open on current level
             self.spawner = Spawner(self.environ, "theSouthBridge")
+
+        #Populate level with enemies
         self.spawner.spawn()
         
         #Add tasks
@@ -144,7 +158,8 @@ class GameStart(ShowBase):
         base.taskMgr.add(self.enemyCleanUp, "enemyCleanup", taskChain='GameTasks')
         base.taskMgr.add(self.levelChanger.checkLevel, "checkLevel", taskChain='GameTasks')
         base.taskMgr.add(self.pickupClean, "Pickup celeanup", taskChain='GameTasks')
-        #Get movement controls
+        
+        #Get movement controls from config file
         self.forward = self.configList[0].split("=")[1].translate(None,"\n")
         self.backward = self.configList[1].split("=")[1].translate(None,"\n")
         self.left = self.configList[2].split("=")[1].translate(None,"\n")
@@ -152,7 +167,7 @@ class GameStart(ShowBase):
 
         #Controls
         self.accept("escape", sys.exit, [0])
-        self.accept("m", self.startPause)
+        self.accept("enter", self.startPause)
         
         #Set Controls
         self.accept(self.forward, self.setKey, ["forward", True])
@@ -169,28 +184,38 @@ class GameStart(ShowBase):
     def setKey(self, key, value):
         self.keyMap[key] = value
 
+    #Spawn and append pickups to the list
     def spawnPickup(self, id, node):
+         
          n = Pickup(id, node)
          self.pickuplist.append(n)
 
+    #Cleans projectiles after impact and specified duration
     def projCleanTask(self, task):
         
         #using this task to find all the projectiles in the projList
         #that have reached the end of their lifespan
         #use the built in destroy to remove them
         for i in self.projectileList:   
+            
             if i.flag:
+                
                 i.projectileNode.removeNode()
                 self.projectileList.remove(i)
         return task.cont
-
+    
+    #Clears pickups from the environment after collection
     def pickupClean(self, task):
+
         for i in self.pickuplist:
+            
             if i.deletePickup:
+                
                 i.destroy()
                 self.pickuplist.remove(i)
         return task.cont
 
+    #Clears enemies from the environment after being killed or upon player death
     def enemyCleanUp(self, task):
 
         self.levelChanger.checkLevel(task)
@@ -206,10 +231,14 @@ class GameStart(ShowBase):
                 #self.spawner.spawnableCount-=1
         return task.cont
         
+    #Requests pause from the fsm
     def startPause(self):
+
         self.fsm.request('PauseMenu')
-        
+    
+    #Handles the delay between menu image swaps
     def menusTasks(self, s, task):
+
         if task.time > .75:
             if s == "mainmenu1":
                 base.fsm.request('MainMenu', 2)
@@ -225,5 +254,6 @@ class GameStart(ShowBase):
                 base.fsm.request('WinMenu', 1)
         return task.cont
 
+#Start game loop
 TerminalZone = GameStart()
 TerminalZone.run()

@@ -14,11 +14,16 @@
 #
 #======================================================================#
 
+#Python imports
 import sys
 
+#Panda3d imports
 from direct.gui.DirectGui import *
 
+#Main menu
 def init(n):
+
+    #Switches between 2 main menu images
     if n == 1:
         frame = DirectFrame(frameSize=(-1,-1,1,1), pos=(0,0,0))
         base.mainMenuImage.setImage("./resources/mainMenu1.png")
@@ -32,9 +37,13 @@ def init(n):
     exit = DirectButton(frame, text=("Exit Game","Exit Game","Exit Game","Exit Game"), scale=.1, command=sys.exit, pressEffect=1, pos=(0,0,-0.5))
     
     return frame
-    
+
+#Starts the game
 def startGame():
+
     base.fsm.request('Play', False)
-    
+
+#Jumps straight to the boss level
 def loadBoss():
+
     base.fsm.request('Play', True)

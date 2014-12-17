@@ -7,7 +7,21 @@ Hunter Quant - test push - cloned to laptop
 Jeremy Rose - test push - cloned to laptop
 Brandon Williams - test push - cloned to laptop
 
+How to play:
+    
+    There is a disturbance in your computer. Enter the Terminal Zone and fight corrupted files
+    to retrieve lost data.
 
+    Use the weapons at your disposal to defrag your hard drive.
+
+Controls:
+
+Look - Mouse
+Movement - WASD or change in the config file
+Shoot - Left click
+Swap weapons - Right click
+Pause game - Enter
+Exit game - Escape
 
 
 Team Header Comment - place at the top of each class.

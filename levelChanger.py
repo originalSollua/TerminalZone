@@ -13,11 +13,15 @@
 # Description: Changing levels
 #                   - Currently when the enemy list is empty
 #======================================================================#
+
+#Python imports
 import sys
 
+#Our class imports
 from player import Player
 from spawner import Spawner
 
+#Panda3d imports
 from panda3d.core import *
 from direct.showbase.Transitions import Transitions
 from direct.showbase.DirectObject import DirectObject 
@@ -26,21 +30,23 @@ from direct.interval.IntervalGlobal import Sequence
 
 
 class LevelChanger(DirectObject):
+    
     #Use this to handle changing of levels
     #check the emeny list and if it is empty then change the level
-
     #Flag to tell if the level is complete
     levelComplete = False
 
     def __init__(self):
         
+        #Level map
         self.level01 = "resources/theSouthBridge"
         self.level02 = "resources/theSocket"
         self.level03 = "resources/theDualChannel"
         self.level04 = "resources/theRoot"
         self.levelMap = {1:self.level01, 2:self.level02, 3:self.level03, 4:self.level04}
         self.currentLevel = 1
-
+        
+        #Level music map
         self.level01M = base.loader.loadMusic("resources/sounds/level1.wav")
         self.level02M = base.loader.loadMusic("resources/sounds/level2.wav")
         self.level03M = base.loader.loadMusic("resources/sounds/level3.wav")
@@ -57,21 +63,21 @@ class LevelChanger(DirectObject):
         self.pSpawnsList = self.pSpawnsFile.readlines()
         self.pSpawnsFile.close()
         
+        #Set players current spawn
         self.spawnIndex = 0
-        #Get movement controls
-        
         base.xPos = float(self.pSpawnsList[self.spawnIndex + 1].split("=")[1].translate(None,"\n"))
         base.yPos = float(self.pSpawnsList[self.spawnIndex + 2].split("=")[1].translate(None,"\n"))
         base.zPos = float(self.pSpawnsList[self.spawnIndex + 3].split("=")[1].translate(None,"\n"))
         base.player.playerNode.setPos(0, 0, 30) #resets height
         base.player.playerModel.setPos(base.xPos, base.yPos, base.zPos) #resets position
-        print"welcome to levelchanger"
 
     #checks the enemy list
     #if the list is empty, level is complete
     #set flag to true and change the level.
     def checkLevel (self, task):
+        
         enemy = base.spawner.spawnId
+        
         if(len(base.enemyList) == 0):
             if enemy > 0:
                 self.levelComplete = True
@@ -87,7 +93,9 @@ class LevelChanger(DirectObject):
         
 
     def changeLevel(self, task):
+        
         if(self.levelComplete == True):
+           
             self.transition = Transitions(loader)
             self.transition.setFadeColor(0, 0, 0)
             self.fadeOut = self.transition.fadeOut(2)
@@ -100,18 +108,21 @@ class LevelChanger(DirectObject):
 
             #self.fadeIn = self.transition.fadeIn(5)
             base.taskMgr.remove(task)
+        
         return task.cont
 
-    #unloading the stuff not needed
-    #like enviroment and stopping sound.
+    #Unloads current level objects
     def unload(self, level):
+
         for i in base.pickuplist:
+           
             i.deletePickup = True
-        #base.enemyList = []
+        
         for i in base.enemyList:
+            
             i.delFlag = True
             i.deadFlag = True
-        print"unloading level.. stop sound, unload level.."
+        
         #stop the music
         self.currentMusic.stop()
         
@@ -125,9 +136,11 @@ class LevelChanger(DirectObject):
         #unload the env and detach remove the node
         base.loader.unloadModel(level)
         base.environ.removeNode()
-
+    
+    #Load the next level
     def load(self, level):
         
+        #Reset player health for the next level
         base.player.adjustHealth(base.player.maxEnergy)
 
         #load Environment - new level
@@ -141,8 +154,8 @@ class LevelChanger(DirectObject):
         #reattach player to render
         base.player.playerNode.reparentTo(render)
 	    
+        #Set the next levels spawn coordinates 
         self.spawnIndex += 4
-        #Get movement controls
         base.xPos = float(self.pSpawnsList[self.spawnIndex + 1].split("=")[1].translate(None,"\n"))
         base.yPos = float(self.pSpawnsList[self.spawnIndex + 2].split("=")[1].translate(None,"\n"))
         base.zPos = float(self.pSpawnsList[self.spawnIndex + 3].split("=")[1].translate(None,"\n"))
@@ -164,33 +177,35 @@ class LevelChanger(DirectObject):
         self.currentMusic.setLoop(True)
         self.currentMusic.play()
         
+    #Returns the current level
     def getCurrentLevel(self):
+
         return self.currentLevel
-        
+    
+    #Goes direcctly to the boss level
     def goToBoss(self):
+
         self.transition = Transitions(loader)
         self.transition.setFadeColor(0, 0, 0)
         self.fadeOut = self.transition.fadeOut(2)
         self.unload(self.levelMap[1])
         self.load(self.levelMap[4])
         self.currentLevel = 4
-        
+    
+    #Resets enemies upon death
     def resetEnemy(self):
+
         base.player.playerModel.setPos(base.xPos, base.yPos, base.zPos)
         base.player.playerNode.setPos(0,0,30) #resets height
         
-           
         for i in base.enemyList:
             i.delFlag = True
             i.deadFlag = True
             
-            #i.enemyNode.removeNode()
-            #base.enemyList.remove(i)
         for i in base.pickuplist:
             i.deletePickup = True
             
-        #base.enemyList = []
-        #create new spawner on the env
+        #create new spawner on the current level
         base.spawner = Spawner(base.environ, self.levelMap[self.currentLevel].split("/")[1].translate(None,"\n"))
         #Reinit enemies
         base.spawner.spawn()

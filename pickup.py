@@ -1,19 +1,34 @@
+#======================================================================#
+#
+# Team:  
+#    Hunter Quant
+#    Edward Pryor
+#    Nick Marasco
+#    Shane Peterson
+#    Brandon Williams
+#    Jeremy Rose
+#
+# Last modification: 12/16/14
+#
+# Description: Separate camera controls from the main game
+#
+#======================================================================#
 
-
-
-
-
-
-
-
+#Panda3d imports
 from panda3d.core import CollisionSphere, CollisionNode, NodePath, Filename, CollisionTraverser, CollisionHandlerEvent
 from direct.showbase.DirectObject import DirectObject
+
+#Python imports
 import sys, os
+
+#Our class imports
 from player import Player
 
 class Pickup(DirectObject):
 
+    #Creates health pickup object
     def __init__(self, idappend, spawn):
+        
         self.id = "pick"+str(idappend)
         self.deletePickup = False          
         self.projectileNode = NodePath('heal'+str(self.id))
@@ -32,23 +47,21 @@ class Pickup(DirectObject):
         self.collHand.addInPattern('pickupin'+str(self.id))
         self.collHand.addOutPattern('oot')
         base.cTrav.addCollider(self.colNode, self.collHand)
-       # self.model.reparentTo(render)
-       # self.model.setPos(x, y-15, z)
         self.accept('pickupin'+str(self.id), self.pickup)
-        print "pickup Active"
+   
+    #Detects if the player has picked up the health
     def pickup(self, col):
-        print col.getIntoNodePath().getName()
+        
         if col.getIntoNodePath().getName() == "cnode":
 
-            print "dolla dolla bills yall"
             messenger.send("pickuphealth")
             self.deletePickup = True
 
+    #Destroys the health pickups from the scene graph
     def destroy(self):
+
         self.projectileNode.removeNode()
-        #self.projectileModel.cleanup()
         self.projectileModel.removeNode()
         self.colNode.node().clearSolids()
         
-        #base.cTrav.removeCollider(self.cnodepath)
         del self

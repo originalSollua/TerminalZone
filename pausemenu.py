@@ -14,10 +14,13 @@
 # of the level you are on.
 #======================================================================#
 
+#Python imports
 import sys
 
+#Our class imports
 from camMov import CameraMovement
 
+#Panda3d imports
 from panda3d.core import *
 from panda3d.core import WindowProperties
 from panda3d.core import OrthographicLens
@@ -28,7 +31,8 @@ class PauseMenu(object):
     
     myAspect = 0
     playerNode = 0
-    
+   
+    #Creates pause menu
     def __init__(self, playerNode):
     
         self.playerNode = playerNode
@@ -68,7 +72,8 @@ class PauseMenu(object):
         
         base.taskMgr.remove("cameraControl")
         base.taskMgr.remove("Spawn Enemies")
-        
+    
+    #Resumes game
     def resumeGame(self):
     
         cameraModel = loader.loadModel("models/camera")

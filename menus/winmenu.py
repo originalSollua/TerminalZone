@@ -14,11 +14,16 @@
 #
 #======================================================================#
 
+#Python imports
 import sys
 
+#Panda3d imports
 from direct.gui.DirectGui import *
 
+#Victory screen menu
 def init(n):
+
+    #Switches between 2 victory images
     if n == 1:
         frame = DirectFrame(frameSize=(-1,-1,1,1), pos=(0,0,0))
         base.victoryImage.setImage("./resources/victory1.png")
@@ -29,7 +34,8 @@ def init(n):
     main = DirectButton(frame,text=("Main Menu","Main Menu","Main Menu","Main Menu"),scale=.1,command=startMain,pressEffect=1,pos=(.05,0,.4))
     
     return frame
-    
+
+#Calls the main menu
 def startMain():
 
     base.victoryImage.hide()

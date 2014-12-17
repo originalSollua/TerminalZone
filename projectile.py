@@ -14,29 +14,36 @@
 #
 #======================================================================#
 
+#Panda3d imports
 from direct.showbase.DirectObject import DirectObject
 from direct.actor.Actor import Actor
 from panda3d.core import NodePath, Vec3, CollisionNode, CollisionSphere, CollisionTube, CollisionTraverser, CollisionHandlerEvent, TransparencyAttrib
-from math import sin, cos
 
-#going to use the system time to calculate when to destroy projectiles
+#Python imports
+from math import sin, cos
 import time
 import random
 
 #possible depricated library
 from direct.interval.IntervalGlobal import *
 
+#Projectiles for all weapons
+#Recursion rifle projectile will be most commented everything else is simmilar.
+
 class ChargeProjectile(DirectObject):
+    
     dur = 2
     delta = .15
     flag = False
+    
     def __init__(self, spawn, taregt, id):
+        
         self.projectileNode = NodePath('projectile'+str(id))
         self.projectileNode.reparentTo(render)
 
         self.projectileNode.setPos(spawn,0,-10, 0)
         self.projectileNode.setScale(1.5)
-	self.projectileModel = Actor("./resources/sphereShot",{"grow":"./resources/sphereShot-grow"})
+        self.projectileModel = Actor("./resources/sphereShot",{"grow":"./resources/sphereShot-grow"})
         self.projectileModel.setColorScale(200, 0, 255, 100)
         self.projectileModel.reparentTo(self.projectileNode)
         self.projectileNode.setHpr(spawn, 0, 0, 0)
@@ -91,19 +98,20 @@ class ChargeProjectile(DirectObject):
             del self
 
     def wait(self, task):
-	
-	print task.time
 
-	if task.time > 2.24:
-	    return task.done
-	
-	return task.cont
+        if task.time > 2.24:
+            return task.done
+	    
+        return task.cont
 
 class ScrubProjectile(DirectObject):
+    
     dur = 2
     delta = .15
     flag = False
+    
     def __init__(self, spawn, taregt, id):
+
         self.projectileNode = NodePath('projectile'+str(id))
         self.projectileNode.reparentTo(render)
 
@@ -159,7 +167,6 @@ class ScrubProjectile(DirectObject):
         if collEntry.getIntoNodePath().getName() != 'projNode':
            
             temp = collEntry.getIntoNodePath().getName()
-            print temp
             messenger.send(temp, [self.damage]) 
             
             #remove the impacting projectile
@@ -447,7 +454,6 @@ class KVProjectile(DirectObject):
            
             temp = collEntry.getIntoNodePath().getName()
             messenger.send(temp, [self.damage]) 
-            print temp
             #remove the impacting projectile
             collEntry.getFromNodePath().getParent().getParent().removeNode()
             self.flag =  True
@@ -530,7 +536,6 @@ class CBShield(DirectObject):
         
 
     def hit(self, collEntry):
-        print "Hello"
         #throw out a custom message for what hit
         if collEntry.getIntoNodePath().getName() != 'projNode':
            

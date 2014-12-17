@@ -13,11 +13,17 @@
 # Description: Menu that comes up when you die.
 #
 #======================================================================#
+
+#Our class imports
 from player import Player
+
+#Panda3d imports
 from direct.gui.DirectGui import *
 
+#game over menu
 def init(n):
     
+    #Switches between 2 game over images
     if n == 1:
         frame = DirectFrame(frameSize=(-1,-1,1,1), pos=(0,0,0))
         base.gameOverImage.setImage("./resources/gameOver1.png")
@@ -32,11 +38,15 @@ def init(n):
     
     return frame
     
+#Calls the main menu
 def startMain():
+    
     base.gameOverImage.hide()
     base.fsm.request('MainMenu', 1)
-    
+
+#Restarts the current level
 def reLevel():
+    
     base.player.show()
     base.player.resetEnergy()
     base.gameOverImage.hide()

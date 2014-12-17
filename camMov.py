@@ -25,8 +25,6 @@ from direct.showbase.DirectObject import DirectObject
 
 class CameraMovement(DirectObject):
    
-    playerNode = 0
-    
     # Takes in a playerModel and sets up key listeners
     def __init__(self, playerModel):
         
@@ -53,11 +51,13 @@ class CameraMovement(DirectObject):
         x = mouse.getX()
         y = mouse.getY()
         
+        #Updates camera facing based on mouse position
         if base.win.movePointer(0, base.win.getXSize()/2, base.win.getYSize()/2):
             
             self.playerModel.setH(self.playerModel.getH() - (x - base.win.getXSize()/2)*0.1)
             base.camera.setP(base.camera.getP() - (y - base.win.getYSize()/2)*0.1)
 
+        #Limits verticle view
         if base.camera.getP() >= 90:
 
             base.camera.setP(90)
@@ -65,7 +65,7 @@ class CameraMovement(DirectObject):
         if base.camera.getP() <= -90:
 
             base.camera.setP(-90)
-
+        
         # Changes the position of the playerModel based on which keys are currently pressed
         if(self.keyMap["forward"] == True):
             
