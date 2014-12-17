@@ -31,9 +31,13 @@ class TerminalZoneFSM(FSM):
     wm = 0
 
     def __init__(self):
+        self.menuMusic = base.loader.loadMusic("resources/sounds/menu.wav")
+        self.menuMusic.setLoop(True)
+        self.menuMusic.play()
         FSM.__init__(self, "TerminalZoneFSM")
         
     def enterPlay(self, load):
+        self.menuMusic.stop()
         properties = WindowProperties()
         properties.setCursorHidden(True)
         base.win.requestProperties(properties)
