@@ -39,7 +39,8 @@ class Player(DirectObject):
         self.oRed = 0
         self.oGreen = 1
         self.oBlue = 1
-
+        
+        self.isDead = False
         self.overHeat = 0
         self.overHeatCount = .1
         self.isOverHeated = False
@@ -72,16 +73,16 @@ class Player(DirectObject):
         self.weaponName.setImage(self.weaponNameMap[1])
         self.weaponName.setTransparency(True)
         self.weaponName.reparentTo(render2d)
-        
+        print("init") 
         self.mhBlunder.hide()
         self.kvDuals.hide()
         self.accept("mouse1", self.fireWeapon)
         self.accept("mouse3", self.swapWeapon)
         
         #HUD
-        hud = OnscreenImage("resources/hud.png")
-        hud.setTransparency(True)
-        hud.reparentTo(render2d)
+        self.hud = OnscreenImage("resources/hud.png")
+        self.hud.setTransparency(True)
+        self.hud.reparentTo(render2d)
         base.taskMgr.add(self.updateUsage, "usagePaint", taskChain='Gametasks')
         base.taskMgr.add(self.hFlicker, "hflicker", taskChain='GameTasks')
         base.taskMgr.add(self.updateCount, "Ecount", taskChain='GameTasks')
@@ -100,18 +101,18 @@ class Player(DirectObject):
         self.healthLable = TextNode('health field name')
         self.healthLable.setFont(font)
         self.healthLable.setText("Abstraction")
-        textNodePath = aspect2d.attachNewNode(self.healthLable)
-        textNodePath.setScale(0.05)
+        self.textNodePath = aspect2d.attachNewNode(self.healthLable)
+        self.textNodePath.setScale(0.05)
         self.healthLable.setAlign(TextNode.ACenter)
-        textNodePath.setPos(0, 0, .68)
+        self.textNodePath.setPos(0, 0, .68)
         self.healthLable.setTextColor(self.red, self.green, self.blue, 1)
 
         self.enemiesLeft = TextNode('monsters to kill')
         self.enemiesLeft.setFont(font)
         self.enemiesLeft.setText(str(len(base.enemyList)))
-        texnp = aspect2d.attachNewNode(self.enemiesLeft)
-        texnp.setScale(.1)
-        texnp.setPos(-1.68, 0, -.75)
+        self.texnp = aspect2d.attachNewNode(self.enemiesLeft)
+        self.texnp.setScale(.1)
+        self.texnp.setPos(-1.68, 0, -.75)
         self.enemiesLeft.setTextColor(1, 1, 0, 1)
         
 
@@ -122,16 +123,52 @@ class Player(DirectObject):
         self.usageBar.setScale(0.5)
         # weapon name 
 
-	#Kill Floor task
-	base.taskMgr.add(self.killFloor, "Kill Floor") 
+        #Kill Floor task
+        base.taskMgr.add(self.killFloor, "Kill Floor") 
 
     def hit(self, damage):
         self.curEnergy = self.curEnergy-damage
         self.bar['value'] = self.curEnergy
         print "Player Health:",self.curEnergy
         if self.curEnergy <=0:
-            
+            self.hide()
+            self.isDead = True
             base.fsm.request('GameOver', 1)
+    
+    def hide(self):
+
+        self.weaponMap[self.curWeapon].reticle.setScale(0) 
+        self.weaponMap[self.curWeapon].curScale = 0
+        self.weaponMap[self.curWeapon].step = False
+
+        self.textNodePath.hide()
+        self.texnp.hide()
+        self.hud.setScale(0)
+        self.weaponName.setScale(0)
+        self.usageBar.hide()
+        self.bar.hide()
+
+    def show(self):
+        self.textNodePath.show()
+        self.texnp.show()
+        self.hud.setScale(1)
+        self.weaponName.setScale(1)
+        self.usageBar.show()
+        self.bar.show()
+        
+        if self.curWeapon == 1:
+            
+            self.weaponMap[1].reticle.setScale(.025)
+            self.weaponMap[1].curScale = .025
+
+        elif self.curWeapon == 2:
+            
+            self.weaponMap[2].reticle.setScale(.075)
+            self.weaponMap[2].curScale = .075
+        else:
+
+            self.weaponMap[3].reticle.setScale(.025)
+            self.weaponMap[3].curScale = .025
 
     # set the player health to a specific value        
     def adjustHealth(self, value):
@@ -156,71 +193,71 @@ class Player(DirectObject):
         return task.cont
 
     def swapWeapon(self): 
-        # ignore this print. using it to gather data about the size of the debug room
-        print self.playerNode.getPos()
-        self.weaponMap[self.curWeapon].resetWeapon
-        if  self.curWeapon == 1:
+        if not self.isDead:
+            # ignore this print. using it to gather data about the size of the debug room
+            self.weaponMap[self.curWeapon].resetWeapon
+            if  self.curWeapon == 1:
             
-            self.weaponName.setImage(self.weaponNameMap[2])
-            self.weaponName.setTransparency(True)
-            self.weaponMap[1].reticle.setScale(0)
-            self.weaponMap[1].curScale = 0
-            self.weaponMap[1].step = False
+                self.weaponName.setImage(self.weaponNameMap[2])
+                self.weaponName.setTransparency(True)
+                self.weaponMap[1].reticle.setScale(0)
+                self.weaponMap[1].curScale = 0
+                self.weaponMap[1].step = False
           
-            self.rRifle.hide()
-            self.mhBlunder.show()
+                self.rRifle.hide()
+                self.mhBlunder.show()
             
-            self.curWeapon = 2
-            self.weaponMap[2].reticle.setScale(.075)
-            self.weaponMap[2].curScale = .075
-        elif self.curWeapon == 2:
+                self.curWeapon = 2
+                self.weaponMap[2].reticle.setScale(.075)
+                self.weaponMap[2].curScale = .075
+            elif self.curWeapon == 2:
             
-            self.weaponName.setImage(self.weaponNameMap[3])
-            self.weaponName.setTransparency(True)
-            self.weaponMap[2].reticle.setScale(0)
-            self.weaponMap[2].curScale = 0
-            self.weaponMap[2].step = False
+                self.weaponName.setImage(self.weaponNameMap[3])
+                self.weaponName.setTransparency(True)
+                self.weaponMap[2].reticle.setScale(0)
+                self.weaponMap[2].curScale = 0
+                self.weaponMap[2].step = False
             
-            self.mhBlunder.hide()
-            self.kvDuals.show()
+                self.mhBlunder.hide()
+                self.kvDuals.show()
             
-            self.curWeapon = 3
-            self.weaponMap[3].reticle.setScale(.025)
-            self.weaponMap[3].curScale = .025
-        elif self.curWeapon == 3:
+                self.curWeapon = 3
+                self.weaponMap[3].reticle.setScale(.025)
+                self.weaponMap[3].curScale = .025
+            elif self.curWeapon == 3:
 
-            self.weaponName.setImage(self.weaponNameMap[1])
-            self.weaponName.setTransparency(True)
-            self.weaponMap[3].reticle.setScale(0)
-            self.weaponMap[3].curScale = 0
-            self.weaponMap[3].step = False
+                self.weaponName.setImage(self.weaponNameMap[1])
+                self.weaponName.setTransparency(True)
+                self.weaponMap[3].reticle.setScale(0)
+                self.weaponMap[3].curScale = 0
+                self.weaponMap[3].step = False
             
-            self.kvDuals.hide()
-            self.rRifle.show()
+                self.kvDuals.hide()
+                self.rRifle.show()
            
-            self.curWeapon = 1
-            self.weaponMap[1].reticle.setScale(.025)
-            self.weaponMap[1].curScale = .025
+                self.curWeapon = 1
+                self.weaponMap[1].reticle.setScale(.025)
+                self.weaponMap[1].curScale = .025
          
-        base.taskMgr.remove("weaponDelay")
+            base.taskMgr.remove("weaponDelay")
     
     def fireWeapon(self):
+        if not self.isDead:
+            if base.taskMgr.hasTaskNamed("weaponDelay") == False:
 
-        if base.taskMgr.hasTaskNamed("weaponDelay") == False:
+                if not self.isOverHeated:
 
-            if not self.isOverHeated:
+                    base.taskMgr.add(self.weaponMap[self.curWeapon].fire, "fire")
 
-                base.taskMgr.add(self.weaponMap[self.curWeapon].fire, "fire")
+            elif self.weaponMap[self.curWeapon].canShoot() == True:
 
-        elif self.weaponMap[self.curWeapon].canShoot() == True:
-
-            if not self.isOverHeated:
+                if not self.isOverHeated:
                 
-                base.taskMgr.remove("weaponDelay")
-                base.taskMgr.add(self.weaponMap[self.curWeapon].fire, "fire")
-        else:
+                    base.taskMgr.remove("weaponDelay")
+                    base.taskMgr.add(self.weaponMap[self.curWeapon].fire, "fire")
+            else:
 
-            print "Can't Shoot"
+                print "Can't Shoot"
 
     def overHeatTask(self, task):
         
@@ -239,15 +276,15 @@ class Player(DirectObject):
 
 
     def createColision(self):
-        
+        print("collsion")
         # Set up floor collision handler
         base.floor = CollisionHandlerGravity()
         base.floor.setGravity(9.8)
 
         # Create player collision node and add to traverser
-        playerCollNodePath = self.initCollisionSphere(self.playerNode.getChild(0))
-        base.cTrav.addCollider(playerCollNodePath, base.pusher)
-        base.pusher.addCollider(playerCollNodePath, self.playerNode)
+        self.playerCollNodePath = self.initCollisionSphere(self.playerNode.getChild(0))
+        base.cTrav.addCollider(self.playerCollNodePath, base.pusher)
+        base.pusher.addCollider(self.playerCollNodePath, self.playerNode)
         
         # Create Floor Ray - for gravity / floor
         floorCollRayPath = self.initCollisionRay(1,-1) 
@@ -318,6 +355,7 @@ class Player(DirectObject):
         return task.cont
         
     def resetEnergy(self):
+        self.isDead = False
         self.curEnergy = self.maxEnergy
         self.adjustHealth(self.curEnergy)
         

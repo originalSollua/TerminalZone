@@ -107,6 +107,7 @@ class GameStart(ShowBase):
         
         #Init player here
         self.player = Player()
+        self.player.show()
         
         #Load Environment and skybox
         self.environ = self.loader.loadModel("./resources/theSouthBridge")

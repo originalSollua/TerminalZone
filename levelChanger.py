@@ -66,6 +66,7 @@ class LevelChanger(DirectObject):
             if enemy > 0:
                 self.levelComplete = True
                 if self.currentLevel == len(self.levelMap):
+                    base.player.hide()
                     base.fsm.request('WinMenu', 1)
                     return task.done
                 else:

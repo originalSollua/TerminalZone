@@ -25,12 +25,10 @@ from projectile import *
 
 #boss weapon
 class ChargeCannon(object):
+    
     #few details needed. just going to spawn a laser at the enemy and move it at us
-
     def __init__(self, camera, spawnNodePoint):
-
-	self.audio3d = Audio3DManager(base.sfxManagerList[0], base.camera)
-
+        self.audio3d = Audio3DManager(base.sfxManagerList[0], base.camera)
         self.spawnNode = spawnNodePoint
         self.targetNode = camera
 
@@ -46,12 +44,11 @@ class ChargeCannon(object):
 
 #ScrubCannon - the thing the enemies shoot at us
 class ScrubCannon(object):
+    
     #few details needed. just going to spawn a laser at the enemy and move it at us
-
     def __init__(self, camera, spawnNodePoint):
 
-	self.audio3d = Audio3DManager(base.sfxManagerList[0], base.camera)
-
+        self.audio3d = Audio3DManager(base.sfxManagerList[0], base.camera)
         self.spawnNode = spawnNodePoint
         self.targetNode = camera
 
@@ -61,7 +58,7 @@ class ScrubCannon(object):
         base.taskMgr.add(proj.moveTask, "move projectile")
         base.projectileList.append(proj)
         shotSfx = self.audio3d.loadSfx("./resources/sounds/scrub_cannon.wav")
-	#self.audio3d.attachSoundToObject(shotSfx, self.spawnNode)
+	    #self.audio3d.attachSoundToObject(shotSfx, self.spawnNode)
         #shotSfx.setVolume(.4)
         shotSfx.play()
 
@@ -79,9 +76,8 @@ class RecursionRifle(object):
 
 
     def __init__(self, camera, id):
-
-	self.audio3d = Audio3DManager(base.sfxManagerList[0], base.camera)
-	
+        print("new weapons")
+        self.audio3d = Audio3DManager(base.sfxManagerList[0], base.camera)
         #print "guns init"
         #Set model and projectile paths
         self.gunPath = NodePath("gun")
@@ -97,6 +93,17 @@ class RecursionRifle(object):
         self.reticle.setScale(self.curScale)
         base.taskMgr.add(self.animate, "rrReticle")
 
+    def hide(self): 
+        
+        self.reticle.setScale(0)
+        self.gunModel.hide()
+        self.gunPath.hide()
+
+    def show(self): 
+        
+        self.gunModel.show()
+        self.gunPath.show()
+
     def fire(self, task):
 
         #Spawn projectile, add it to taskMgr and play sfx
@@ -104,7 +111,7 @@ class RecursionRifle(object):
         base.taskMgr.add(proj.moveTask, "move projectile")
         base.projectileList.append(proj)
         shotSfx = self.audio3d.loadSfx("./resources/sounds/recursion_rifle.wav")
-	self.audio3d.attachSoundToObject(shotSfx, base.camera)
+        self.audio3d.attachSoundToObject(shotSfx, base.camera)
         #shotSfx.setVolume(.4)
         shotSfx.play()
         base.player.overHeat += self.weaponOverHeat
@@ -199,6 +206,17 @@ class MHB(object):
 
         base.taskMgr.add(self.animate, "mhbReticle")
         self.gunModel.setColor(0, 0, 0)
+    
+    def hide(self): 
+        
+        self.reticle.setScale(0)
+        self.gunModel.hide()
+        self.gunPath.hide()
+
+    def show(self): 
+        
+        self.gunModel.show()
+        self.gunPath.show()
     
     def fire(self, task):
         
@@ -328,6 +346,21 @@ class KeyValue(object):
         self.reticle.setScale(0)
         base.taskMgr.add(self.animate, "kvReticle")
 
+    def hide(self): 
+        
+        self.reticle.setScale(0)
+        self.gunModel1.hide()
+        self.gunPath1.hide()
+        self.gunModel2.hide()
+        self.gunPath2.hide()
+
+    def show(self): 
+        
+        self.gunModel1.show()
+        self.gunPath1.show()
+        self.gunModel2.show()
+        self.gunPath2.show()
+    
     def fire(self, task):
 
         if self.fireRight:

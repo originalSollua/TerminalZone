@@ -13,7 +13,7 @@
 # Description: Menu that comes up when you die.
 #
 #======================================================================#
-
+from player import Player
 from direct.gui.DirectGui import *
 
 def init(n):
@@ -37,9 +37,9 @@ def startMain():
     base.fsm.request('MainMenu', 1)
     
 def reLevel():
-
+    base.player.show()
+    base.player.resetEnergy()
     base.gameOverImage.hide()
     base.levelChanger.resetEnemy()
-    base.player.resetEnergy()
     base.fsm.request('Play', False)
     
